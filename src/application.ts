@@ -8,8 +8,8 @@ import {
 } from '@loopback/rest-explorer';
 import {ServiceMixin} from '@loopback/service-proxy';
 import path from 'path';
+import {start} from './daemon';
 import {MySequence} from './sequence';
-
 export {ApplicationConfig};
 
 export class OmonityApplication extends BootMixin(
@@ -40,5 +40,11 @@ export class OmonityApplication extends BootMixin(
         nested: true,
       },
     };
+
+    //Start the daemon(s)
+    setTimeout(() => { //@TODO find better way than this timeout
+      start(this);
+    }, 1000)
   }
 }
+

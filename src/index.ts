@@ -38,3 +38,4 @@ if (require.main === module) {
   });
 }
 
+export const APPLICATION_NAME = 'Omonity';//@TODO should this be here and like this?
