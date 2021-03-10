@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import {
-    createMonitor, deleteMonitor, fetchMonitorEvents, fetchMonitorList,
+    createMonitor, deleteMonitor, fetchMonitorList,
 
-    fetchMonitorPings, selectMonitor,
+
 
 
 
@@ -58,7 +58,7 @@ class MonitorManagerContainer extends Component {
         //     this.props.router.push('/');
         //     return;
         // }
-        // this.props.dispatch(fetchMonitorList()); //@TODO
+        this.props.dispatch(fetchMonitorList()); //@TODO
         // this.props.dispatch(fetchContacts()); //@TODO
     }
 
@@ -91,9 +91,9 @@ class MonitorManagerContainer extends Component {
 
     selectMonitor(monitorId) {
         const dispatch = this.props.dispatch;
-        dispatch(selectMonitor(monitorId));
-        dispatch(fetchMonitorEvents(monitorId));
-        dispatch(fetchMonitorPings(monitorId));
+        // dispatch(selectMonitor(monitorId));//@TODO
+        // dispatch(fetchMonitorEvents(monitorId));
+        // dispatch(fetchMonitorPings(monitorId));
     }
 
     handleDeleteMonitorConfirm(monitorId) {

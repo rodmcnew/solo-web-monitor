@@ -2,16 +2,15 @@ import request from 'request'; //@TODO is deprecated
 import {APPLICATION_NAME} from '..';
 import {OmonityApplication} from '../application';
 import {Monitor} from '../models';
-import {MonitorEventRepository, MonitorPingRepository, MonitorRepository} from '../repositories';
+import {MonitorEventRepository, MonitorRepository} from '../repositories';
 
-//@TODO clean old data, especially pings
+//@TODO clean old data such as old events where statusChanged===false
 //@TODO send alerts
 //@TODO handle or set timeouts? Handle too much load and backed up?
 //@TODO add ability to double check with remote pinger
 export async function start(app: OmonityApplication) {
   const monitorRepository = await app.getRepository(MonitorRepository);
   const monitorEventRepository = await app.getRepository(MonitorEventRepository);
-  const monitorPingRepository = await app.getRepository(MonitorPingRepository);
 
   const checkMonitor = async (monitor: Monitor) => {
     const reqOptions = {
@@ -39,18 +38,17 @@ export async function start(app: OmonityApplication) {
       if (up) {
         latency = Date.now() - (+checkStartTime);
       } else {
-        latency = 0;
+        latency = -1;
       }
-      monitorPingRepository.create({
+      const statusChanged = up !== monitor.up;
+      monitorEventRepository.create({
         date: checkStartTime,
+        up,
+        reason,
+        statusChanged,
         latency
       });
-      if (up !== monitor.up) {
-        monitorEventRepository.create({
-          date: checkStartTime,
-          up: up,
-          reason: reason
-        });
+      if (statusChanged) {
         monitorRepository.updateById(monitor.id, {up});
       }
     });

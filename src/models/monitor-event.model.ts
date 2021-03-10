@@ -27,6 +27,17 @@ export class MonitorEvent extends Entity {
   })
   reason: string;
 
+  @property({
+    type: 'number',
+    required: true,
+  })
+  latency: number;
+
+  @property({
+    type: 'boolean',
+    required: true,
+  })
+  statusChanged: boolean;
 
   constructor(data?: Partial<MonitorEvent>) {
     super(data);

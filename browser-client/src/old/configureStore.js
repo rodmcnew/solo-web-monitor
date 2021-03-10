@@ -1,16 +1,16 @@
-import {createStore, applyMiddleware} from 'redux'
-import thunkMiddleware from 'redux-thunk'
-import createLogger from 'redux-logger'
-import rootReducer from './reducers'
-import {createSession} from 'redux-session';
+import { applyMiddleware, createStore } from 'redux';
 import axiosMiddleware from 'redux-axios';
-import httpClient from './httpClient'
+import createLogger from 'redux-logger';
+import { createSession } from 'redux-session';
+import thunkMiddleware from 'redux-thunk';
+import httpClient from './httpClient';
+import rootReducer from './reducers';
 
 const loggerMiddleware = createLogger();
 
 const localStorageSession = createSession({
     ns: 'ubermon-session',
-    selectState (state) {
+    selectState(state) {
         return {
             session: state.session
         };
@@ -20,13 +20,13 @@ const localStorageSession = createSession({
 export default function configureStore(preloadedState) {
     return createStore(
         rootReducer,
-        // preloadedState,
-        // applyMiddleware(
-        //     thunkMiddleware,
-        //     axiosMiddleware({default: httpClient}),
-        //     localStorageSession,
-        //     loggerMiddleware
-        // )
+        // preloadedState, //@TODO
+        applyMiddleware(
+            thunkMiddleware,
+            axiosMiddleware({ default: httpClient }),
+            // localStorageSession, //@TODO
+            // loggerMiddleware //@TODO
+        )
     )
 }
 

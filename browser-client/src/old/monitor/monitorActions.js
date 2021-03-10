@@ -159,7 +159,6 @@ function receiveMonitorPings(monitorId, pings) {
     }
 }
 
-
 export function fetchMonitorEvents(monitorId,) {
     const filter = JSON.stringify({ "where": { "monitorId": monitorId }, "order": "date DESC", "limit": 10 });
     return (dispatch, getState) => {
@@ -182,12 +181,12 @@ function receiveMonitorEvents(monitorId, events) {
 
 export function fetchMonitorList() {
     return (dispatch, getState) => {
-        return fetch(config.apiBase + '/Monitors/listMine', {
+        return fetch(config.apiBase + '/monitors', {
             method: 'GET',
-            headers: { 'authorization': getState().session.accessToken }
+            // headers: { 'authorization': getState().session.accessToken } //@TODO
         })
             .then(parseResponse)
-            .then(json => dispatch(receiveMonitorList(json.monitors)))
+            .then(json => dispatch(receiveMonitorList(json)))
     }
 }
 
