@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 git add .
-git commit -m "improvements"
+git commit -m "auto push"
 git push origin main
