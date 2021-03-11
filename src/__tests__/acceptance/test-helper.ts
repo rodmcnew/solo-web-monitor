@@ -1,4 +1,4 @@
-import {OmonityApplication} from '../..';
+import {SoloWebMonitorApplication} from '../..';
 import {
   createRestAppClient,
   givenHttpServerConfig,
@@ -14,7 +14,7 @@ export async function setupApplication(): Promise<AppWithClient> {
     // port: +process.env.PORT,
   });
 
-  const app = new OmonityApplication({
+  const app = new SoloWebMonitorApplication({
     rest: restConfig,
   });
 
@@ -27,6 +27,6 @@ export async function setupApplication(): Promise<AppWithClient> {
 }
 
 export interface AppWithClient {
-  app: OmonityApplication;
+  app: SoloWebMonitorApplication;
   client: Client;
 }

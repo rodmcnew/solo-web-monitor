@@ -1,6 +1,6 @@
 import request from 'request'; //@TODO is deprecated
 import {APPLICATION_NAME} from '..';
-import {OmonityApplication} from '../application';
+import {SoloWebMonitorApplication} from '../application';
 import {Monitor} from '../models';
 import {MonitorEventRepository, MonitorRepository} from '../repositories';
 
@@ -8,7 +8,7 @@ import {MonitorEventRepository, MonitorRepository} from '../repositories';
 //@TODO send alerts
 //@TODO handle or set timeouts? Handle too much load and backed up?
 //@TODO add ability to double check with remote pinger
-export async function start(app: OmonityApplication) {
+export async function start(app: SoloWebMonitorApplication) {
   const monitorRepository = await app.getRepository(MonitorRepository);
   const monitorEventRepository = await app.getRepository(MonitorEventRepository);
 

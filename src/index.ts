@@ -1,9 +1,9 @@
-import {ApplicationConfig, OmonityApplication} from './application';
+import {ApplicationConfig, SoloWebMonitorApplication} from './application';
 
 export * from './application';
 
 export async function main(options: ApplicationConfig = {}) {
-  const app = new OmonityApplication(options);
+  const app = new SoloWebMonitorApplication(options);
   await app.boot();
   await app.start();
 
@@ -38,4 +38,4 @@ if (require.main === module) {
   });
 }
 
-export const APPLICATION_NAME = 'Omonity';//@TODO should this be here and like this?
+export const APPLICATION_NAME = 'SoloWebMonitor';//@TODO should this be here and like this?

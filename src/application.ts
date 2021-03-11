@@ -12,7 +12,7 @@ import {start} from './daemon';
 import {MySequence} from './sequence';
 export {ApplicationConfig};
 
-export class OmonityApplication extends BootMixin(
+export class SoloWebMonitorApplication extends BootMixin(
   ServiceMixin(RepositoryMixin(RestApplication)),
 ) {
   constructor(options: ApplicationConfig = {}) {

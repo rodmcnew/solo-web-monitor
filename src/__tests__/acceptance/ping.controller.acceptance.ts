@@ -1,9 +1,9 @@
 import {Client, expect} from '@loopback/testlab';
-import {OmonityApplication} from '../..';
+import {SoloWebMonitorApplication} from '../..';
 import {setupApplication} from './test-helper';
 
 describe('PingController', () => {
-  let app: OmonityApplication;
+  let app: SoloWebMonitorApplication;
   let client: Client;
 
   before('setupApplication', async () => {
