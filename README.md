@@ -11,6 +11,8 @@
 - See if i can get cursor to always be in a good spot
 - delete any <br>
 - delete any inline style
+- eventually support emailing alerts?
+- build login page and access control
 # omonity
 
 This application is generated using [LoopBack 4 CLI](https://loopback.io/doc/en/lb4/Command-line-interface.html) with the
