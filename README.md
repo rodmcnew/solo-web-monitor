@@ -3,13 +3,11 @@
 # - - - -
 
 # @TODO:
-- re-enabled es lint in client
 - remove any un-needed npm packages from client that came from ubermon old
-- delete old proptypes nonsense
 - delete old react features like password reset
 - search for @TODO
 - See if i can get cursor to always be in a good spot
-- delete any <br>
+- delete any br tags
 - delete any inline style
 - eventually support emailing alerts?
 - build login page and access control
