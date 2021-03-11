@@ -12,6 +12,7 @@
     "@types/react": "^16.14.4",
     "@types/react-dom": "^16.9.11",
     "@types/react-redux": "^7.1.16",
+    "axios": "^0.21.1",
     "chart.js": "^2.9.4",
     "isomorphic-fetch": "^3.0.0",
     "react": "^17.0.1",
@@ -33,10 +34,10 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
-  "eslintConfig-TEMP_DISABLED": {
+  "eslintConfig": {
     "extends": "react-app"
   },
-  "eslintConfig": {
+  "eslintConfig-TEMP_DISABLED-TODO": {
     "root": true,
     "overrides": [
       {

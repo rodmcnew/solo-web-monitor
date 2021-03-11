@@ -36,7 +36,7 @@
     "start": "node -r source-map-support/register .",
     "clean": "lb-clean dist *.tsbuildinfo .eslintcache",
     "start:dev:server": "node_modules/.bin/nodemon",
-    "start:dev:client": "cd browser-client;PORT=3001 npm start"
+    "start:dev:client": "cd client;PORT=3001 npm start"
   },
   "repository": {
     "type": "git",

@@ -57,5 +57,5 @@ export async function start(app: OmonityApplication) {
     const monitors = await monitorRepository.find();
     monitors.map(checkMonitor);
   }
-  setInterval(checkMonitors, 5 * 1000);//@TODO
+  setInterval(checkMonitors, 20 * 1000);//@TODO
 }

@@ -2,12 +2,15 @@
 # THIS IS UNDER CONSTRUCTION, DO NOT USE IT YET
 # - - - -
 
-# Rod TODO:
+# Rod @TODO:
 - re-enabled es lint in client
 - remove any un-needed npm packages from client that came from ubermon old
 - delete old proptypes nonsense
 - delete old react features like password reset
 - search for @TODO
+- See if i can get cursor to always be in a good spot
+- delete any <br>
+- delete any inline style
 # omonity
 
 This application is generated using [LoopBack 4 CLI](https://loopback.io/doc/en/lb4/Command-line-interface.html) with the
