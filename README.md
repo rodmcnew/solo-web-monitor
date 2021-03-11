@@ -14,6 +14,8 @@
 - eventually support emailing alerts?
 - build login page and access control
 - this error can be spit out on console, stop it: Error: Invalid URI "gg.localhost.com"
+- remove ping controller
+- remove counter client stuff
 # SoloWebMonitor
 
 This is a simple stand alone web uptime monitor. It will watch any URLs you give it and will let you know if they go down. You can run this app locally or on a server. The only thing that is required is NodeJS. No database is required.
