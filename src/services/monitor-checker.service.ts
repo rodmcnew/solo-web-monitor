@@ -58,7 +58,7 @@ export class MonitorCheckerService {
   public async checkMonitor(monitor: Monitor) {
     const { latency, reason, status } = await this.checkMonitorHttp(monitor);
     const statusChanged = monitor.status !== status;
-    console.log(monitor.name, status, reason);
+    // console.log('checkMonitor', monitor.name, status, reason);
     this.monitorEventRepository.create({
       monitorId: monitor.id,
       date: new Date(),
