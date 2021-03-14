@@ -1,9 +1,13 @@
 #### MUST:
+- refresh the demo data regularly or when someone clicks the demo link
+- regularly clean old monitor events
 - search for @TODO
 - delete any br tags
 - delete any inline style
 - show something when loading, like when making a new monitor and waiting for the first ping
-- refresh the demo data regularly or when someone clicks demo
+- some sort of pagination or limit on events? (maybe cleaning solves this?)
+- are events ordered correctly?
+- deal with times when the only ping events are very old, like in the demo, should chart be blank?
 #### SHOULD:
 - add server side validation of monitor props such as interval, url, name, and give the client a way to understand this?
 - build login page and access control
