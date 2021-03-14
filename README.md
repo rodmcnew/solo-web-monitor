@@ -1,5 +1,5 @@
 # Demo
-[Try the demo](https://solo-web-monitor.herokuapp.com/demo/reset-data). Give the demo 60 seconds to first load because it is on a free Heruko instance.
+[Try the demo](https://solo-web-monitor.herokuapp.com/demo/reset-data). Give the demo 60 seconds to first load because it is on a free Heroku instance.
 
 # What
 
