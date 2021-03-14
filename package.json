@@ -12,6 +12,7 @@
     "node": ">=10.16"
   },
   "scripts": {
+    "build:standalone-install": "npm i; npm run build:server; npm run build:client",
     "build": "npm run build:server; npm run build:client",
     "build:client": "cd client;npm i;npm run build",
     "build:server": "lb-tsc",
