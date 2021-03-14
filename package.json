@@ -39,7 +39,7 @@
   },
   "scripts-TEMP-DISABLED": {
     "clean": "lb-clean dist *.tsbuildinfo .eslintcache"
-  }
+  },
   "repository": {
     "type": "git",
     "url": ""
