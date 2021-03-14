@@ -32,13 +32,14 @@
     "preopenapi-spec": "npm run build",
     "openapi-spec": "node ./dist/openapi-spec",
     "rebuild": "npm run clean && npm run build",
-    "prestart": "npm run rebuild",
-    "start": "node -r source-map-support/register .",
+    "start": "node -r",
     "start:dev:server": "node_modules/.bin/nodemon",
     "start:dev:client": "cd client;PORT=3001 npm start"
   },
   "scripts-TEMP-DISABLED": {
-    "clean": "lb-clean dist *.tsbuildinfo .eslintcache"
+    "prestart": "npm run rebuild",
+    "clean": "lb-clean dist *.tsbuildinfo .eslintcache",
+    "start": "node -r source-map-support/register ."
   },
   "repository": {
     "type": "git",
