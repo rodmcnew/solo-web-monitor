@@ -15,8 +15,10 @@ This is a simple stand alone web uptime monitor. It will watch any URLs you give
 ```bash
 # Clone the source code
 git clone git@github.com:rodmcnew/solo-web-monitor.git
+
 # Cd into the project
 cd solo-web-monitor
+
 # Run the build
 npm run build:stand-alone-install
 ```
