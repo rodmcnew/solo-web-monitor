@@ -2,6 +2,7 @@ import React from 'react';
 import './App.css';
 import { MonitorDashboardContainer } from './features/monitor/MonitorDashboardContainer';
 function App() {
+  //@TODO only show demo reset button if in demo mode per ENV?
   return (
     <div className="App">
       <header>
