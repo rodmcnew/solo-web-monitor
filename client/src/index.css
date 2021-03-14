@@ -26,3 +26,8 @@ h2 a:focus {
   font-weight: bold;
   color: #999999;
 }
+
+.btn-link {
+  margin: 0;
+  padding: 0;
+}
