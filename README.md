@@ -9,6 +9,7 @@
 - delete any inline style
 - "Monitoring Interval: Every minute" would be better than "1 minutes", use shared list with the select box
 - ping new monitors right away
+- monitor url "yozo" causes server errors and down events don't get recorded
 # @TODO SHOULD:
 - this error can be spit out on console, stop it: Error: Invalid URI "gg.localhost.com"
 - should react component funcs be exporting default?
@@ -16,7 +17,6 @@
 - imports should be all " or all '
 - handle http errors, especially for initial load
 - form validation?
-- monitor url "yozo" causes server errors
 - use newer bootstrap and stop using CDN for it?
 # @TODO COULD:
 - eventually support emailing alerts?
