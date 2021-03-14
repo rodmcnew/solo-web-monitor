@@ -12,7 +12,7 @@ This app was built to explore and demonstrate optimal user experience and code p
 - Redux Toolkit
 - Loopback 4 Node.js server framework
 
-# Install:
+# Install
 ```bash
 # Clone the source code
 git clone git@github.com:rodmcnew/solo-web-monitor.git
@@ -24,7 +24,7 @@ cd solo-web-monitor
 npm run build:standalone
 ```
 
-# Run:
+# Run
 1) Start the app:
 ```bash
 npm start
