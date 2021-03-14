@@ -1,7 +1,7 @@
 import React, {useCallback, useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import useInterval from 'use-interval';
-import {Monitor, NewMonitor} from '../../types';
+import {DetailsUiMode, Monitor, NewMonitor} from '../../types';
 import {
   createMonitor, fetchSelectedMonitorEvents, getAllMonitors,
   getDetailsUiMode,
@@ -19,7 +19,7 @@ export function MonitorDetailsContainer() {
   const monitors = useSelector(getAllMonitors);
   //@TODO move this to the slice file? or at least memoize?
   const selectedMonitor = monitors.find(monitor => monitor.id === selectedMonitorId) || null;
-  const newMonitorTemplate = {name: '', url: '', interval: 5, status: 's'};
+  const newMonitorTemplate = {name: '', url: '', interval: 1, status: 's'};
   const selectedMonitorEvents = useSelector(getSelectedMonitorEvents);
 
   const handleNewMonitorSubmit = useCallback((monitor: NewMonitor) => {
@@ -50,7 +50,7 @@ export function MonitorDetailsContainer() {
   }, 10 * 1000);//@TODO interval length hard coding?
 
   return <div>
-    {detailsUiMode === 'view' && selectedMonitor !== null &&
+    {detailsUiMode === DetailsUiMode.View && selectedMonitor !== null &&
       <div className="panel panel-primary">
         <div className="panel-heading">
           <h3 className="panel-title">Selected Monitor</h3>
@@ -62,7 +62,7 @@ export function MonitorDetailsContainer() {
         </div>
       </div>
     }
-    {detailsUiMode === 'create' &&
+    {detailsUiMode === DetailsUiMode.Create &&
       <div className="panel panel-primary">
         <div className="panel-heading">
           <h3 className="panel-title">Create New Monitor</h3>
@@ -75,7 +75,7 @@ export function MonitorDetailsContainer() {
         </div>
       </div>
     }
-    {detailsUiMode === 'edit' && selectedMonitor !== null &&
+    {detailsUiMode === DetailsUiMode.Edit && selectedMonitor !== null &&
       <div className="panel panel-primary">
         <div className="panel-heading">
           <h3 className="panel-title">Edit Monitor</h3>

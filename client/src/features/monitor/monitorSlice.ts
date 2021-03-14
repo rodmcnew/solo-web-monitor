@@ -1,16 +1,12 @@
 import {createAsyncThunk, createEntityAdapter, createSlice, PayloadAction} from '@reduxjs/toolkit';
 import axios from 'axios';
 import {RootState} from '../../app/store';
-import {Monitor, MonitorEvent, NewMonitor} from '../../types';
+import {DetailsUiMode, Monitor, MonitorEvent, NewMonitor} from '../../types';
 const httpApiBaseUrl = 'http://localhost:3000';
 export const monitorsAdapter = createEntityAdapter<Monitor>({
-  // Keep the "all IDs" array sorted based on book titles
   sortComparer: (a, b) => a.name.localeCompare(b.name),
 })
 
-//@TODO naming confusion between "selectors" and things like "selectMonitor", i named them with get?
-
-//@TODO base api path?
 //@TODO error handle?
 export const fetchAllMonitors = createAsyncThunk(
   'monitors/fetchAllStatus',
@@ -19,7 +15,6 @@ export const fetchAllMonitors = createAsyncThunk(
   }
 );
 
-//@TODO base api path?
 //@TODO error handle?
 export const deleteMonitor = createAsyncThunk(
   'monitors/deleteStatus',
@@ -30,7 +25,6 @@ export const deleteMonitor = createAsyncThunk(
   }
 );
 
-//@TODO base api path?
 //@TODO error handle?
 export const createMonitor = createAsyncThunk(
   'monitors/createStatus',
@@ -41,7 +35,6 @@ export const createMonitor = createAsyncThunk(
   }
 );
 
-//@TODO base api path?
 //@TODO error handle?
 export const patchMonitor = createAsyncThunk(
   'monitors/createStatus',
@@ -65,29 +58,30 @@ export const monitorSlice = createSlice({
   name: 'monitors',
   initialState: monitorsAdapter.getInitialState({
     selectedMonitorId: null as string | null, //@TODO type better?
-    detailsUiMode: 'view', //@TODO type better, use enum?
+    detailsUiMode: DetailsUiMode.View, //@TODO type better, use enum?
     initialMonitorFetchDone: false,
     selectedMonitorEvents: [] as MonitorEvent[] //@TODO type better?
   }),
   reducers: {
     showMonitorDetails: (state, action: PayloadAction<string | null>) => {
-      if (action.payload !== null) {
-        state.selectedMonitorId = action.payload;
-      } else {
-        const firstMonitor = monitorsAdapter.getSelectors().selectAll(state).find(() => true);
+      if (action.payload === null) {
+        const firstMonitor = monitorsAdapter.getSelectors()
+          .selectAll(state).find(() => true);
         if (firstMonitor !== undefined) {
           state.selectedMonitorId = firstMonitor.id;
         }
+      } else {
+        state.selectedMonitorId = action.payload;
       }
-      state.detailsUiMode = 'view';
+      state.detailsUiMode = DetailsUiMode.View;
     },
     showMonitorEditForm: (state, action: PayloadAction<string>) => {
       state.selectedMonitorId = action.payload;
-      state.detailsUiMode = 'edit';
+      state.detailsUiMode = DetailsUiMode.Edit;
     },
     showCreateMonitorForm: (state) => {
       state.selectedMonitorId = null;
-      state.detailsUiMode = 'create';
+      state.detailsUiMode = DetailsUiMode.Create;
     },
   },
   extraReducers: builder => {
@@ -95,10 +89,13 @@ export const monitorSlice = createSlice({
       fetchAllMonitors.fulfilled,
       (state, action: PayloadAction<Monitor[]>) => {
         monitorsAdapter.setAll(state, action);
-        state.initialMonitorFetchDone = true;
-        const firstMonitor = monitorsAdapter.getSelectors().selectAll(state).find(() => true);
-        if (firstMonitor !== undefined) {
-          state.selectedMonitorId = firstMonitor.id;
+        if (state.selectedMonitorId === null) {
+          state.initialMonitorFetchDone = true;
+          const firstMonitor = monitorsAdapter.getSelectors()
+            .selectAll(state).find(() => true);
+          if (firstMonitor !== undefined) {
+            state.selectedMonitorId = firstMonitor.id;
+          }
         }
       }
     );

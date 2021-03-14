@@ -56,9 +56,19 @@ export async function start(app: SoloWebMonitorApplication) {
       }
     });
   };
+
+  /**
+   * Important: This logic can only support monitor intervals that are a factor
+   * of 60!
+   */
   const checkMonitors = async () => {
     const monitors = await monitorRepository.find();
-    monitors.map(checkMonitor);
+    const currentMinute = (new Date()).getMinutes();
+    const monitorsToCheckNow = monitors.filter(monitor =>
+      currentMinute % monitor.interval === 0
+    );
+    monitorsToCheckNow.map(checkMonitor);
   }
-  setInterval(checkMonitors, 20 * 1000);//@TODO
+  
+  setInterval(checkMonitors, 60 * 1000);
 }

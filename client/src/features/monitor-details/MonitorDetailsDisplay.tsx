@@ -31,7 +31,7 @@ export function MonitorDetailsDisplay({monitor, monitorEvents}: Props) {
                 Status: {getStatusDescription(monitor)}
             </div>
             <div>
-                Monitoring Interval: Every {monitor.interval} Minutes
+                Monitoring Interval: Every {monitor.interval} Minute(s)
             </div>
             <br />
             <h4 style={{display: 'inline'}}>Response Time</h4> (ms)

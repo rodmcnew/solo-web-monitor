@@ -2,29 +2,28 @@
 # THIS IS UNDER CONSTRUCTION, DO NOT USE IT YET
 # - - - -
 
-# @TODO:
-- remove any un-needed npm packages from client that came from ubermon old
-- delete old react features like password reset
+# @TODO MUST:
+- build login page and access control
 - search for @TODO
-- See if i can get cursor to always be in a good spot
 - delete any br tags
 - delete any inline style
-- eventually support emailing alerts?
-- build login page and access control
-- this error can be spit out on console, stop it: Error: Invalid URI "gg.localhost.com"
-- remove ping controller
-- remove counter client stuff
-- use newer bootstrap and stop using CDN for it?
+- "Monitoring Interval: Every minute" would be better than "1 minutes", use shared list with the select box
 - ping new monitors right away
-- "Monitoring Interval: Every minute" would be better than "1 minutes"
-- remove http write access to monitor events
+# @TODO SHOULD
+- this error can be spit out on console, stop it: Error: Invalid URI "gg.localhost.com"
 - should react component funcs be exporting default?
 - should interfaces use , or ; ?
 - imports should be all " or all '
-- consider loopback relations
 - handle http errors, especially for initial load
 - form validation?
 - monitor url "yozo" causes server errors
+- use newer bootstrap and stop using CDN for it?
+# @TODO COULD:
+- eventually support emailing alerts?
+- See if i can get cursor to always be in a good spot
+- consider getting rid of window.confirm
+- consider loopback relations
+- allow external double checker server before saying its down
 # Solo Web Monitor
 
 This is a simple stand alone web uptime monitor. It will watch any URLs you give it and will let you know if they go down. You can run this app locally or on a server. The only thing that is required is NodeJS. No database is required.
