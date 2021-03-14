@@ -2,7 +2,6 @@
 - search for @TODO
 - delete any br tags
 - delete any inline style
-- monitor url "yozo" causes server errors and down events don't get recorded
 - show something when loading, like when making a new monitor and waiting for the first ping
 #### SHOULD:
 - add server side validation of monitor props such as interval, url, name, and give the client a way to understand this?
