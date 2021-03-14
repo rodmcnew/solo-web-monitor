@@ -1,3 +1,4 @@
+import { service } from '@loopback/core';
 import {
   Count,
   CountSchema,
@@ -13,19 +14,22 @@ import {
   requestBody,
   response
 } from '@loopback/rest';
-import {Monitor} from '../models';
-import {MonitorRepository} from '../repositories';
+import { Monitor } from '../models';
+import { MonitorRepository } from '../repositories';
+import { MonitorCheckerService } from '../services';
 
 export class MonitorControllerController {
   constructor(
     @repository(MonitorRepository)
     public monitorRepository: MonitorRepository,
+    @service(MonitorCheckerService)
+    public monitorCheckerService: MonitorCheckerService
   ) { }
 
   @post('/monitors')
   @response(200, {
     description: 'Monitor model instance',
-    content: {'application/json': {schema: getModelSchemaRef(Monitor)}},
+    content: { 'application/json': { schema: getModelSchemaRef(Monitor) } },
   })
   async create(
     @requestBody({
@@ -40,13 +44,17 @@ export class MonitorControllerController {
     })
     monitor: Omit<Monitor, 'id'>,
   ): Promise<Monitor> {
-    return this.monitorRepository.create(monitor);
+    const newMonitor = await this.monitorRepository.create(monitor);
+    //Check the monitor right away to provide faster feedback to the user
+    await this.monitorCheckerService.checkMonitor(newMonitor);
+    //Re-get the monitor to get it with the updated up/down status
+    return await this.monitorRepository.findById(newMonitor.id);
   }
 
   @get('/monitors/count')
   @response(200, {
     description: 'Monitor model count',
-    content: {'application/json': {schema: CountSchema}},
+    content: { 'application/json': { schema: CountSchema } },
   })
   async count(
     @param.where(Monitor) where?: Where<Monitor>,
@@ -61,7 +69,7 @@ export class MonitorControllerController {
       'application/json': {
         schema: {
           type: 'array',
-          items: getModelSchemaRef(Monitor, {includeRelations: true}),
+          items: getModelSchemaRef(Monitor, { includeRelations: true }),
         },
       },
     },
@@ -77,13 +85,13 @@ export class MonitorControllerController {
     description: 'Monitor model instance',
     content: {
       'application/json': {
-        schema: getModelSchemaRef(Monitor, {includeRelations: true}),
+        schema: getModelSchemaRef(Monitor, { includeRelations: true }),
       },
     },
   })
   async findById(
     @param.path.string('id') id: string,
-    @param.filter(Monitor, {exclude: 'where'}) filter?: FilterExcludingWhere<Monitor>
+    @param.filter(Monitor, { exclude: 'where' }) filter?: FilterExcludingWhere<Monitor>
   ): Promise<Monitor> {
     return this.monitorRepository.findById(id, filter);
   }
@@ -97,7 +105,7 @@ export class MonitorControllerController {
     @requestBody({
       content: {
         'application/json': {
-          schema: getModelSchemaRef(Monitor, {partial: true}),
+          schema: getModelSchemaRef(Monitor, { partial: true }),
         },
       },
     })
@@ -110,7 +118,12 @@ export class MonitorControllerController {
       url: monitor.url,
       interval: monitor.interval
     }
-    await this.monitorRepository.updateById(id, whiteListedMonitorProps);
+    const responseData = await this.monitorRepository.updateById(id, whiteListedMonitorProps);
+    //Check the monitor right away to provide faster feedback to the user
+    await this.monitorCheckerService.checkMonitor(
+      await this.monitorRepository.findById(monitor.id)
+    );
+    return responseData;
   }
 
   @del('/monitors/{id}')

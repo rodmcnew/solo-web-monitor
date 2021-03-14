@@ -1,21 +1,23 @@
-import {Client, expect} from '@loopback/testlab';
-import {SoloWebMonitorApplication} from '../..';
-import {setupApplication} from './test-helper';
+//@TODO delete this example?
 
-describe('PingController', () => {
-  let app: SoloWebMonitorApplication;
-  let client: Client;
+// import {Client, expect} from '@loopback/testlab';
+// import {SoloWebMonitorApplication} from '../..';
+// import {setupApplication} from './test-helper';
 
-  before('setupApplication', async () => {
-    ({app, client} = await setupApplication());
-  });
+// describe('PingController', () => {
+//   let app: SoloWebMonitorApplication;
+//   let client: Client;
 
-  after(async () => {
-    await app.stop();
-  });
+//   before('setupApplication', async () => {
+//     ({app, client} = await setupApplication());
+//   });
 
-  it('invokes GET /ping', async () => {
-    const res = await client.get('/ping?msg=world').expect(200);
-    expect(res.body).to.containEql({greeting: 'Hello from LoopBack'});
-  });
-});
+//   after(async () => {
+//     await app.stop();
+//   });
+
+//   it('invokes GET /ping', async () => {
+//     const res = await client.get('/ping?msg=world').expect(200);
+//     expect(res.body).to.containEql({greeting: 'Hello from LoopBack'});
+//   });
+// });

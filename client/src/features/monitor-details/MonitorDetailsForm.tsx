@@ -1,5 +1,6 @@
-import React, {useCallback, useEffect, useState} from 'react';
-import {Monitor, NewMonitor} from '../../types';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { Monitor, NewMonitor } from '../../types';
+import { monitorIntervals } from '../monitor/monitorIntervals';
 interface Props {
     monitor: Monitor | NewMonitor;
     onSubmit: (monitor: Monitor | NewMonitor) => void;
@@ -9,7 +10,7 @@ interface Props {
 //@TODO auto generate <option label="Every 10 minutes" value="10">Every 10 minutes</option>?
 //@TODO allow monitor interval and contacts edit
 //@TODO add a cancel button
-export function MonitorDetailsForm({monitor, onSubmit, onCancel}: Props) {
+export function MonitorDetailsForm({ monitor, onSubmit, onCancel }: Props) {
     const [formData, setFormData] = useState(monitor);
 
     // If the monitor above us changes, change our form data to reflect this.
@@ -23,21 +24,27 @@ export function MonitorDetailsForm({monitor, onSubmit, onCancel}: Props) {
     }, [monitor])
 
     const handleNameChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
-        setFormData({...formData, name: event.target.value})
+        setFormData({ ...formData, name: event.target.value })
     }, [formData])
 
     const handleUrlChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
-        setFormData({...formData, url: event.target.value})
+        setFormData({ ...formData, url: event.target.value })
     }, [formData])
 
     const handleIntervalChange = useCallback((event: React.ChangeEvent<HTMLSelectElement>) => {
-        setFormData({...formData, interval: Number(event.target.value)})
+        setFormData({ ...formData, interval: Number(event.target.value) })
     }, [formData])
 
     const handleSubmit = useCallback((event: React.ChangeEvent<HTMLFormElement>) => {
         event.preventDefault();
         onSubmit(formData);
     }, [onSubmit, formData])
+
+    const monitorIntervalSelectOptions = useMemo(() => {
+        return monitorIntervals.map(interval =>
+            <option key={interval.value} value={interval.value}>{interval.label}</option>
+        )
+    }, [monitorIntervals]);
 
     return (
         <form role="form" onSubmit={handleSubmit}>
@@ -69,16 +76,7 @@ export function MonitorDetailsForm({monitor, onSubmit, onCancel}: Props) {
                     value={formData.interval}
                     onChange={handleIntervalChange}
                 >
-                    <option value="1">Every minute</option>
-                    <option value="2">Every 2 minutes</option>
-                    <option value="3">Every 3 minutes</option>
-                    <option value="4">Every 4 minutes</option>
-                    <option value="5">Every 5 minutes</option>
-                    <option value="10">Every 10 minutes</option>
-                    <option value="15">Every 15 minutes</option>
-                    <option value="20">Every 20 minutes</option>
-                    <option value="30">Every 30 minutes</option>
-                    <option value="60">Every 60 minutes</option>
+                    {monitorIntervalSelectOptions}
                 </select>
             </div>
 
