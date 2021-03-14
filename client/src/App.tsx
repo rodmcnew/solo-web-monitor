@@ -7,9 +7,13 @@ function App() {
       <header>
         <span className="logoText">Solo Web Monitor</span>
         <span style={{ float: 'right' }}>
-          <a className="center" href="/demo/reset-data">Reset Demo Data</a>
+          <a className="center"
+            title="Resets all the data in the database to the initial demo values."
+            href="/demo/reset-data">Reset Demo</a>
           &nbsp;|&nbsp;
-          <a className="center" href="https://github.com/rodmcnew/solo-web-monitor">Documents</a>
+          <a className="center"
+            title="View the docs on Github."
+            href="https://github.com/rodmcnew/solo-web-monitor">Documents</a>
         </span>
       </header>
       <MonitorDashboardContainer />
