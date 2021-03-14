@@ -47,8 +47,8 @@ export class DemoDataServiceService {
     });
 
     const monitor2 = await this.monitorRepository.create({
-      name: 'Montor Example',
-      url: 'https://down.example.com',
+      name: 'Nowhere',
+      url: 'https://nowhere',
       interval: 1,
       status: MonitorStatus.Down
     });

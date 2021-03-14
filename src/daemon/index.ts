@@ -18,5 +18,5 @@ export async function start(app: SoloWebMonitorApplication) {
     await app.getRepository(MonitorRepository), //@TODO is there a way to use @service injection? make it a service and use app.get?
     await app.getRepository(MonitorEventRepository)
   )
-  setInterval(monitorChecker.checkMonitorsForCurrentMinute, 5 * 1000);//@TODO consider loopback cron?
+  setInterval(monitorChecker.checkMonitorsForCurrentMinute, 60 * 1000);//@TODO consider loopback cron?
 }
