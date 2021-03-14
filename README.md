@@ -9,7 +9,7 @@
 - delete any inline style
 - "Monitoring Interval: Every minute" would be better than "1 minutes", use shared list with the select box
 - ping new monitors right away
-# @TODO SHOULD
+# @TODO SHOULD:
 - this error can be spit out on console, stop it: Error: Invalid URI "gg.localhost.com"
 - should react component funcs be exporting default?
 - should interfaces use , or ; ?
