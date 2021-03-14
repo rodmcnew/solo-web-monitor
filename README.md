@@ -11,7 +11,7 @@ This is a simple stand alone web uptime monitor. It will watch any URLs you give
 - Loopback 4 Node.js server framework
 
 ## How to install and run:
-1) Install the app
+1) Install the app:
 ```bash
 # Clone the source code
 git clone git@github.com:rodmcnew/solo-web-monitor.git
