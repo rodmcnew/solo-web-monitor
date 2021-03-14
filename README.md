@@ -9,3 +9,20 @@ This is a simple stand alone web uptime monitor. It will watch any URLs you give
 - React functional components
 - Redux Toolkit
 - Loopback 4 Node.js server framework
+
+## How to install and run:
+1) Install the app
+`
+# Clone the source code
+git clone git@github.com:rodmcnew/solo-web-monitor.git
+# Cd into the project
+cd solo-web-monitor
+# Run the build
+npm run build:stand-alone-install
+`
+
+2) Run the app:
+`
+npm start
+`
+3) Navigate to the app in your web broweser at http://localhost:3000
