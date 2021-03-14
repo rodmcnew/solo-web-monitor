@@ -21,7 +21,7 @@ git clone git@github.com:rodmcnew/solo-web-monitor.git
 cd solo-web-monitor
 
 # Run the build
-npm run build:standalone-install
+npm run build:standalone
 ```
 
 # Run:
