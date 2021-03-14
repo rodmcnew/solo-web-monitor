@@ -12,7 +12,7 @@ This app was built to explore and demonstrate optimal user experience and code p
 - Redux Toolkit
 - Loopback 4 Node.js server framework
 
-# How to Install and Run:
+# Install and Run:
 1) Install the app:
 ```bash
 # Clone the source code
