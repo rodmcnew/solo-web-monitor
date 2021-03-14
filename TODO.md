@@ -9,6 +9,7 @@
 - are events ordered correctly?
 - deal with times when the only ping events are very old, like in the demo, should chart be blank?
 - npm start doesn't seem to work after npm build?
+- fix all complaints from the react build
 #### SHOULD:
 - add server side validation of monitor props such as interval, url, name, and give the client a way to understand this?
 - build login page and access control
