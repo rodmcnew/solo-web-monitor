@@ -6,5 +6,4 @@ This is a simple stand alone web uptime monitor. It will watch any URLs you give
 - TypeScript for client and server
 - React functional components
 - Redux Toolkit
-- Loopback 4
-- Node.js
+- Loopback 4 Node.js server framework
