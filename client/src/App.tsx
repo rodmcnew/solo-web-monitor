@@ -10,7 +10,7 @@ function App() {
         <span style={{ float: 'right' }}>
           <a className="center"
             title="Resets all the data in the database to the initial demo values."
-            href="/demo/reset-data">Reset Demo</a>
+            href="/demo/reset-data">Reset datebase to demo data</a>
           &nbsp;|&nbsp;
           <a className="center"
             title="View the docs on Github."
