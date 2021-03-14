@@ -3,6 +3,7 @@
 - delete any br tags
 - delete any inline style
 - show something when loading, like when making a new monitor and waiting for the first ping
+- refresh the demo data regularly or when someone clicks demo
 #### SHOULD:
 - add server side validation of monitor props such as interval, url, name, and give the client a way to understand this?
 - build login page and access control
