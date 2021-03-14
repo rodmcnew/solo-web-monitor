@@ -8,7 +8,8 @@ Solo Web Monitor is a simple stand alone web uptime monitor. It will watch any U
 # Why
 This app was built mainly to explore optimal user experience and code practicies with Redux Toolkit and Loopback 4.
 
-## Solo Web Monitor is built on top of:
+# How
+Solo Web Monitor is built on top of:
 - TypeScript for client and server
 - React functional components
 - Redux Toolkit
