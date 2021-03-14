@@ -12,7 +12,8 @@
     "node": ">=10.16"
   },
   "scripts": {
-    "build": "lb-tsc",
+    "build": "lb-tsc; npm run build",
+    "build:client": "cd client;npm i;npm run build",
     "build:watch": "lb-tsc --watch",
     "lint": "npm run eslint && npm run prettier:check",
     "lint:fix": "npm run eslint:fix && npm run prettier:fix",
