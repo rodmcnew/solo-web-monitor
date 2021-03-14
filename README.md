@@ -4,7 +4,7 @@ This is a simple stand alone web uptime monitor. It will watch any URLs you give
 
 ## Solo Web Monitor is built on top of:
 - TypeScript for client and server
-- React Functional Components
+- React functional components
 - Redux Toolkit
 - Loopback 4
 - Node.js
