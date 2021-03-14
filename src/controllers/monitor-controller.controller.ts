@@ -26,7 +26,7 @@ export class MonitorControllerController {
     public monitorCheckerService: MonitorCheckerService
   ) { }
 
-  @post('/monitors')
+  @post('/api/monitors')
   @response(200, {
     description: 'Monitor model instance',
     content: { 'application/json': { schema: getModelSchemaRef(Monitor) } },
@@ -51,7 +51,7 @@ export class MonitorControllerController {
     return await this.monitorRepository.findById(newMonitor.id);
   }
 
-  @get('/monitors/count')
+  @get('/api/monitors/count')
   @response(200, {
     description: 'Monitor model count',
     content: { 'application/json': { schema: CountSchema } },
@@ -62,7 +62,7 @@ export class MonitorControllerController {
     return this.monitorRepository.count(where);
   }
 
-  @get('/monitors')
+  @get('/api/monitors')
   @response(200, {
     description: 'Array of Monitor model instances',
     content: {
@@ -80,7 +80,7 @@ export class MonitorControllerController {
     return this.monitorRepository.find(filter);
   }
 
-  @get('/monitors/{id}')
+  @get('/api/monitors/{id}')
   @response(200, {
     description: 'Monitor model instance',
     content: {
@@ -96,7 +96,7 @@ export class MonitorControllerController {
     return this.monitorRepository.findById(id, filter);
   }
 
-  @patch('/monitors/{id}')
+  @patch('/api/monitors/{id}')
   @response(204, {
     description: 'Monitor PATCH success',
   })
@@ -126,7 +126,7 @@ export class MonitorControllerController {
     return responseData;
   }
 
-  @del('/monitors/{id}')
+  @del('/api/monitors/{id}')
   @response(204, {
     description: 'Monitor DELETE success',
   })

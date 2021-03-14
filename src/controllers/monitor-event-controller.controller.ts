@@ -26,7 +26,7 @@ export class MonitorEventControllerController {
     public monitorEventRepository: MonitorEventRepository,
   ) { }
 
-  @get('/monitor-events/count')
+  @get('/api/monitor-events/count')
   @response(200, {
     description: 'MonitorEvent model count',
     content: {'application/json': {schema: CountSchema}},
@@ -37,7 +37,7 @@ export class MonitorEventControllerController {
     return this.monitorEventRepository.count(where);
   }
 
-  @get('/monitor-events')
+  @get('/api/monitor-events')
   @response(200, {
     description: 'Array of MonitorEvent model instances',
     content: {
@@ -55,7 +55,7 @@ export class MonitorEventControllerController {
     return this.monitorEventRepository.find(filter);
   }
 
-  @get('/monitor-events/{id}')
+  @get('/api/monitor-events/{id}')
   @response(200, {
     description: 'MonitorEvent model instance',
     content: {

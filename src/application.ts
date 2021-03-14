@@ -1,16 +1,16 @@
-import {BootMixin} from '@loopback/boot';
-import {ApplicationConfig} from '@loopback/core';
-import {RepositoryMixin} from '@loopback/repository';
-import {RestApplication} from '@loopback/rest';
+import { BootMixin } from '@loopback/boot';
+import { ApplicationConfig } from '@loopback/core';
+import { RepositoryMixin } from '@loopback/repository';
+import { RestApplication } from '@loopback/rest';
 import {
   RestExplorerBindings,
   RestExplorerComponent
 } from '@loopback/rest-explorer';
-import {ServiceMixin} from '@loopback/service-proxy';
+import { ServiceMixin } from '@loopback/service-proxy';
 import path from 'path';
-import {start} from './daemon';
-import {MySequence} from './sequence';
-export {ApplicationConfig};
+import { start } from './daemon';
+import { MySequence } from './sequence';
+export { ApplicationConfig };
 
 export class SoloWebMonitorApplication extends BootMixin(
   ServiceMixin(RepositoryMixin(RestApplication)),
@@ -21,8 +21,8 @@ export class SoloWebMonitorApplication extends BootMixin(
     // Set up the custom sequence
     this.sequence(MySequence);
 
-    // Set up default home page
-    this.static('/', path.join(__dirname, '../browser-client/build')); //@TODO
+    // Set up home page
+    this.static('/', path.join(__dirname, '../client/build'));
 
     // Customize @loopback/rest-explorer configuration here
     this.configure(RestExplorerBindings.COMPONENT).to({
@@ -42,7 +42,7 @@ export class SoloWebMonitorApplication extends BootMixin(
     };
 
     //Start the daemon(s)
-    setTimeout(() => { //@TODO find better way than this timeout
+    setTimeout(() => {
       start(this);
     }, 1000)
   }

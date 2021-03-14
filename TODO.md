@@ -21,3 +21,4 @@
 
 #### WOULD:
 - Allow monitor urls with ports like http://localhost:3000
+- Consider using loopback cron lib

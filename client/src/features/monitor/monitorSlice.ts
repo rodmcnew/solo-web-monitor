@@ -2,7 +2,7 @@ import { createAsyncThunk, createEntityAdapter, createSlice, PayloadAction } fro
 import axios from 'axios';
 import { RootState } from '../../app/store';
 import { DetailsUiMode, Monitor, MonitorEvent, NewMonitor } from '../../types';
-const httpApiBaseUrl = 'http://localhost:3000';
+const httpApiBaseUrl = 'http://localhost:3000/api';
 export const monitorsAdapter = createEntityAdapter<Monitor>({
   sortComparer: (a, b) => a.name.localeCompare(b.name),
 })
@@ -143,9 +143,9 @@ export const monitorSlice = createSlice({
   },
 });
 
-export const { 
+export const {
   showMonitorDeleteForm, showMonitorDetails, showMonitorEditForm, showCreateMonitorForm
- } = monitorSlice.actions;
+} = monitorSlice.actions;
 
 
 // Can create a set of memoized selectors based on the location of this entity state
