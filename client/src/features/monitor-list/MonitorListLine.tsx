@@ -1,5 +1,6 @@
 import React, {useCallback} from 'react';
-import {Monitor} from '../monitor/MonitorType';
+import {Monitor} from '../../types';
+import {MonitorStatus} from '../../types/MonitorStatus';
 
 interface Props {
   monitor: Monitor;
@@ -37,20 +38,19 @@ export function MonitorListLine({
       className={monitor.id === selectedMonitorId ? 'active' : ''}
     >
       <td>
-        {monitor.up === true &&
-          <span
-            className="text-success glyphicon glyphicon-ok"
+        {monitor.status === MonitorStatus.Up &&
+          <span className="text-success glyphicon glyphicon-ok"
             title="Status: Up" />
         }
-        {monitor.up === false &&
+        {monitor.status === MonitorStatus.Down &&
           <span className="text-danger glyphicon glyphicon-remove"
             title="Status: Down" />
         }
-        {monitor.up === null &&
+        {monitor.status === MonitorStatus.Starting &&
           <span className="text-primary glyphicon glyphicon-question-sign"
             title="Status: Starting" />
         }
-        &nbsp;
+        &nbsp;&nbsp;
         <span>{monitor.name}</span>
         <button onClick={handleDeleteMonitorClick}
           style={{float: 'right'}}

@@ -1,8 +1,8 @@
 import {createAsyncThunk, createEntityAdapter, createSlice, PayloadAction} from '@reduxjs/toolkit';
 import axios from 'axios';
 import {RootState} from '../../app/store';
-import {Monitor, MonitorEvent, NewMonitor} from '../../types';
-const httpApiBaseUrl = 'http://localhost:3000';
+import {Monitor, MonitorEvent} from '../../types';
+const httpApiBaseUrl = 'http://localhost:3000';//@TODO put somewhere else?
 export const monitorsAdapter = createEntityAdapter<Monitor>({
   // Keep the "all IDs" array sorted based on book titles
   sortComparer: (a, b) => a.name.localeCompare(b.name),
@@ -19,65 +19,26 @@ export const fetchAllMonitors = createAsyncThunk(
   }
 );
 
-//@TODO base api path?
-//@TODO error handle?
-export const deleteMonitor = createAsyncThunk(
-  'monitors/deleteStatus',
-  async (id: string, thunkApi) => {
-    await axios.delete(httpApiBaseUrl + '/monitors/' + id);
-    await thunkApi.dispatch(fetchAllMonitors());
-    await thunkApi.dispatch(showMonitorDetails(null));
-  }
-);
-
-//@TODO base api path?
-//@TODO error handle?
-export const createMonitor = createAsyncThunk(
-  'monitors/createStatus',
-  async (monitor: NewMonitor, thunkApi) => {
-    const response = await axios.post<Monitor>(httpApiBaseUrl + '/monitors/', monitor);
-    await thunkApi.dispatch(fetchAllMonitors());
-    await thunkApi.dispatch(showMonitorDetails(response.data.id));
-  }
-);
-
-//@TODO base api path?
-//@TODO error handle?
-export const patchMonitor = createAsyncThunk(
-  'monitors/createStatus',
-  async (monitor: Monitor, thunkApi) => {
-    await axios.patch(httpApiBaseUrl + '/monitors/' + monitor.id, monitor);
-    await thunkApi.dispatch(fetchAllMonitors());
-    await thunkApi.dispatch(showMonitorDetails(monitor.id));
-  }
-);
-
 export const fetchSelectedMonitorEvents = createAsyncThunk(
   'monitors/fetchSelectedMonitorEventsStatus',
-  async (selectedMonitorId: string) => {
-    const url = httpApiBaseUrl + '/monitor-events?filter[where][monitorId]=' + selectedMonitorId;
+  async () => {
     //@TODO only get the events for the curent monitor
-    return (await axios.get<MonitorEvent[]>(url)).data;
+    return (await axios.get<MonitorEvent[]>(httpApiBaseUrl + '/monitor-events')).data;
   }
 );
 
 export const monitorSlice = createSlice({
   name: 'monitors',
-  initialState: monitorsAdapter.getInitialState({
+  initialState: {
     selectedMonitorId: null as string | null, //@TODO type better?
     detailsUiMode: 'view', //@TODO type better, use enum?
     initialMonitorFetchDone: false,
     selectedMonitorEvents: [] as MonitorEvent[] //@TODO type better?
-  }),
+  },
   reducers: {
     showMonitorDetails: (state, action: PayloadAction<string | null>) => {
       if (action.payload !== null) {
         state.selectedMonitorId = action.payload;
-      } else {
-        const firstMonitor = monitorsAdapter.getSelectors().selectAll(state).find(() => true);
-        if (firstMonitor !== undefined) {
-          state.selectedMonitorId = firstMonitor.id;
-        }
       }
       state.detailsUiMode = 'view';
     },
@@ -91,17 +52,6 @@ export const monitorSlice = createSlice({
     },
   },
   extraReducers: builder => {
-    builder.addCase(
-      fetchAllMonitors.fulfilled,
-      (state, action: PayloadAction<Monitor[]>) => {
-        monitorsAdapter.setAll(state, action);
-        state.initialMonitorFetchDone = true;
-        const firstMonitor = monitorsAdapter.getSelectors().selectAll(state).find(() => true);
-        if (firstMonitor !== undefined) {
-          state.selectedMonitorId = firstMonitor.id;
-        }
-      }
-    );
     builder.addCase(
       fetchSelectedMonitorEvents.fulfilled,
       (state, action: PayloadAction<MonitorEvent[]>) => {

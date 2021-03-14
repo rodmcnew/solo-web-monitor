@@ -17,6 +17,14 @@
 - use newer bootstrap and stop using CDN for it?
 - ping new monitors right away
 - "Monitoring Interval: Every minute" would be better than "1 minutes"
+- remove http write access to monitor events
+- should react component funcs be exporting default?
+- should interfaces use , or ; ?
+- imports should be all " or all '
+- consider loopback relations
+- handle http errors, especially for initial load
+- form validation?
+- monitor url "yozo" causes server errors
 # Solo Web Monitor
 
 This is a simple stand alone web uptime monitor. It will watch any URLs you give it and will let you know if they go down. You can run this app locally or on a server. The only thing that is required is NodeJS. No database is required.

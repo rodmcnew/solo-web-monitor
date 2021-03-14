@@ -1,7 +1,7 @@
 import request from 'request'; //@TODO is deprecated
 import {APPLICATION_NAME} from '..';
 import {SoloWebMonitorApplication} from '../application';
-import {Monitor} from '../models';
+import {Monitor, MonitorStatus} from '../models';
 import {MonitorEventRepository, MonitorRepository} from '../repositories';
 
 //@TODO clean old data such as old events where statusChanged===false
@@ -22,34 +22,37 @@ export async function start(app: SoloWebMonitorApplication) {
     };
     const checkStartTime = new Date();
     let latency;
-    let up = true;
+    let newStatus = MonitorStatus.Down;
     let reason = '';
     request(reqOptions, function (err: any, res: any) {//@TODO types
       if (err) {
-        up = false;
+        newStatus = MonitorStatus.Down
         if (!err.code) {
           console.error(err);//@TODO?
         }
         reason = err.code;
       } else {
-        up = res.statusCode == 200;
+        if (res.statusCode == 200) {
+          newStatus = MonitorStatus.Up
+        }
         reason = 'Returned ' + res.statusCode;
       }
-      if (up) {
+      if (newStatus === MonitorStatus.Up) {
         latency = Date.now() - (+checkStartTime);
       } else {
         latency = -1;
       }
-      const statusChanged = up !== monitor.up;
+      const statusChanged = monitor.status !== newStatus;
       monitorEventRepository.create({
+        monitorId: monitor.id,
         date: checkStartTime,
-        up,
+        status: newStatus,
         reason,
         statusChanged,
         latency
       });
       if (statusChanged) {
-        monitorRepository.updateById(monitor.id, {up});
+        monitorRepository.updateById(monitor.id, {status: newStatus});
       }
     });
   };

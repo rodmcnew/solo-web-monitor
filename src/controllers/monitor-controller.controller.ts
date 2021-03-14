@@ -4,18 +4,14 @@ import {
   Filter,
   FilterExcludingWhere,
   repository,
-  Where,
+  Where
 } from '@loopback/repository';
 import {
-  post,
-  param,
-  get,
-  getModelSchemaRef,
-  patch,
-  put,
-  del,
+  del, get,
+  getModelSchemaRef, param,
+  patch, post,
   requestBody,
-  response,
+  response
 } from '@loopback/rest';
 import {Monitor} from '../models';
 import {MonitorRepository} from '../repositories';
@@ -23,8 +19,8 @@ import {MonitorRepository} from '../repositories';
 export class MonitorControllerController {
   constructor(
     @repository(MonitorRepository)
-    public monitorRepository : MonitorRepository,
-  ) {}
+    public monitorRepository: MonitorRepository,
+  ) { }
 
   @post('/monitors')
   @response(200, {
@@ -76,25 +72,6 @@ export class MonitorControllerController {
     return this.monitorRepository.find(filter);
   }
 
-  @patch('/monitors')
-  @response(200, {
-    description: 'Monitor PATCH success count',
-    content: {'application/json': {schema: CountSchema}},
-  })
-  async updateAll(
-    @requestBody({
-      content: {
-        'application/json': {
-          schema: getModelSchemaRef(Monitor, {partial: true}),
-        },
-      },
-    })
-    monitor: Monitor,
-    @param.where(Monitor) where?: Where<Monitor>,
-  ): Promise<Count> {
-    return this.monitorRepository.updateAll(monitor, where);
-  }
-
   @get('/monitors/{id}')
   @response(200, {
     description: 'Monitor model instance',
@@ -126,18 +103,14 @@ export class MonitorControllerController {
     })
     monitor: Monitor,
   ): Promise<void> {
-    await this.monitorRepository.updateById(id, monitor);
-  }
-
-  @put('/monitors/{id}')
-  @response(204, {
-    description: 'Monitor PUT success',
-  })
-  async replaceById(
-    @param.path.string('id') id: string,
-    @requestBody() monitor: Monitor,
-  ): Promise<void> {
-    await this.monitorRepository.replaceById(id, monitor);
+    const whiteListedMonitorProps = {
+      //Ensure the client cannot accidentally alter the status property
+      id: monitor.id,
+      name: monitor.name,
+      url: monitor.url,
+      interval: monitor.interval
+    }
+    await this.monitorRepository.updateById(id, whiteListedMonitorProps);
   }
 
   @del('/monitors/{id}')

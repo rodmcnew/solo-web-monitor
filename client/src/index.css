@@ -2,7 +2,11 @@
 @import url("https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css");
 body {
   max-width: 1000px;
-  margin: 30px auto;
+  margin: 0 auto;
+}
+
+header {
+  margin: 15px 0;
 }
 
 h2 a,
@@ -16,4 +20,9 @@ h2 a:focus {
 
 .table {
   margin-bottom: 0;
+}
+
+.logoText {
+  font-weight: bold;
+  color: #999999;
 }

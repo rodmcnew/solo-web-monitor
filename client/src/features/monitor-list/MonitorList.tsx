@@ -1,5 +1,5 @@
 import React, {useCallback} from 'react';
-import {Monitor} from '../monitor/MonitorType';
+import {Monitor} from '../../types';
 import {MonitorListLine} from './MonitorListLine';
 
 interface Props {

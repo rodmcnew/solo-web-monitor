@@ -2,7 +2,7 @@ import React, {useCallback, useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {
   deleteMonitor, fetchAllMonitors, getAllMonitors,
-  getDetailsUiMode, getGelectedMonitorId,
+  getSelectedMonitorId,
   showCreateMonitorForm, showMonitorDetails, showMonitorEditForm
 } from '../monitor/monitorSlice';
 import {MonitorList} from './MonitorList';
@@ -11,23 +11,7 @@ export function MonitorListContainer() {
 
   const monitors = useSelector(getAllMonitors);
   const dispatch = useDispatch();
-  const selectedMonitorId = useSelector(getGelectedMonitorId);
-  const detailsUiMode = useSelector(getDetailsUiMode);
-
-  useEffect(() => {
-    dispatch(fetchAllMonitors())
-  }, []);
-
-  //@TODO should this kind of logic be here?
-  // If no monitor is selected and we are in view mode, select the first one.
-  useEffect(() => {
-    if (selectedMonitorId === null && detailsUiMode === 'view') {
-      const firstMonitor = monitors.find(() => true);
-      if (firstMonitor !== undefined) {
-        dispatch(showMonitorDetails(firstMonitor.id));
-      }
-    }
-  }, [selectedMonitorId, monitors])
+  const selectedMonitorId = useSelector(getSelectedMonitorId);
 
   const handleDeleteMonitor = useCallback((monitorId: string) => {
     dispatch(deleteMonitor(monitorId));

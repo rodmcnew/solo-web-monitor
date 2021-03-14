@@ -1,6 +1,7 @@
 import React from 'react';
+import {MonitorDetailsContainer} from '../monitor-details/MonitorDetailsContainer';
 import {MonitorListContainer} from '../monitor-list/MonitorListContainer';
-import {MonitorDetailsContainer} from './MonitorDetailsContainer';
+
 export function MonitorDashboard() {
   return <div>
     <div className="row">

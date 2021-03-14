@@ -1,5 +1,11 @@
 import {Entity, model, property} from '@loopback/repository';
 
+//@TODO move to types file?
+export enum MonitorStatus {
+  Up = 'u',
+  Down = 'd',
+  Starting = 's',
+}
 @model()
 export class Monitor extends Entity {
   @property({
@@ -28,10 +34,10 @@ export class Monitor extends Entity {
   interval: number;
 
   @property({
-    type: 'boolean',
-    required: false,
+    type: 'string',
+    required: true,
   })
-  up: boolean;
+  status: MonitorStatus
 
   constructor(data?: Partial<Monitor>) {
     super(data);

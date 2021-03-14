@@ -1,4 +1,5 @@
 import {Entity, model, property} from '@loopback/repository';
+import {MonitorStatus} from './monitor.model';
 
 @model()
 export class MonitorEvent extends Entity {
@@ -10,16 +11,22 @@ export class MonitorEvent extends Entity {
   id?: string;
 
   @property({
+    type: 'string',
+    required: true,
+  })
+  monitorId: string;
+
+  @property({
     type: 'date',
     required: true,
   })
   date: Date;
 
   @property({
-    type: 'boolean',
+    type: 'string',
     required: true,
   })
-  up: boolean;
+  status: MonitorStatus
 
   @property({
     type: 'string',

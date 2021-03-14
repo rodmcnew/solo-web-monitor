@@ -1,11 +1,14 @@
 import React from 'react';
 import './App.css';
-import {MonitorDashboard} from './features/monitor/MonitorDashboard';
+import {MonitorDashboardContainer} from './features/monitor/MonitorDashboardContainer';
 function App() {
   return (
     <div className="App">
-      <MonitorDashboard />
-      <a href="https://github.com/rodmcnew/solo-web-monitor">Documents and Source Code on GitHub</a>
+      <header>
+        <span className="logoText">Solo Web Monitor</span>
+        <a style={{float: 'right'}} className="center" href="https://github.com/rodmcnew/solo-web-monitor">Documents</a>
+      </header>
+      <MonitorDashboardContainer />
     </div>
   );
 }
