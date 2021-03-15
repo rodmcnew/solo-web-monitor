@@ -34,8 +34,8 @@ export class DemoDataServiceService {
         statusChanged: false
       })
     });
-    [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 11, 12].map(i => {
-      const up = i % 2;
+    [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map(i => {
+      const up = i % 2 !== 0;
       this.monitorEventRepository.create({
         monitorId: monitor1.id,
         status: up ? MonitorStatus.Up : MonitorStatus.Down,
@@ -52,14 +52,14 @@ export class DemoDataServiceService {
       interval: 1,
       status: MonitorStatus.Down
     });
-    [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 11, 12].map(i => {
-      const up = i % 2;
+    [1, 2, 3, 4, 5, 6, 7].map(i => {
+      const up = i % 2 === 0;
       this.monitorEventRepository.create({
         monitorId: monitor2.id,
         status: up ? MonitorStatus.Up : MonitorStatus.Down,
         latency: Math.floor(Math.random() * 1000),
         date: new Date((new Date)).getTime() - (i * 20 * 24 * 60 * 60 * 1000 - Math.floor(Math.random() * 60 * 1000)),
-        reason: up ? 'Returned 200' : 'Returned 500',
+        reason: up ? 'Returned 200' : 'ENOTFOUND',
         statusChanged: true
       })
     });
@@ -80,8 +80,8 @@ export class DemoDataServiceService {
         statusChanged: false
       })
     });
-    [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 11, 12].map(i => {
-      const up = i % 2;
+    [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(i => {
+      const up = i % 2 !== 0;
       this.monitorEventRepository.create({
         monitorId: monitor3.id,
         status: up ? MonitorStatus.Up : MonitorStatus.Down,
