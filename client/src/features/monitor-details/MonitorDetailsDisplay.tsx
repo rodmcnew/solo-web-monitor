@@ -1,11 +1,8 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import { Monitor, MonitorEvent } from '../../types';
-import { MonitorStatus } from '../../types/MonitorStatus';
-import { getMonitorIntervalLabel } from '../monitor/monitorIntervals';
-import { getMonitorStatusLabel, monitorStatusDescriptions } from '../monitor/monitorStatusDescriptions';
+import { MonitorLatestEvents } from '../monitor-events/MonitorLatestEvents';
+import { MonitorPingChart } from '../monitor-events/MonitorPingChart';
 import { MonitorBasicDetails } from './MonitorBasicDetails';
-import { MonitorLatestEvents } from './MonitorLatestEvents';
-import { MonitorPingChart } from './MonitorPingChart';
 
 interface Props {
     monitor: Monitor,

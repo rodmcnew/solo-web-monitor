@@ -1,11 +1,12 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  deleteMonitor, fetchAllMonitors, getAllMonitors,
-  getSelectedMonitorId,
-  showCreateMonitorForm, showMonitorDeleteForm, showMonitorDetailsWithRefreshedData, showMonitorEditForm
-} from '../monitor/monitorSlice';
+  getAllMonitors,
+  showMonitorDetailsWithRefreshedData,
+} from '../monitor/monitorsSlice';
 import { MonitorList } from './MonitorList';
+import { getSelectedMonitorId, showMonitorDeleteForm } from '../monitor-details/monitorDetailsSlice'
+import { showCreateMonitorForm, showMonitorEditForm } from '../monitor-details/monitorDetailsSlice';
 //@TODO, in this file and others, is [dispatch] needed in useCallback?
 export function MonitorListContainer() {
 

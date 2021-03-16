@@ -1,17 +1,15 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import useInterval from 'use-interval';
 import { DetailsUiMode, Monitor, NewMonitor } from '../../types';
 import {
-  createMonitor, deleteMonitor, fetchSelectedMonitorEvents, getAllMonitors,
-  getDetailsUiMode,
-  getSelectedMonitorEvents, getSelectedMonitorId,
+  createMonitor, deleteMonitor, getAllMonitors,
   patchMonitor,
-  showMonitorDetails
-} from '../monitor/monitorSlice';
+} from '../monitor/monitorsSlice';
+import { getDetailsUiMode, getSelectedMonitorId, showMonitorDetails } from './monitorDetailsSlice';
 import { MonitorDeleteForm } from './MonitorDeleteForm';
 import { MonitorDetailsDisplay } from './MonitorDetailsDisplay';
 import { MonitorDetailsForm } from './MonitorDetailsForm';
+import { getAllMonitorEvents } from '../monitor-events/selectedMonitorEventsSlice';
 
 export function MonitorDetailsContainer() {
   const dispatch = useDispatch();
@@ -21,7 +19,7 @@ export function MonitorDetailsContainer() {
   //@TODO move this to the slice file? or at least memoize?
   const selectedMonitor = monitors.find(monitor => monitor.id === selectedMonitorId) || null;
   const newMonitorTemplate = { name: '', url: '', interval: 1, status: 's' };
-  const selectedMonitorEvents = useSelector(getSelectedMonitorEvents);
+  const selectedMonitorEvents = useSelector(getAllMonitorEvents);
 
   const handleNewMonitorSubmit = useCallback((monitor: NewMonitor) => {
     dispatch(createMonitor(monitor))

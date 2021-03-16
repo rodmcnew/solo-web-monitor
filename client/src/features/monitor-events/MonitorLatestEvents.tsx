@@ -22,17 +22,14 @@ export function MonitorLatestEvents({monitorEvents}: Props) {
           <th>Status</th>
           <th>Date</th>
           <th>Reason</th>
-          {/*<!--<th>Duration</th>-->*/}
         </tr>
         {statusChangedEvents.map((event) =>
           <tr key={event.id}>
             <td>
               {monitorStatusDescriptions[event.status]}
-              {/* {this.getEventTypeDescription(event.type)} */}
             </td>
             <td>{event.date}</td>
             <td>{event.reason}</td>
-            {/*<td><strike>Unknown</strike></td>*/}
           </tr>
         )}
       </tbody>

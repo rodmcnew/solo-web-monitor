@@ -118,12 +118,11 @@ export class MonitorControllerController {
       url: monitor.url,
       interval: monitor.interval
     }
-    const responseData = await this.monitorRepository.updateById(id, whiteListedMonitorProps);
+    await this.monitorRepository.updateById(id, whiteListedMonitorProps);
     //Check the monitor right away to provide faster feedback to the user
     await this.monitorCheckerService.checkMonitor(
       await this.monitorRepository.findById(monitor.id)
     );
-    return responseData;
   }
 
   @del('/api/monitors/{id}')
