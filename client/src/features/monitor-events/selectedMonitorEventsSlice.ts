@@ -3,9 +3,9 @@ import axios from 'axios';
 import { RootState } from '../../app/store';
 import { MonitorEvent } from '../../types';
 import { showMonitorDeleteForm, showMonitorDetails, showMonitorEditForm } from '../monitor-details/monitorDetailsSlice';
-// const httpApiBaseUrl = 'http://localhost:3000/api';
-// const httpApiBaseUrl = '/api';//@TODO
-const httpApiBaseUrl = 'https://solo-web-monitor.herokuapp.com/api'; //@TODO
+
+import { HTTP_API_BASE_URL } from '../../config';
+
 export const monitorEventsAdapter = createEntityAdapter<MonitorEvent>({
   sortComparer: (a, b) => +new Date(b.date) - +new Date(a.date),
 })
@@ -15,7 +15,7 @@ export const fetchSelectedMonitorEvents = createAsyncThunk(
   async (config: undefined, thunkApi) => {//@TODO config: undefined?
     //@ts-ignore //@TODO types
     const selectedMonitorId = thunkApi.getState().monitorDetails.selectedMonitorId
-    const url = httpApiBaseUrl + '/monitor-events?filter[where][monitorId]=' + selectedMonitorId;
+    const url = HTTP_API_BASE_URL + '/monitor-events?filter[where][monitorId]=' + selectedMonitorId;
     //@TODO only get the events for the curent monitor
     return (await axios.get<MonitorEvent[]>(url)).data;
   }

@@ -4,9 +4,9 @@ import { RootState } from '../../app/store';
 import { Monitor, NewMonitor } from '../../types';
 import { showMonitorDetails } from '../monitor-details/monitorDetailsSlice';
 import { fetchSelectedMonitorEvents } from '../monitor-events/selectedMonitorEventsSlice';
-// const httpApiBaseUrl = 'http://localhost:3000/api';
-// const httpApiBaseUrl = '/api';//@TODO
-const httpApiBaseUrl = 'https://solo-web-monitor.herokuapp.com/api'; //@TODO
+
+import { HTTP_API_BASE_URL } from '../../config';
+
 export const monitorsAdapter = createEntityAdapter<Monitor>({
   sortComparer: (a, b) => a.name.localeCompare(b.name),
 })
@@ -23,7 +23,7 @@ export const fetchAllDisplayedMonitorData = createAsyncThunk(
 export const fetchAllMonitors = createAsyncThunk(
   'monitors/fetchAllStatus',
   async () => {
-    return (await axios.get<Monitor[]>(httpApiBaseUrl + '/monitors')).data;
+    return (await axios.get<Monitor[]>(HTTP_API_BASE_URL + '/monitors')).data;
   }
 );
 
@@ -31,7 +31,7 @@ export const fetchAllMonitors = createAsyncThunk(
 export const deleteMonitor = createAsyncThunk(
   'monitors/deleteStatus',
   async (id: string, thunkApi) => {
-    await axios.delete(httpApiBaseUrl + '/monitors/' + id);
+    await axios.delete(HTTP_API_BASE_URL + '/monitors/' + id);
     await thunkApi.dispatch(fetchAllMonitors());
     await thunkApi.dispatch(showMonitorDetails(null));
   }
@@ -41,7 +41,7 @@ export const deleteMonitor = createAsyncThunk(
 export const createMonitor = createAsyncThunk(
   'monitors/createStatus',
   async (monitor: NewMonitor, thunkApi) => {
-    const response = await axios.post<Monitor>(httpApiBaseUrl + '/monitors/', monitor);
+    const response = await axios.post<Monitor>(HTTP_API_BASE_URL + '/monitors/', monitor);
     await thunkApi.dispatch(showMonitorDetails(response.data.id));
     await thunkApi.dispatch(fetchAllDisplayedMonitorData());
   }
@@ -51,7 +51,7 @@ export const createMonitor = createAsyncThunk(
 export const patchMonitor = createAsyncThunk(
   'monitors/createStatus',
   async (monitor: Monitor, thunkApi) => {
-    await axios.patch(httpApiBaseUrl + '/monitors/' + monitor.id, monitor);
+    await axios.patch(HTTP_API_BASE_URL + '/monitors/' + monitor.id, monitor);
     await thunkApi.dispatch(showMonitorDetails(monitor.id));
     await thunkApi.dispatch(fetchAllDisplayedMonitorData());
   }
