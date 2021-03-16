@@ -36,6 +36,8 @@ export function MonitorDashboardContainer() {
    * 
    * @possibleImprovement: Its arguable if this should be here or if it should be in the
    * reducer.
+   * 
+   * @TODO should this be a middleware or something?
    */
   useEffect(() => {
     if (initialMonitorsFetchDone && monitors.length === 0) {
@@ -48,6 +50,8 @@ export function MonitorDashboardContainer() {
    * 
    * @possibleImprovement: Its arguable if this should be here or if it should be in the
    * reducer.
+   * 
+   * @TODO should this be a middleware or something?
    */
   useEffect(() => {
     if (detailsUiMode === DetailsUiMode.View && selectedMonitorId === null) {
