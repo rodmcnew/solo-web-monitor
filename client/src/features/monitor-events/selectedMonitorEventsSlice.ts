@@ -23,28 +23,34 @@ export const fetchSelectedMonitorEvents = createAsyncThunk(
 
 export const monitorsSlice = createSlice({
   name: 'selectedMonitorEvents',
-  initialState: monitorEventsAdapter.getInitialState(),
+  initialState: monitorEventsAdapter.getInitialState({
+    selectedMonitorEventsLoaded: false
+  }),
   reducers: {},
   extraReducers: builder => builder
     .addCase(
       fetchSelectedMonitorEvents.fulfilled,
       (state, action: PayloadAction<MonitorEvent[]>) => {
         monitorEventsAdapter.setAll(state, action);
+        state.selectedMonitorEventsLoaded = true;
       }
     ).addCase(
       showMonitorDetails.type,
       (state) => {
         monitorEventsAdapter.removeAll(state);
+        state.selectedMonitorEventsLoaded = false;
       }
     ).addCase(
       showMonitorEditForm.type,
       (state) => {
         monitorEventsAdapter.removeAll(state);
+        state.selectedMonitorEventsLoaded = false;
       }
     ).addCase(
       showMonitorDeleteForm.type,
       (state) => {
         monitorEventsAdapter.removeAll(state);
+        state.selectedMonitorEventsLoaded = false;
       }
     )
 });
@@ -59,5 +65,6 @@ const monitorEventSelectors = monitorEventsAdapter.getSelectors<RootState>((stat
 // in the slice file. For example: `useSelector((state: RootState) => state.monitor.value)`
 export const getAllMonitorEvents = (state: RootState) => monitorEventSelectors.selectAll(state);
 
+export const getSelectedMonitorEventsLoaded = (state: RootState) => state.selectedMonitorEvents.selectedMonitorEventsLoaded;
 
 export default monitorsSlice.reducer;
