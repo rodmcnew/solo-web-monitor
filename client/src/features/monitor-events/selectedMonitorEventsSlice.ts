@@ -14,7 +14,7 @@ export const fetchSelectedMonitorEvents = createAsyncThunk(
   'monitors/fetchSelectedMonitorEventsStatus',
   async (config: undefined, thunkApi) => {//@TODO config: undefined?
     //@ts-ignore //@TODO types
-    const selectedMonitorId = thunkApi.getState().monitor.selectedMonitorId
+    const selectedMonitorId = thunkApi.getState().monitorDetails.selectedMonitorId
     const url = httpApiBaseUrl + '/monitor-events?filter[where][monitorId]=' + selectedMonitorId;
     //@TODO only get the events for the curent monitor
     return (await axios.get<MonitorEvent[]>(url)).data;
