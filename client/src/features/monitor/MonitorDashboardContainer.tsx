@@ -27,7 +27,7 @@ export function MonitorDashboardContainer() {
   // Trigger initial data fetches from the server
   useEffect(() => {
     dispatch(fetchAllDisplayedMonitorData());
-  }, []);
+  }, [dispatch]);
 
   // Setup an intervale to refresh the data on the screen every so often
   useInterval(() => {
@@ -46,7 +46,7 @@ export function MonitorDashboardContainer() {
     if (initialMonitorsFetchDone && monitors.length === 0) {
       dispatch(showCreateMonitorForm());
     }
-  }, [initialMonitorsFetchDone, monitors])
+  }, [initialMonitorsFetchDone, monitors, dispatch])
 
   /**
    * If we are in view monitor mode and no monitor is selected, select the first one.

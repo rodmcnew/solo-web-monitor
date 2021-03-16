@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import { Monitor } from '../../types';
 import { MonitorStatus } from '../../types/MonitorStatus';
-import { getMonitorStatusLabel, monitorStatusDescriptions } from '../monitor/monitorStatusDescriptions';
+import { getMonitorStatusLabel } from '../monitor/monitorStatusDescriptions';
 
 interface Props {
   monitor: Monitor;
@@ -18,17 +18,17 @@ export function MonitorListLine({
   const handleDeleteMonitorClick = useCallback((event: React.MouseEvent<HTMLElement>) => {
     event.stopPropagation();
     onDeleteMonitor(monitor.id);
-  }, [onDeleteMonitor]);
+  }, [onDeleteMonitor, monitor.id]);
 
   const handleSelectMonitorClick = useCallback((event: React.MouseEvent<HTMLElement>) => {
     event.stopPropagation();
     onSelectMonitor(monitor.id)
-  }, [onSelectMonitor]);
+  }, [onSelectMonitor, monitor.id]);
 
   const handleEditMonitorClick = useCallback((event: React.MouseEvent<HTMLElement>) => {
     event.stopPropagation();
     onEditMonitor(monitor.id)
-  }, [onEditMonitor]);
+  }, [onEditMonitor, monitor.id]);
 
   const statusTooltipText = 'Status: ' + getMonitorStatusLabel(monitor.status);
 

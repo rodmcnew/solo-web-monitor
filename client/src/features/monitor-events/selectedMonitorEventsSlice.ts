@@ -55,7 +55,7 @@ export const monitorsSlice = createSlice({
     )
 });
 
-export const { } = monitorsSlice.actions;
+// export const { } = monitorsSlice.actions;
 
 // Can create a set of memoized selectors based on the location of this entity state
 const monitorEventSelectors = monitorEventsAdapter.getSelectors<RootState>((state) => state.selectedMonitorEvents);

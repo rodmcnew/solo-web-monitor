@@ -11,7 +11,7 @@ interface Props {
 export function MonitorDeleteForm({ monitor, onCancel, onDelete }: Props) {
     const handleDelete = useCallback(() => {
         onDelete(monitor.id);
-    }, [monitor.id])
+    }, [monitor.id, onDelete])
     return (
         <div>
             <MonitorBasicDetails monitor={monitor} />

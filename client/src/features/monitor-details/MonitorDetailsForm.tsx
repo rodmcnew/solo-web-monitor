@@ -21,7 +21,7 @@ export function MonitorDetailsForm({ monitor, onSubmit, onCancel }: Props) {
         if (incomingId !== formDataId) {
             setFormData(monitor);
         }
-    }, [monitor])
+    }, [monitor, formData])
 
     const handleNameChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
         setFormData({ ...formData, name: event.target.value })
@@ -44,10 +44,10 @@ export function MonitorDetailsForm({ monitor, onSubmit, onCancel }: Props) {
         return monitorIntervals.map(interval =>
             <option key={interval.value} value={interval.value}>{interval.label}</option>
         )
-    }, [monitorIntervals]);
+    }, []);
 
     return (
-        <form role="form" onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit}>
             {/* {this.props.errorMessage &&
                 <div className="alert alert-danger">
                     {this.props.errorMessage}
