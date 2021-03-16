@@ -74,7 +74,7 @@ export function MonitorDashboardContainer() {
    * @TODO should this be a middleware or something?
    */
   useEffect(() => {
-    if (detailsUiMode === DetailsUiMode.View && selectedMonitorId === null) {
+    if (detailsUiMode === DetailsUiMode.View && selectedMonitorId === null && selectedMonitorEventsLoaded === false) {
       const firstMonitor = monitors.find(() => true);
       if (firstMonitor !== undefined) {
         dispatch(fetchSelectedMonitorEvents());
