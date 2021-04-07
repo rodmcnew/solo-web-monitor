@@ -1,4 +1,5 @@
-import {ApplicationConfig, SoloWebMonitorApplication} from './application';
+import { ApplicationConfig, SoloWebMonitorApplication } from './application';
+import { DemoDataServiceService } from './services';
 
 export * from './application';
 
@@ -9,6 +10,10 @@ export async function main(options: ApplicationConfig = {}) {
 
   const url = app.restServer.url;
   console.log(`Server is running at ${url}`);
+
+  // Reset the database to the demo data when the app boots
+  app.get<DemoDataServiceService>('services.DemoDataServiceService')
+    .then(service => service.setDatabaseToDemoData());
 
   return app;
 }

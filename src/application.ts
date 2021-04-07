@@ -45,11 +45,6 @@ export class SoloWebMonitorApplication extends BootMixin(
         nested: true,
       },
     };
-
-    setTimeout(() => {
-      // Reset the database to the demo data upon app boot
-      this.get<DemoDataServiceService>('services.DemoDataServiceService').then(service => service.setDatabaseToDemoData());
-    }, 100)
   }
 }
 
