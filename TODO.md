@@ -11,7 +11,7 @@
 - search for @ts-ignore
 - handle error communicating with server
 #### SHOULD:
-- add server side validation of monitor props such as interval, url, name, and give the client a way to understand this?
+- add server side validation of monitor props such as interval, url, name, (and give the client a way to understand this?)
 - this error can be spit out on console, stop it: Error: Invalid URI "gg.localhost.com"
 - should react component funcs be exporting default?
 - should interfaces use , or ; ?

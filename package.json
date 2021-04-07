@@ -37,11 +37,11 @@
     "rebuild": "npm run clean && npm run build",
     "start:dev:server": "node_modules/.bin/nodemon",
     "start:dev:client": "cd client;PORT=3001 npm start",
-    "start": "node -r source-map-support/register .",
-    "clean": "lb-clean dist *.tsbuildinfo .eslintcache"
+    "clean": "lb-clean dist *.tsbuildinfo .eslintcache",
+    "start": "node ."
   },
   "scripts-TEMP-DISABLED": {
-    "start": "node .",
+    "start": "node -r source-map-support/register .",
     "prestart": "npm run rebuild"
   },
   "repository": {
