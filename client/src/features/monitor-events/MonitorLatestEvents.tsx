@@ -1,17 +1,18 @@
-import React, {useMemo} from 'react';
-import {MonitorEvent} from '../../types';
-import {monitorStatusDescriptions} from '../monitor/monitorStatusDescriptions';
+import React, { useMemo } from 'react';
+import { MonitorEvent } from '../../types';
+import { monitorStatusDescriptions } from '../monitor/monitorStatusDescriptions';
 
 interface Props {
-  monitorEvents: MonitorEvent[]
+  monitorEvents: MonitorEvent[];
+  maxEventCount: number;
 }
 
-export function MonitorLatestEvents({monitorEvents}: Props) {
+export function MonitorLatestEvents({ monitorEvents, maxEventCount }: Props) {
 
   //@TODO does this useMemo make sense?
   //@TODO should this logic be somewhere else?
   const statusChangedEvents = useMemo(
-    () => monitorEvents.filter(monitorEvent => monitorEvent.statusChanged),
+    () => monitorEvents.filter(monitorEvent => monitorEvent.statusChanged).slice(0, maxEventCount),
     [monitorEvents]
   )
 

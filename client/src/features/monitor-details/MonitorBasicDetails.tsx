@@ -4,7 +4,7 @@ import { getMonitorStatusLabel } from "../monitor/monitorStatusDescriptions";
 import React from 'react';
 
 interface Props {
-    monitor: Monitor,
+    monitor: Monitor;
 }
 export function MonitorBasicDetails({ monitor }: Props) {
     return <div>

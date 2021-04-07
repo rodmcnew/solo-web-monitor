@@ -7,9 +7,9 @@ import { Monitor, MonitorStatus } from '../models';
 import { MonitorEventRepository, MonitorRepository } from '../repositories';
 
 interface CheckResponse {
-  latency: number,
-  status: MonitorStatus,
-  reason: string
+  latency: number;
+  status: MonitorStatus;
+  reason: string;
 }
 
 //@TODO send alerts

@@ -9,7 +9,7 @@ interface Props {
   onDeleteMonitor: (monitorId: string) => void;
   onSelectMonitor: (monitorId: string) => void;
   onEditMonitor: (monitorId: string) => void;
-  selectedMonitorId: string | null,
+  selectedMonitorId: string | null;
 }
 
 export function MonitorListLine({

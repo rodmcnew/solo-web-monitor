@@ -1,6 +1,6 @@
 import { createAsyncThunk, createEntityAdapter, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../../app/store';
-import { DetailsUiMode, MonitorEvent } from '../../types';
+import { DetailsUiMode, Monitor, MonitorEvent } from '../../types';
 import { monitorEventsApi } from '../monitor-events/monitorEventsApi';
 import { fetchAllMonitors, getAllMonitors } from '../monitor/monitorsSlice';
 export const monitorEventsAdapter = createEntityAdapter<MonitorEvent>({
@@ -18,10 +18,8 @@ export const fetchMonitorsThenShowMonitorDetailsForAnyMonitor = createAsyncThunk
 export const showMonitorDetailsForAnyMonitor = createAsyncThunk(
     'monitors/showMonitorDetailsForAnyMonitorStatus',
     async (none: undefined, thunkApi) => {//@TODO none: undefined?
-        //@ts-ignore //@TODO
-        const allMonitors = getAllMonitors(thunkApi.getState()) as Monitor[];//@TODO type better?
-        //@ts-ignore //@TODO
-        const selectedMonitorId = getSelectedMonitorId(thunkApi.getState()) as string;//@TODO type better?
+        const allMonitors = getAllMonitors(thunkApi.getState() as RootState);
+        const selectedMonitorId = getSelectedMonitorId(thunkApi.getState() as RootState);
         const selectedMonitor = allMonitors.find(monitor => monitor.id === selectedMonitorId)
             || allMonitors.find(() => true)
             || null;
@@ -36,7 +34,6 @@ export const showMonitorDetailsForAnyMonitor = createAsyncThunk(
 export const showMonitorDetails = createAsyncThunk(
     'monitors/fetchSelectedMonitorEventsStatus',
     async (monitorId: string, thunkApi) => {//@TODO config: undefined?
-        //@ts-ignore //@TODO types
         // const selectedMonitorId = thunkApi.getState().monitorDetails.selectedMonitorId
         const monitorEvents = await monitorEventsApi.findByMonitorId(monitorId);
         return {
@@ -45,17 +42,6 @@ export const showMonitorDetails = createAsyncThunk(
         }
     }
 );
-
-// export const fetchSelectedMonitorEvents = createAsyncThunk(
-//     'monitors/fetchSelectedMonitorEventsStatus',
-//     async (config: undefined, thunkApi) => {//@TODO config: undefined?
-//         //@ts-ignore //@TODO types
-//         const selectedMonitorId = thunkApi.getState().monitorDetails.selectedMonitorId
-//         const url = HTTP_API_BASE_URL + '/monitor-events?filter[where][monitorId]=' + selectedMonitorId;
-//         //@TODO only get the events for the curent monitor
-//         return (await axios.get<MonitorEvent[]>(url)).data;
-//     }
-// );
 
 export const monitorDetailsSlice = createSlice({
     name: 'monitorDetails',//@TODO rename to selectedMonitor or something?
@@ -108,7 +94,7 @@ export const {
 
 export const getDetailsUiMode = (state: RootState) => state.monitorDetails.detailsUiMode;
 
-export const getSelectedMonitorId = (state: RootState) => state.monitorDetails.selectedMonitorId;
+export const getSelectedMonitorId = (state: RootState): string | null => state.monitorDetails.selectedMonitorId;
 
 // Can create a set of memoized selectors based on the location of this entity state
 const monitorEventSelectors = monitorEventsAdapter.getSelectors<RootState>((state) => state.monitorDetails.selectedMonitorEvents);

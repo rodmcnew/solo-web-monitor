@@ -3,9 +3,9 @@ import { Monitor } from '../../types';
 import { MonitorBasicDetails } from './MonitorBasicDetails';
 
 interface Props {
-    monitor: Monitor,
-    onCancel: () => void
-    onDelete: (monitorId: string) => void
+    monitor: Monitor;
+    onCancel: () => void;
+    onDelete: (monitorId: string) => void;
 }
 
 export function MonitorDeleteForm({ monitor, onCancel, onDelete }: Props) {

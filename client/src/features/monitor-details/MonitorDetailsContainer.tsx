@@ -25,8 +25,7 @@ export function MonitorDetailsContainer() {
     dispatch(createMonitorThenShowItsDetails(monitor))
   }, [dispatch])
 
-  const handleMonitorEditSubmit = useCallback((monitor: Monitor | NewMonitor) => {
-    //@ts-ignore   //@TODO fix types? maybe use <>?
+  const handleMonitorEditSubmit = useCallback((monitor: Monitor) => {
     dispatch(patchMonitor(monitor));
   }, [dispatch])
 
@@ -57,7 +56,7 @@ export function MonitorDetailsContainer() {
           <h3 className="card-title">Create New Monitor</h3>
         </div>
         <div className="card-body">
-          <MonitorDetailsForm
+          <MonitorDetailsForm<NewMonitor>
             monitor={newMonitorTemplate}
             onSubmit={handleNewMonitorSubmit}
             onCancel={handleFormCancel} />
@@ -70,7 +69,7 @@ export function MonitorDetailsContainer() {
           <h3 className="card-title">Edit Monitor</h3>
         </div>
         <div className="card-body">
-          <MonitorDetailsForm
+          <MonitorDetailsForm<Monitor>
             monitor={selectedMonitor}
             onSubmit={handleMonitorEditSubmit}
             onCancel={handleFormCancel} />

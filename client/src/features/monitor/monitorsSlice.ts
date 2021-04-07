@@ -20,7 +20,6 @@ export const deleteMonitorThenShowDetailsForAnyMonitor = createAsyncThunk(
   'monitors/deleteMonitorThenShowDetailsForAnyMonitorStatus',
   async (id: string, thunkApi) => {
     await thunkApi.dispatch(deleteMonitor(id));
-    //@ts-ignore
     await thunkApi.dispatch(showMonitorDetailsForAnyMonitor());
   }
 );
@@ -86,7 +85,7 @@ const monitorSelectors = monitorsAdapter.getSelectors<RootState>((state) => stat
 // The function below is called a selector and allows us to select a value from
 // the state. Selectors can also be defined inline where they're used instead of
 // in the slice file. For example: `useSelector((state: RootState) => state.monitor.value)`
-export const getAllMonitors = (state: RootState) => monitorSelectors.selectAll(state);
+export const getAllMonitors = (state: RootState): Monitor[] => monitorSelectors.selectAll(state);
 
 export const getinitialMonitorsFetchDone = (state: RootState) => state.monitors.initialMonitorsFetchDone;
 

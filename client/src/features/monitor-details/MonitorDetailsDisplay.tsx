@@ -5,8 +5,8 @@ import { MonitorPingChart } from '../monitor-events/MonitorPingChart';
 import { MonitorBasicDetails } from './MonitorBasicDetails';
 
 interface Props {
-    monitor: Monitor,
-    monitorEvents: MonitorEvent[]
+    monitor: Monitor;
+    monitorEvents: MonitorEvent[];
 }
 export function MonitorDetailsDisplay({ monitor, monitorEvents }: Props) {
     return (
@@ -17,7 +17,7 @@ export function MonitorDetailsDisplay({ monitor, monitorEvents }: Props) {
             </div>
             <MonitorPingChart monitorEvents={monitorEvents} />
             <h4 className="mt-3">Latest Events</h4>
-            <MonitorLatestEvents monitorEvents={monitorEvents} />
+            <MonitorLatestEvents monitorEvents={monitorEvents} maxEventCount={10} />
         </div>
     )
 }

@@ -1,22 +1,17 @@
 #### MUST:
 - search for @TODO
 - show something when loading, like when making a new monitor and waiting for the first ping
-- some sort of pagination or limit on events? (maybe cleaning solves this?)
-- add some automated tests on client and server
+- show something if there is an error communicating with server
 - App becomes unresponsive and you can multi submit the create form if creating https://bun.com
-- search for @ts-ignore
-- handle error communicating with server
+- add some automated tests on client and server
 
 #### SHOULD:
 - deal with times when the only ping events are very old, like in the demo, should chart be blank?
 - regularly clean old monitor events
 - do i have circular slice dependencies?
 - npm start doesn't seem to work after npm build?
-- add server side validation of monitor props such as interval, url, name, (and give the client a way to understand this?)
-- this error can be spit out on console, stop it: Error: Invalid URI "gg.localhost.com"
-- should interfaces use , or ; ?
+- add server side validation of monitor props such as interval, url, name, (and give the client a way to understand this?, or validate on client too?)
 - imports should be all " or all '
-- handle http errors, especially for initial load
 #### COULD:
 - consider loopback relations
 - search code for @possibleImprovement
