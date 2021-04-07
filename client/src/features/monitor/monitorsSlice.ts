@@ -90,4 +90,4 @@ export const getAllMonitors = (state: RootState) => monitorSelectors.selectAll(s
 
 export const getinitialMonitorsFetchDone = (state: RootState) => state.monitors.initialMonitorsFetchDone;
 
-export default monitorsSlice.reducer;
+export const monitorsReducer = monitorsSlice.reducer;

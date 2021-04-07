@@ -1,8 +1,8 @@
 import React from 'react';
 import './App.css';
-import AppHeader from './AppHeader';
+import { AppHeader } from './AppHeader';
 import { MonitorDashboardContainer } from './features/monitor/MonitorDashboardContainer';
-function App() {
+export function App() {
   return (
     <div className="App">
       <AppHeader />
@@ -10,5 +10,3 @@ function App() {
     </div>
   );
 }
-
-export default App;

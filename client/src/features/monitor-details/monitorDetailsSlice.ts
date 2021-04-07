@@ -57,7 +57,7 @@ export const showMonitorDetails = createAsyncThunk(
 //     }
 // );
 
-export const monitorsSlice = createSlice({
+export const monitorDetailsSlice = createSlice({
     name: 'monitorDetails',//@TODO rename to selectedMonitor or something?
     initialState: {
         selectedMonitorId: null as string | null, //@TODO type better?
@@ -103,7 +103,7 @@ export const {
     // showMonitorDetails,
     showMonitorEditForm,
     showCreateMonitorForm
-} = monitorsSlice.actions;
+} = monitorDetailsSlice.actions;
 
 
 export const getDetailsUiMode = (state: RootState) => state.monitorDetails.detailsUiMode;
@@ -121,4 +121,4 @@ export const getAllMonitorEvents = (state: RootState) => monitorEventSelectors.s
 // export const getSelectedMonitorEventsLoaded = (state: RootState) => state.monitorDetails.selectedMonitorEventsLoaded;
 
 
-export default monitorsSlice.reducer;
+export const monitorDetailsReducer = monitorDetailsSlice.reducer;

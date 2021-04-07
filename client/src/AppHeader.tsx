@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 import { ResetDemoDataLink } from './features/demo/ResetDemoDataLink';
-function AppHeader() {
+export function AppHeader() {
     //@TODO only show demo reset button if in demo mode per ENV?
     return (
         <header>
@@ -17,5 +17,3 @@ function AppHeader() {
         </header>
     );
 }
-
-export default AppHeader;
