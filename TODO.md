@@ -10,6 +10,7 @@
 - add some automated tests on client and server
 - App becomes unresponsive and you can multi submit the create form if creating https://bun.com
 - search for @ts-ignore
+- handle error communicating with server
 #### SHOULD:
 - add server side validation of monitor props such as interval, url, name, and give the client a way to understand this?
 - this error can be spit out on console, stop it: Error: Invalid URI "gg.localhost.com"
