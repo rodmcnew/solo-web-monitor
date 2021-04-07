@@ -46,11 +46,9 @@ export class SoloWebMonitorApplication extends BootMixin(
       },
     };
 
-    const DEMO_DATA_SERVICE = BindingKey.create<DemoDataServiceService>('DEMO_DATA_SERVICE');
-    this.bind(DEMO_DATA_SERVICE).toInjectable(DemoDataServiceService);
     setTimeout(() => {
       // Reset the database to the demo data upon app boot
-      this.get<DemoDataServiceService>(DEMO_DATA_SERVICE).then(service => service.setDatabaseToDemoData());
+      this.get<DemoDataServiceService>('services.DemoDataServiceService').then(service => service.setDatabaseToDemoData());
     }, 100)
   }
 }
