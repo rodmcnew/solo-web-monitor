@@ -42,4 +42,4 @@ if (require.main === module) {
   });
 }
 
-export const APPLICATION_NAME = 'SoloWebMonitor';//@TODO should this be here and like this?
+export const APPLICATION_NAME = 'SoloWebMonitor';

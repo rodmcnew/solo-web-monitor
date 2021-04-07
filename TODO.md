@@ -22,6 +22,7 @@
 - search code for @possibleImprovement
 - Allow demo mode link, http endpoint, and app-startup-db-reset to be disabled somehow?
 - Consider sharing type MonitorStatus with the server somehow?
+- consider changing export const APPLICATION_NAME = 'SoloWebMonitor' to the app configuring the user agent on a service instead
 #### WONT (to keep this project easier to maintain into the future):
 - allow external double checker server before saying its down
 - build login page and access control
