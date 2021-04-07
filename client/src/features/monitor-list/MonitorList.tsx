@@ -35,7 +35,7 @@ export function MonitorList({
           <div>
             <button
               onClick={handleSelectMonitorClick}
-              className="btn btn-secondary btn-sm w-100">
+              className="btn btn-secondary w-100">
               <PlusIcon />
             &nbsp;
             Create new monitor

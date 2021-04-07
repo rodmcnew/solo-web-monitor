@@ -3,7 +3,6 @@
 - regularly clean old monitor events
 - search for @TODO
 - delete any br tags
-- delete any inline style
 - show something when loading, like when making a new monitor and waiting for the first ping
 - some sort of pagination or limit on events? (maybe cleaning solves this?)
 - deal with times when the only ping events are very old, like in the demo, should chart be blank?
@@ -20,10 +19,10 @@
 - handle http errors, especially for initial load
 #### COULD:
 - consider loopback relations
-- allow external double checker server before saying its down
 - search code for @possibleImprovement
 
-#### WOULD:
+#### WONT (to keep this project easier to maintain into the future):
+- allow external double checker server before saying its down
 - build login page and access control
 - eventually support emailing alerts?
 - Allow monitor urls with ports like http://localhost:3000

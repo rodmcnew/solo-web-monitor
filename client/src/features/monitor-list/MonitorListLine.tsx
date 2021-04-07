@@ -52,13 +52,12 @@ export function MonitorListLine({
         &nbsp;&nbsp;
         <span>{monitor.name}</span>
         <button onClick={handleDeleteMonitorClick} title="Delete Monitor"
-          style={{ float: 'right' }}
-          className="btn btn-secondary btn-xs">
+          className="btn btn-secondary btn-xs float-right">
           <TrashIcon />
         </button>
-        <span style={{ float: 'right' }}>&nbsp;</span>
-        <button onClick={handleEditMonitorClick} style={{ float: 'right' }} title="Edit Monitor"
-          className="btn btn-secondary btn-xs">
+        <span className="float-right">&nbsp;</span>
+        <button onClick={handleEditMonitorClick} title="Edit Monitor"
+          className="btn btn-secondary btn-xs float-right">
           <PencilIcon />
         </button>
       </td>
