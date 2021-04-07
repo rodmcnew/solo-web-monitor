@@ -5,12 +5,14 @@ function AppHeader() {
     //@TODO only show demo reset button if in demo mode per ENV?
     return (
         <header>
-            <span className="logoText">Solo Web Monitor</span>
-            <span style={{ float: 'right' }}>
+            <a className="logoText" href="/">Solo Web Monitor</a>
+            <span className="float-right">
                 <ResetDemoDataLink />
-          &nbsp;|&nbsp;
-          <a title="View the docs on Github."
-                    href="https://github.com/rodmcnew/solo-web-monitor">Documents</a>
+                &nbsp;|&nbsp;
+                <a title="View the docs on Github."
+                    className="btn btn-link"
+                    href="https://github.com/rodmcnew/solo-web-monitor">Documents
+                </a>
             </span>
         </header>
     );

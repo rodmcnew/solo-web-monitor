@@ -1,3 +1,4 @@
+import { CheckIcon, FlameIcon, PencilIcon, QuestionIcon, TrashIcon } from '@primer/octicons-react';
 import React, { useCallback } from 'react';
 import { Monitor } from '../../types';
 import { MonitorStatus } from '../../types/MonitorStatus';
@@ -34,34 +35,31 @@ export function MonitorListLine({
 
   return (
     <tr
+      role="button"
       onClick={handleSelectMonitorClick}
-      style={{ cursor: 'pointer' }}
-      className={monitor.id === selectedMonitorId ? 'active' : ''}
+      className={monitor.id === selectedMonitorId ? 'table-active' : ''}
     >
       <td>
         {monitor.status === MonitorStatus.Up &&
-          <span className="text-success glyphicon glyphicon-ok"
-            title={statusTooltipText} />
+          <span title={statusTooltipText} ><CheckIcon className="text-success" /></span>
         }
         {monitor.status === MonitorStatus.Down &&
-          <span className="text-danger glyphicon glyphicon-remove"
-            title={statusTooltipText} />
+          <span title={statusTooltipText} ><FlameIcon className="text-danger" /></span>
         }
         {monitor.status === MonitorStatus.Starting &&
-          <span className="text-primary glyphicon glyphicon-question-sign"
-            title={statusTooltipText} />
+          <span title={statusTooltipText} ><QuestionIcon className="text-info" /></span>
         }
         &nbsp;&nbsp;
         <span>{monitor.name}</span>
-        <button onClick={handleDeleteMonitorClick}
+        <button onClick={handleDeleteMonitorClick} title="Delete Monitor"
           style={{ float: 'right' }}
-          className="btn btn-default btn-xs">
-          <span className="glyphicon glyphicon-trash" title="Delete" />
+          className="btn btn-secondary btn-xs">
+          <TrashIcon />
         </button>
         <span style={{ float: 'right' }}>&nbsp;</span>
-        <button onClick={handleEditMonitorClick} style={{ float: 'right' }}
-          className="btn btn-default btn-xs">
-          <span className="glyphicon glyphicon-edit" title="Edit" />
+        <button onClick={handleEditMonitorClick} style={{ float: 'right' }} title="Edit Monitor"
+          className="btn btn-secondary btn-xs">
+          <PencilIcon />
         </button>
       </td>
     </tr>

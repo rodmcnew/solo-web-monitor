@@ -13,7 +13,7 @@ export function MonitorDetailsDisplay({ monitor, monitorEvents }: Props) {
         <div>
             <MonitorBasicDetails monitor={monitor} />
             <br />
-            <h4 style={{ display: 'inline' }}>Response Time</h4> (ms)
+            <h4 className="d-inline">Response Time</h4> (ms)
             <MonitorPingChart monitorEvents={monitorEvents} />
             <h4>Latest Events</h4>
             <MonitorLatestEvents monitorEvents={monitorEvents} />

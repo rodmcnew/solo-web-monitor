@@ -1,6 +1,8 @@
-import React, {useCallback} from 'react';
-import {Monitor} from '../../types';
-import {MonitorListLine} from './MonitorListLine';
+import { PlusIcon } from '@primer/octicons-react';
+import React, { useCallback } from 'react';
+import { Spinner } from 'react-bootstrap';
+import { Monitor } from '../../types';
+import { MonitorListLine } from './MonitorListLine';
 
 interface Props {
   monitors: Monitor[];
@@ -21,18 +23,20 @@ export function MonitorList({
   }, [onCreateMonitor]);
 
   return (
-    <div className="panel panel-primary">
-      <div className="panel-heading">
-        <h3 className="panel-title">Monitors</h3>
+    <div className="card">
+      <div className="card-header">
+        <h3 className="card-title">Monitors</h3>
       </div>
-      <div className="panel-body">
+      <div className="card-body">
+        {/* <Spinner animation="border" role="status"> //@TODO
+          <span className="sr-only">Loading...</span>
+        </Spinner> */}
         {monitors.length !== 0 &&
           <div>
             <button
               onClick={handleSelectMonitorClick}
-              className="btn btn-default btn-sm"
-              style={{width: '100%'}}>
-              <span className="glyphicon glyphicon-plus" />
+              className="btn btn-secondary btn-sm w-100">
+              <PlusIcon />
             &nbsp;
             Create new monitor
         </button>

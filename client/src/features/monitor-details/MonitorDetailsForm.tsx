@@ -46,16 +46,20 @@ export function MonitorDetailsForm({ monitor, onSubmit, onCancel }: Props) {
         )
     }, []);
 
+    let nameInputElement = React.createRef<HTMLInputElement>();
+    useEffect(() => {
+        if (nameInputElement.current) {
+            nameInputElement.current.focus();
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [monitor])
+
     return (
         <form onSubmit={handleSubmit}>
-            {/* {this.props.errorMessage &&
-                <div className="alert alert-danger">
-                    {this.props.errorMessage}
-                </div>
-            } */}
             <div className="form-group">
                 <label htmlFor="name">Name</label>
                 <input
+                    ref={nameInputElement}
                     onChange={handleNameChange}
                     value={formData.name}
                     type="text"
@@ -79,24 +83,8 @@ export function MonitorDetailsForm({ monitor, onSubmit, onCancel }: Props) {
                     {monitorIntervalSelectOptions}
                 </select>
             </div>
-
-            {/* <div className="form-group">
-                <label>Contacts to Alert</label>
-                {this.props.contacts.map((contact, i) =>
-                    <div key={i}>
-                        <label style={{fontWeight: 'normal'}}>
-                            <input type="checkbox"
-                                checked={this.state.contactIds.indexOf(contact.id) !== -1}
-                                value="1"
-                                onChange={(event) => this.handleContactCheckChange(event.target.checked, contact.id)} />
-                            <span>&nbsp;</span>
-                            <span className="ng-binding">{contact.email}</span>
-                        </label>
-                    </div>
-                )}
-            </div> */}
-            <button type="button" className="btn btn-default" onClick={onCancel}>Cancel</button>
-            <button type="submit" className="btn btn-primary pull-right">Save</button>
+            <button type="button" className="btn btn-secondary" onClick={onCancel}>Cancel</button>
+            <button type="submit" className="btn btn-primary float-right">Save</button>
         </form >
     )
 }

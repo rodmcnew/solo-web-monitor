@@ -2,14 +2,14 @@ import React, { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { DetailsUiMode, Monitor, NewMonitor } from '../../types';
 import {
-  createMonitor, deleteMonitor, getAllMonitors,
+  createMonitorThenShowItsDetails, deleteMonitorThenShowDetailsForAnyMonitor, getAllMonitors,
   patchMonitor,
 } from '../monitor/monitorsSlice';
-import { getDetailsUiMode, getSelectedMonitorId, showMonitorDetails } from './monitorDetailsSlice';
+import { getAllMonitorEvents, getDetailsUiMode, getSelectedMonitorId, showMonitorDetailsForAnyMonitor } from './monitorDetailsSlice';
 import { MonitorDeleteForm } from './MonitorDeleteForm';
 import { MonitorDetailsDisplay } from './MonitorDetailsDisplay';
 import { MonitorDetailsForm } from './MonitorDetailsForm';
-import { getAllMonitorEvents } from '../monitor-events/selectedMonitorEventsSlice';
+import { Spinner } from 'react-bootstrap';
 
 export function MonitorDetailsContainer() {
   const dispatch = useDispatch();
@@ -22,7 +22,7 @@ export function MonitorDetailsContainer() {
   const selectedMonitorEvents = useSelector(getAllMonitorEvents);
 
   const handleNewMonitorSubmit = useCallback((monitor: NewMonitor) => {
-    dispatch(createMonitor(monitor))
+    dispatch(createMonitorThenShowItsDetails(monitor))
   }, [dispatch])
 
   const handleMonitorEditSubmit = useCallback((monitor: Monitor | NewMonitor) => {
@@ -31,20 +31,20 @@ export function MonitorDetailsContainer() {
   }, [dispatch])
 
   const handleMonitorDeleteSubmit = useCallback((monitorId: string) => {
-    dispatch(deleteMonitor(monitorId));
+    dispatch(deleteMonitorThenShowDetailsForAnyMonitor(monitorId));
   }, [dispatch])
 
   const handleFormCancel = useCallback(() => {
-    dispatch(showMonitorDetails(selectedMonitorId))
-  }, [dispatch, selectedMonitorId])
+    dispatch(showMonitorDetailsForAnyMonitor())
+  }, [dispatch])
 
   return <div>
     {detailsUiMode === DetailsUiMode.View && selectedMonitor !== null &&
-      <div className="panel panel-primary">
-        <div className="panel-heading">
-          <h3 className="panel-title">Selected Monitor</h3>
+      <div className="card card-primary">
+        <div className="card-header">
+          <h3 className="card-title">Selected Monitor</h3>
         </div>
-        <div className="panel-body">
+        <div className="card-body">
           <MonitorDetailsDisplay
             monitor={selectedMonitor}
             monitorEvents={selectedMonitorEvents} />
@@ -52,11 +52,11 @@ export function MonitorDetailsContainer() {
       </div>
     }
     {detailsUiMode === DetailsUiMode.Create &&
-      <div className="panel panel-primary">
-        <div className="panel-heading">
-          <h3 className="panel-title">Create New Monitor</h3>
+      <div className="card card-primary">
+        <div className="card-header">
+          <h3 className="card-title">Create New Monitor</h3>
         </div>
-        <div className="panel-body">
+        <div className="card-body">
           <MonitorDetailsForm
             monitor={newMonitorTemplate}
             onSubmit={handleNewMonitorSubmit}
@@ -65,11 +65,11 @@ export function MonitorDetailsContainer() {
       </div>
     }
     {detailsUiMode === DetailsUiMode.Edit && selectedMonitor !== null &&
-      <div className="panel panel-primary">
-        <div className="panel-heading">
-          <h3 className="panel-title">Edit Monitor</h3>
+      <div className="card card-primary">
+        <div className="card-header">
+          <h3 className="card-title">Edit Monitor</h3>
         </div>
-        <div className="panel-body">
+        <div className="card-body">
           <MonitorDetailsForm
             monitor={selectedMonitor}
             onSubmit={handleMonitorEditSubmit}
@@ -78,11 +78,11 @@ export function MonitorDetailsContainer() {
       </div>
     }
     {detailsUiMode === DetailsUiMode.Delete && selectedMonitor !== null &&
-      <div className="panel panel-danger">
-        <div className="panel-heading">
-          <h3 className="panel-title">Delete Monitor?</h3>
+      <div className="card card-danger">
+        <div className="card-header">
+          <h3 className="card-title">Delete Monitor?</h3>
         </div>
-        <div className="panel-body">
+        <div className="card-body">
           <MonitorDeleteForm
             monitor={selectedMonitor}
             onDelete={handleMonitorDeleteSubmit}
