@@ -1,8 +1,6 @@
 import React from 'react';
-import './App.css';
 import { ResetDemoDataLink } from './features/demo/ResetDemoDataLink';
 export function AppHeader() {
-    //@TODO only show demo reset button if in demo mode per ENV?
     return (
         <header>
             <a className="logoText" href="/">Solo Web Monitor</a>

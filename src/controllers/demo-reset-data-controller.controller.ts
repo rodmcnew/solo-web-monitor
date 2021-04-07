@@ -1,7 +1,7 @@
 
 import { inject, service } from '@loopback/core';
 
-import { post, Response, RestBindings, response } from '@loopback/rest';
+import { get, post, response, RestBindings, Response } from '@loopback/rest';
 import { DemoDataServiceService } from '../services';
 export class DemoResetDataControllerController {
   constructor(
@@ -12,7 +12,15 @@ export class DemoResetDataControllerController {
   @post('/api/demo/reset-database')
   @response(204)
   async demoResetData() {
-    //@TODO disable if not in demo mode?
     await this.demoDataServiceService.setDatabaseToDemoData();
+  }
+
+  /**
+   * This is used by the Github readme "try the demo" link.
+   */
+  @get('/demo/reset-database-and-redirect-home')
+  async demoResetDataAndRedirectHome(@inject(RestBindings.Http.RESPONSE) response: Response) {
+    await this.demoDataServiceService.setDatabaseToDemoData();
+    response.redirect('/');
   }
 }

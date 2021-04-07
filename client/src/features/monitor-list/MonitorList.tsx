@@ -1,6 +1,5 @@
 import { PlusIcon } from '@primer/octicons-react';
 import React, { useCallback } from 'react';
-import { Spinner } from 'react-bootstrap';
 import { Monitor } from '../../types';
 import { MonitorListLine } from './MonitorListLine';
 
@@ -28,9 +27,6 @@ export function MonitorList({
         <h3 className="card-title">Monitors</h3>
       </div>
       <div className="card-body">
-        {/* <Spinner animation="border" role="status"> //@TODO
-          <span className="sr-only">Loading...</span>
-        </Spinner> */}
         {monitors.length !== 0 &&
           <div>
             <button

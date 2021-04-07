@@ -9,11 +9,9 @@ interface Props {
 
 export function MonitorLatestEvents({ monitorEvents, maxEventCount }: Props) {
 
-  //@TODO does this useMemo make sense?
-  //@TODO should this logic be somewhere else?
   const statusChangedEvents = useMemo(
     () => monitorEvents.filter(monitorEvent => monitorEvent.statusChanged).slice(0, maxEventCount),
-    [monitorEvents]
+    [monitorEvents, maxEventCount]
   )
 
   return (

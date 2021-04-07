@@ -1,7 +1,7 @@
 import { injectable, /* inject, */ BindingScope } from '@loopback/core';
 import { repository } from '@loopback/repository';
-import { MonitorStatus } from '../models';
 import { MonitorEventRepository, MonitorRepository } from '../repositories';
+import { MonitorStatus } from '../types';
 
 @injectable({ scope: BindingScope.TRANSIENT })
 export class DemoDataServiceService {

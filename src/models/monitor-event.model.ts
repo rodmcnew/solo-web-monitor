@@ -1,5 +1,5 @@
 import {Entity, model, property} from '@loopback/repository';
-import {MonitorStatus} from './monitor.model';
+import { MonitorStatus } from '../types';
 
 @model()
 export class MonitorEvent extends Entity {

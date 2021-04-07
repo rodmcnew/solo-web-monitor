@@ -2,22 +2,24 @@ import React, { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { DetailsUiMode, Monitor, NewMonitor } from '../../types';
 import {
-  createMonitorThenShowItsDetails, deleteMonitorThenShowDetailsForAnyMonitor, getAllMonitors,
+  createMonitorThenShowItsDetails,
+  deleteMonitorThenShowDetailsForAnyMonitor,
   patchMonitor,
 } from '../monitor/monitorsSlice';
-import { getAllMonitorEvents, getDetailsUiMode, getSelectedMonitorId, showMonitorDetailsForAnyMonitor } from './monitorDetailsSlice';
+import {
+  getAllMonitorEvents,
+  getDetailsUiMode,
+  showMonitorDetailsForAnyMonitor,
+  getSelectedMonitor
+} from './monitorDetailsSlice';
 import { MonitorDeleteForm } from './MonitorDeleteForm';
 import { MonitorDetailsDisplay } from './MonitorDetailsDisplay';
 import { MonitorDetailsForm } from './MonitorDetailsForm';
-import { Spinner } from 'react-bootstrap';
 
 export function MonitorDetailsContainer() {
   const dispatch = useDispatch();
   const detailsUiMode = useSelector(getDetailsUiMode);
-  const selectedMonitorId = useSelector(getSelectedMonitorId);
-  const monitors = useSelector(getAllMonitors);
-  //@TODO move this to the slice file? or at least memoize?
-  const selectedMonitor = monitors.find(monitor => monitor.id === selectedMonitorId) || null;
+  const selectedMonitor = useSelector(getSelectedMonitor);
   const newMonitorTemplate = { name: '', url: '', interval: 1, status: 's' };
   const selectedMonitorEvents = useSelector(getAllMonitorEvents);
 

@@ -1,8 +1,7 @@
 import React, { useCallback } from 'react';
 import { demoApi } from './demoApi';
-//@TODO change from redirct to http post
-export function ResetDemoDataLink() {
 
+export function ResetDemoDataLink() {
     const handleResetClick = useCallback(() => {
         if (window.confirm('Reset all the data in the database to the initial demo values?')) {
             demoApi.resetDatabase().then(() => {
@@ -11,5 +10,5 @@ export function ResetDemoDataLink() {
         }
     }, [])
 
-    return <button className="btn btn-link" onClick={handleResetClick}>Reset datebase to demo data</button>;
+    return <button className="btn btn-link" onClick={handleResetClick}>Reset database to demo data</button>;
 }

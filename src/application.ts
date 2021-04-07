@@ -1,5 +1,6 @@
 import { BootMixin } from '@loopback/boot';
-import { ApplicationConfig } from '@loopback/core';
+import { ApplicationConfig, BindingKey, createBindingFromClass } from '@loopback/core';
+import { CronComponent } from '@loopback/cron';
 import { RepositoryMixin } from '@loopback/repository';
 import { RestApplication } from '@loopback/rest';
 import {
@@ -8,8 +9,9 @@ import {
 } from '@loopback/rest-explorer';
 import { ServiceMixin } from '@loopback/service-proxy';
 import path from 'path';
-import { start } from './daemon';
 import { MySequence } from './sequence';
+import { MonitorCheckerCronJob } from './cron/MonitorCheckerCron';
+import { DemoDataServiceService } from './services';
 export { ApplicationConfig };
 
 export class SoloWebMonitorApplication extends BootMixin(
@@ -30,6 +32,9 @@ export class SoloWebMonitorApplication extends BootMixin(
     });
     this.component(RestExplorerComponent);
 
+    this.component(CronComponent);
+    this.add(createBindingFromClass(MonitorCheckerCronJob));
+
     this.projectRoot = __dirname;
     // Customize @loopback/boot Booter Conventions here
     this.bootOptions = {
@@ -41,10 +46,12 @@ export class SoloWebMonitorApplication extends BootMixin(
       },
     };
 
-    //Start the daemon(s)
+    const DEMO_DATA_SERVICE = BindingKey.create<DemoDataServiceService>('DEMO_DATA_SERVICE');
+    this.bind(DEMO_DATA_SERVICE).toInjectable(DemoDataServiceService);
     setTimeout(() => {
-      start(this);
-    }, 1000)
+      // Reset the database to the demo data upon app boot
+      this.get<DemoDataServiceService>(DEMO_DATA_SERVICE).then(service => service.setDatabaseToDemoData());
+    }, 100)
   }
 }
 

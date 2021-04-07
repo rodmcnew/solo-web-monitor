@@ -3,8 +3,9 @@ import { injectable, /* inject, */ BindingScope } from '@loopback/core';
 import { repository } from '@loopback/repository';
 import axios from 'axios';
 import { APPLICATION_NAME } from '..';
-import { Monitor, MonitorStatus } from '../models';
+import { Monitor } from '../models';
 import { MonitorEventRepository, MonitorRepository } from '../repositories';
+import { MonitorStatus } from '../types';
 
 interface CheckResponse {
   latency: number;
@@ -12,9 +13,6 @@ interface CheckResponse {
   reason: string;
 }
 
-//@TODO send alerts
-//@TODO handle or set timeouts? Handle too much load and backed up?
-//@TODO add ability to double check with remote pinger
 @injectable({ scope: BindingScope.SINGLETON })
 export class MonitorCheckerService {
   constructor(

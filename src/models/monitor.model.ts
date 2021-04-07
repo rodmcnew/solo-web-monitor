@@ -1,11 +1,5 @@
 import {Entity, model, property} from '@loopback/repository';
-
-//@TODO move to types file?
-export enum MonitorStatus {
-  Up = 'u',
-  Down = 'd',
-  Starting = 's',
-}
+import { MonitorStatus } from '../types';
 @model()
 export class Monitor extends Entity {
   @property({

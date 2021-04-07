@@ -2,14 +2,14 @@ import { createAsyncThunk, createEntityAdapter, createSlice, PayloadAction } fro
 import { RootState } from '../../app/store';
 import { DetailsUiMode, Monitor, MonitorEvent } from '../../types';
 import { monitorEventsApi } from '../monitor-events/monitorEventsApi';
-import { fetchAllMonitors, getAllMonitors } from '../monitor/monitorsSlice';
+import { monitorSelectors, fetchAllMonitors, getAllMonitors } from '../monitor/monitorsSlice';
 export const monitorEventsAdapter = createEntityAdapter<MonitorEvent>({
     sortComparer: (a, b) => +new Date(b.date) - +new Date(a.date),
 })
 
 export const fetchMonitorsThenShowMonitorDetailsForAnyMonitor = createAsyncThunk(
     'monitors/showMonitorDetailsForAnyMonitorStatus',
-    async (none: undefined, thunkApi) => {//@TODO none: undefined?
+    async (returned: undefined, thunkApi) => {
         await thunkApi.dispatch(fetchAllMonitors());
         await thunkApi.dispatch(showMonitorDetailsForAnyMonitor());
     }
@@ -17,7 +17,7 @@ export const fetchMonitorsThenShowMonitorDetailsForAnyMonitor = createAsyncThunk
 
 export const showMonitorDetailsForAnyMonitor = createAsyncThunk(
     'monitors/showMonitorDetailsForAnyMonitorStatus',
-    async (none: undefined, thunkApi) => {//@TODO none: undefined?
+    async (returned: undefined, thunkApi) => {
         const allMonitors = getAllMonitors(thunkApi.getState() as RootState);
         const selectedMonitorId = getSelectedMonitorId(thunkApi.getState() as RootState);
         const selectedMonitor = allMonitors.find(monitor => monitor.id === selectedMonitorId)
@@ -33,8 +33,7 @@ export const showMonitorDetailsForAnyMonitor = createAsyncThunk(
 
 export const showMonitorDetails = createAsyncThunk(
     'monitors/fetchSelectedMonitorEventsStatus',
-    async (monitorId: string, thunkApi) => {//@TODO config: undefined?
-        // const selectedMonitorId = thunkApi.getState().monitorDetails.selectedMonitorId
+    async (monitorId: string) => {
         const monitorEvents = await monitorEventsApi.findByMonitorId(monitorId);
         return {
             monitorId,
@@ -44,33 +43,27 @@ export const showMonitorDetails = createAsyncThunk(
 );
 
 export const monitorDetailsSlice = createSlice({
-    name: 'monitorDetails',//@TODO rename to selectedMonitor or something?
+    name: 'monitorDetails',
     initialState: {
-        selectedMonitorId: null as string | null, //@TODO type better?
+        selectedMonitorId: null as string | null,
         selectedMonitorEvents: monitorEventsAdapter.getInitialState(),
-        // selectedMonitorEventsLoaded: false,
-        detailsUiMode: DetailsUiMode.View, //@TODO type better, use enum?
+        detailsUiMode: DetailsUiMode.View,
     },
     reducers: {
         showCreateMonitorForm: (state) => {
             state.detailsUiMode = DetailsUiMode.Create;
             state.selectedMonitorId = null;
-            state.selectedMonitorEvents = monitorEventsAdapter.getInitialState(); //@TODO call removeAll() instead
+            state.selectedMonitorEvents = monitorEventsAdapter.removeAll(state.selectedMonitorEvents);
         },
-        // showMonitorDetails: (state, action: PayloadAction<string | null>) => {
-        //     state.detailsUiMode = DetailsUiMode.View;
-        //     state.selectedMonitorId = action.payload;
-        //     state.selectedMonitorEvents = monitorEventsAdapter.getInitialState(); //@TODO call removeAll() instead
-        // },
         showMonitorEditForm: (state, action: PayloadAction<string>) => {
             state.detailsUiMode = DetailsUiMode.Edit;
             state.selectedMonitorId = action.payload;
-            state.selectedMonitorEvents = monitorEventsAdapter.getInitialState(); //@TODO call removeAll() instead
+            state.selectedMonitorEvents = monitorEventsAdapter.removeAll(state.selectedMonitorEvents);
         },
         showMonitorDeleteForm: (state, action: PayloadAction<string>) => {
             state.detailsUiMode = DetailsUiMode.Delete;
             state.selectedMonitorId = action.payload;
-            state.selectedMonitorEvents = monitorEventsAdapter.getInitialState(); //@TODO call removeAll() instead
+            state.selectedMonitorEvents = monitorEventsAdapter.removeAll(state.selectedMonitorEvents);
         },
     },
     extraReducers: builder => builder
@@ -80,7 +73,6 @@ export const monitorDetailsSlice = createSlice({
                 state.detailsUiMode = DetailsUiMode.View;
                 state.selectedMonitorId = action.payload.monitorId;
                 monitorEventsAdapter.setAll(state.selectedMonitorEvents, action.payload.monitorEvents);
-                // state.selectedMonitorEventsLoaded = true;
             })
 });
 
@@ -95,6 +87,9 @@ export const {
 export const getDetailsUiMode = (state: RootState) => state.monitorDetails.detailsUiMode;
 
 export const getSelectedMonitorId = (state: RootState): string | null => state.monitorDetails.selectedMonitorId;
+
+export const getSelectedMonitor = (state: RootState): Monitor | null =>
+    monitorSelectors.selectAll(state).find(monitor => monitor.id === state.monitorDetails.selectedMonitorId) || null;
 
 // Can create a set of memoized selectors based on the location of this entity state
 const monitorEventSelectors = monitorEventsAdapter.getSelectors<RootState>((state) => state.monitorDetails.selectedMonitorEvents);

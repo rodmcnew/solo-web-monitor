@@ -1,4 +1,4 @@
-export interface NewMonitor {//@TODO move to types folder or something
+export interface NewMonitor {
   name: string;
   url: string;
   interval: number;

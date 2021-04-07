@@ -1,6 +1,6 @@
 import {MonitorStatus} from './MonitorStatus';
 
-export interface Monitor {//@TODO move to types folder or something
+export interface Monitor {
   id: string;
   name: string;
   url: string;

@@ -1,6 +1,6 @@
-import {MonitorStatus} from './MonitorStatus';
+import { MonitorStatus } from './MonitorStatus';
 
-export interface MonitorEvent {//@TODO move to types folder or something
+export interface MonitorEvent {
   id: string;
   date: Date;
   status: MonitorStatus;

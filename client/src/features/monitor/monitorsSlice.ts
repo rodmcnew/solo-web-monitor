@@ -8,7 +8,6 @@ export const monitorsAdapter = createEntityAdapter<Monitor>({
   sortComparer: (a, b) => a.name.localeCompare(b.name),
 })
 
-//@TODO error handle?
 export const fetchAllMonitors = createAsyncThunk(
   'monitors/fetchAllStatus',
   async () => {
@@ -24,7 +23,6 @@ export const deleteMonitorThenShowDetailsForAnyMonitor = createAsyncThunk(
   }
 );
 
-//@TODO error handle?
 export const deleteMonitor = createAsyncThunk(
   'monitors/deleteStatus',
   async (id: string) => {
@@ -42,13 +40,11 @@ export const createMonitorThenShowItsDetails = createAsyncThunk(
   }
 );
 
-//@TODO error handle?
 export const patchMonitor = createAsyncThunk(
   'monitors/createStatus',
   async (monitor: Monitor, thunkApi) => {
-    //@TODO stop fetching all, just do the patch? or maybe use patched result from server?
-    await monitorApi.updateById(monitor.id, monitor);
-    await thunkApi.dispatch(fetchAllMonitors());
+    const patchedMonitor = await monitorApi.updateById(monitor.id, monitor);
+    thunkApi.dispatch(patchMonitorFulfilled(patchedMonitor));
     await thunkApi.dispatch(showMonitorDetails(monitor.id));
   }
 );
@@ -61,6 +57,9 @@ export const monitorsSlice = createSlice({
   reducers: {
     createMonitorFulfilled: (state, action: PayloadAction<Monitor>) => {
       monitorsAdapter.addOne(state, action.payload);
+    },
+    patchMonitorFulfilled: (state, action: PayloadAction<Monitor>) => {
+      monitorsAdapter.updateOne(state, { id: action.payload.id, changes: action.payload });
     }
   },
   extraReducers: builder => builder
@@ -77,10 +76,10 @@ export const monitorsSlice = createSlice({
       })
 });
 
-export const { createMonitorFulfilled } = monitorsSlice.actions;
+export const { createMonitorFulfilled, patchMonitorFulfilled } = monitorsSlice.actions;
 
 // Can create a set of memoized selectors based on the location of this entity state
-const monitorSelectors = monitorsAdapter.getSelectors<RootState>((state) => state.monitors);
+export const monitorSelectors = monitorsAdapter.getSelectors<RootState>((state) => state.monitors);
 
 // The function below is called a selector and allows us to select a value from
 // the state. Selectors can also be defined inline where they're used instead of

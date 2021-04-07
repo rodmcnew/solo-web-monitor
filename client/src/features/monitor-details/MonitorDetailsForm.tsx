@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { Monitor, NewMonitor } from '../../types';
+import { NewMonitor } from '../../types';
 import { monitorIntervals } from '../monitor/monitorIntervals';
 interface Props<MonitorType extends NewMonitor> {
     monitor: MonitorType;
@@ -7,9 +7,6 @@ interface Props<MonitorType extends NewMonitor> {
     onCancel: () => void;
 }
 
-//@TODO auto generate <option label="Every 10 minutes" value="10">Every 10 minutes</option>?
-//@TODO allow monitor interval and contacts edit
-//@TODO add a cancel button
 export function MonitorDetailsForm<MonitorType extends NewMonitor>({ monitor, onSubmit, onCancel }: Props<MonitorType>) {
     const [formData, setFormData] = useState(monitor);
 

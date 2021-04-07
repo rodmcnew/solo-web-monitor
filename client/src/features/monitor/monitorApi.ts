@@ -12,7 +12,7 @@ export const monitorApi = {
     findAll: async () => {
         return (await axios.get<Monitor[]>(HTTP_API_BASE_URL + '/api/monitors')).data;
     },
-    updateById: async (id: string, monitor: Partial<Monitor>) => {
-        await axios.patch(HTTP_API_BASE_URL + '/api/monitors/' + id, monitor);
+    updateById: async (id: string, monitor: Partial<Monitor>): Promise<Monitor> => {
+        return (await axios.patch<Monitor>(HTTP_API_BASE_URL + '/api/monitors/' + id, monitor)).data;
     }
 }

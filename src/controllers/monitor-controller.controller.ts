@@ -97,8 +97,13 @@ export class MonitorControllerController {
   }
 
   @patch('/api/monitors/{id}')
-  @response(204, {
+  @response(200, {
     description: 'Monitor PATCH success',
+    content: {
+      'application/json': {
+        schema: getModelSchemaRef(Monitor, { includeRelations: true }),
+      },
+    },
   })
   async updateById(
     @param.path.string('id') id: string,
@@ -110,7 +115,7 @@ export class MonitorControllerController {
       },
     })
     monitor: Monitor,
-  ): Promise<void> {
+  ): Promise<Monitor> {
     const whiteListedMonitorProps = {
       //Ensure the client cannot accidentally alter the status property
       id: monitor.id,
@@ -123,6 +128,7 @@ export class MonitorControllerController {
     await this.monitorCheckerService.checkMonitor(
       await this.monitorRepository.findById(monitor.id)
     );
+    return this.monitorRepository.findById(monitor.id);
   }
 
   @del('/api/monitors/{id}')
