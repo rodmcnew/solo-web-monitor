@@ -4,6 +4,7 @@
 - show something if there is an error communicating with server
 - App becomes unresponsive and you can multi submit the create form if creating https://bun.com
 - add some automated tests on client and server
+- remove any commented out code
 
 #### SHOULD:
 - get rid of the setTimeout in server app.ts
