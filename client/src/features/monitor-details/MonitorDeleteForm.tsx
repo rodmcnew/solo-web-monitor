@@ -23,9 +23,10 @@ export function MonitorDeleteForm({ monitor, onCancel, onDelete }: Props) {
     return (
         <div>
             <MonitorBasicDetails monitor={monitor} />
-            <br />
-            <button type="button" className="btn btn-secondary" onClick={onCancel}>Cancel</button>
-            <button type="submit" className="btn btn-danger float-right" onClick={handleDelete} ref={deleteSubmitButton}>Delete Monitor</button>
+            <div className="mt-3">
+                <button type="button" className="btn btn-secondary" onClick={onCancel}>Cancel</button>
+                <button type="submit" className="btn btn-danger float-right" onClick={handleDelete} ref={deleteSubmitButton}>Delete Monitor</button>
+            </div>
         </div>
     )
 }

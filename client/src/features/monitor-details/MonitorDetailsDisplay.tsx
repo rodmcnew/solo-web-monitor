@@ -12,10 +12,11 @@ export function MonitorDetailsDisplay({ monitor, monitorEvents }: Props) {
     return (
         <div>
             <MonitorBasicDetails monitor={monitor} />
-            <br />
-            <h4 className="d-inline">Response Time</h4> (ms)
+            <div className="mt-3">
+                <h4 className="d-inline">Response Time</h4> (ms)
+            </div>
             <MonitorPingChart monitorEvents={monitorEvents} />
-            <h4>Latest Events</h4>
+            <h4 className="mt-3">Latest Events</h4>
             <MonitorLatestEvents monitorEvents={monitorEvents} />
         </div>
     )

@@ -40,8 +40,7 @@ export function MonitorList({
             &nbsp;
             Create new monitor
         </button>
-            <br /><br />
-            <table className="table table-hover">
+            <table className="table table-hover mt-3">
               <tbody>
                 {monitors.map((monitor) =>
                   <MonitorListLine
