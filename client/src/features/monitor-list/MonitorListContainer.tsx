@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  getAllMonitors,
+  getAllMonitors, getMonitorListLoadingStatus,
 } from '../monitor/monitorsSlice';
 import { MonitorList } from './MonitorList';
 import { getSelectedMonitorId, showMonitorDeleteForm, showMonitorDetails } from '../monitor-details/monitorDetailsSlice'
@@ -12,6 +12,7 @@ export function MonitorListContainer() {
   const monitors = useSelector(getAllMonitors);
   const dispatch = useDispatch();
   const selectedMonitorId = useSelector(getSelectedMonitorId);
+  const monitorListLoadingStatus = useSelector(getMonitorListLoadingStatus)
 
   const handleDeleteMonitor = useCallback((monitorId: string) => {
     dispatch(showMonitorDeleteForm(monitorId));
@@ -36,5 +37,6 @@ export function MonitorListContainer() {
     onSelectMonitor={handleSelectMonitor}
     onCreateMonitor={handleCreateMonitorClick}
     selectedMonitorId={selectedMonitorId}
+    loadingStatus={monitorListLoadingStatus}
   />
 }

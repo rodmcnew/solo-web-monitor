@@ -35,3 +35,19 @@ h2 a:focus {
 [role="button"] {
   cursor: pointer;
 }
+
+.react-icon-align {
+  vertical-align: top;
+  margin-top: 4px;
+}
+
+.MonitorListLine > td {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.MonitorListLine-buttons {
+  margin-left: auto;
+  order: 2;
+}

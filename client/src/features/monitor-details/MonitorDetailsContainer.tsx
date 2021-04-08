@@ -4,13 +4,15 @@ import { DetailsUiMode, Monitor, NewMonitor } from '../../types';
 import {
   createMonitorThenShowItsDetails,
   deleteMonitorThenShowDetailsForAnyMonitor,
-  patchMonitor,
+  getMutatingMonitorStatus,
+  patchMonitorThenShowItsDetails,
 } from '../monitor/monitorsSlice';
 import {
   getAllMonitorEvents,
   getDetailsUiMode,
   showMonitorDetailsForAnyMonitor,
-  getSelectedMonitor
+  getSelectedMonitor,
+  getMonitorDetailsOperationStatus
 } from './monitorDetailsSlice';
 import { MonitorDeleteForm } from './MonitorDeleteForm';
 import { MonitorDetailsDisplay } from './MonitorDetailsDisplay';
@@ -22,13 +24,15 @@ export function MonitorDetailsContainer() {
   const selectedMonitor = useSelector(getSelectedMonitor);
   const newMonitorTemplate = { name: '', url: '', interval: 1, status: 's' };
   const selectedMonitorEvents = useSelector(getAllMonitorEvents);
+  const monitorDetailsLoadingStatus = useSelector(getMonitorDetailsOperationStatus);
+  const mutatingMonitorStatus = useSelector(getMutatingMonitorStatus);
 
   const handleNewMonitorSubmit = useCallback((monitor: NewMonitor) => {
     dispatch(createMonitorThenShowItsDetails(monitor))
   }, [dispatch])
 
   const handleMonitorEditSubmit = useCallback((monitor: Monitor) => {
-    dispatch(patchMonitor(monitor));
+    dispatch(patchMonitorThenShowItsDetails(monitor));
   }, [dispatch])
 
   const handleMonitorDeleteSubmit = useCallback((monitorId: string) => {
@@ -40,7 +44,7 @@ export function MonitorDetailsContainer() {
   }, [dispatch])
 
   return <div>
-    {detailsUiMode === DetailsUiMode.View && selectedMonitor !== null &&
+    {detailsUiMode === DetailsUiMode.View &&
       <div className="card card-primary">
         <div className="card-header">
           <h3 className="card-title">Selected Monitor</h3>
@@ -48,7 +52,8 @@ export function MonitorDetailsContainer() {
         <div className="card-body">
           <MonitorDetailsDisplay
             monitor={selectedMonitor}
-            monitorEvents={selectedMonitorEvents} />
+            monitorEvents={selectedMonitorEvents}
+            loadingStatus={monitorDetailsLoadingStatus} />
         </div>
       </div>
     }
@@ -61,7 +66,8 @@ export function MonitorDetailsContainer() {
           <MonitorDetailsForm<NewMonitor>
             monitor={newMonitorTemplate}
             onSubmit={handleNewMonitorSubmit}
-            onCancel={handleFormCancel} />
+            onCancel={handleFormCancel}
+            operationStatus={mutatingMonitorStatus} />
         </div>
       </div>
     }
@@ -74,7 +80,8 @@ export function MonitorDetailsContainer() {
           <MonitorDetailsForm<Monitor>
             monitor={selectedMonitor}
             onSubmit={handleMonitorEditSubmit}
-            onCancel={handleFormCancel} />
+            onCancel={handleFormCancel}
+            operationStatus={mutatingMonitorStatus} />
         </div>
       </div>
     }
@@ -87,7 +94,8 @@ export function MonitorDetailsContainer() {
           <MonitorDeleteForm
             monitor={selectedMonitor}
             onDelete={handleMonitorDeleteSubmit}
-            onCancel={handleFormCancel} />
+            onCancel={handleFormCancel}
+            operationStatus={mutatingMonitorStatus} />
         </div>
       </div>
     }

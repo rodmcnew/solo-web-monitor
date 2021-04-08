@@ -1,6 +1,7 @@
 import { createAsyncThunk, createEntityAdapter, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../../app/store';
 import { DetailsUiMode, Monitor, MonitorEvent } from '../../types';
+import { OperationStatus } from '../../types/OperationStatus';
 import { monitorEventsApi } from '../monitor-events/monitorEventsApi';
 import { monitorSelectors, fetchAllMonitors, getAllMonitors } from '../monitor/monitorsSlice';
 export const monitorEventsAdapter = createEntityAdapter<MonitorEvent>({
@@ -48,6 +49,7 @@ export const monitorDetailsSlice = createSlice({
         selectedMonitorId: null as string | null,
         selectedMonitorEvents: monitorEventsAdapter.getInitialState(),
         detailsUiMode: DetailsUiMode.View,
+        operationStatus: OperationStatus.Loading,
     },
     reducers: {
         showCreateMonitorForm: (state) => {
@@ -68,12 +70,27 @@ export const monitorDetailsSlice = createSlice({
     },
     extraReducers: builder => builder
         .addCase(
+            showMonitorDetails.pending,
+            (state, action) => {
+                state.selectedMonitorId = action.meta.arg;
+                state.operationStatus = OperationStatus.Loading
+            })
+        .addCase(
             showMonitorDetails.fulfilled,
             (state, action: PayloadAction<{ monitorId: string, monitorEvents: MonitorEvent[] }>) => {
-                state.detailsUiMode = DetailsUiMode.View;
-                state.selectedMonitorId = action.payload.monitorId;
-                monitorEventsAdapter.setAll(state.selectedMonitorEvents, action.payload.monitorEvents);
+                // Only act if the ID matches. This avoids issues if the user selects another before the first is done loading.
+                if (state.selectedMonitorId === action.payload.monitorId) {
+                    state.detailsUiMode = DetailsUiMode.View;
+                    monitorEventsAdapter.setAll(state.selectedMonitorEvents, action.payload.monitorEvents);
+                    state.operationStatus = OperationStatus.Done
+                }
             })
+        .addCase(
+            showMonitorDetails.rejected,
+            (state) => {
+                state.operationStatus = OperationStatus.Error
+            }
+        )
 });
 
 export const {
@@ -101,5 +118,6 @@ export const getAllMonitorEvents = (state: RootState) => monitorEventSelectors.s
 
 // export const getSelectedMonitorEventsLoaded = (state: RootState) => state.monitorDetails.selectedMonitorEventsLoaded;
 
+export const getMonitorDetailsOperationStatus = (state: RootState) => state.monitorDetails.operationStatus;
 
 export const monitorDetailsReducer = monitorDetailsSlice.reducer;

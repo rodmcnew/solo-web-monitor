@@ -1,13 +1,17 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { NewMonitor } from '../../types';
+import { OperationStatus } from '../../types/OperationStatus';
+import { PanelBodyNetworkError } from '../loading-and-errors/PanelBodyNetworkError';
+import { PanelBodySpinner } from '../loading-and-errors/PanelBodySpinner';
 import { monitorIntervals } from '../monitor/monitorIntervals';
 interface Props<MonitorType extends NewMonitor> {
     monitor: MonitorType;
     onSubmit: (monitor: MonitorType) => void;
     onCancel: () => void;
+    operationStatus: OperationStatus;
 }
 
-export function MonitorDetailsForm<MonitorType extends NewMonitor>({ monitor, onSubmit, onCancel }: Props<MonitorType>) {
+export function MonitorDetailsForm<MonitorType extends NewMonitor>({ monitor, onSubmit, onCancel, operationStatus }: Props<MonitorType>) {
     const [formData, setFormData] = useState(monitor);
 
     // If the monitor above us changes, change our form data to reflect this.
@@ -51,38 +55,44 @@ export function MonitorDetailsForm<MonitorType extends NewMonitor>({ monitor, on
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [monitor])
 
-    return (
-        <form onSubmit={handleSubmit}>
-            <div className="form-group">
-                <label htmlFor="name">Name</label>
-                <input
-                    ref={nameInputElement}
-                    onChange={handleNameChange}
-                    value={formData.name}
-                    type="text"
-                    className="form-control" id="name" />
-            </div>
-            <div className="form-group">
-                <label htmlFor="url">URL</label>
-                <input
-                    onChange={handleUrlChange}
-                    value={formData.url}
-                    type="text"
-                    className="form-control" id="url" />
-            </div>
-            <div className="form-group">
-                <label htmlFor="interval">Monitoring Interval</label>
+    return <>
+        {operationStatus === OperationStatus.Loading && <PanelBodySpinner />}
+        {operationStatus === OperationStatus.Error && <PanelBodyNetworkError />}
+        {operationStatus === OperationStatus.Done &&
+            <>
+                <form onSubmit={handleSubmit}>
+                    <div className="form-group">
+                        <label htmlFor="name">Name</label>
+                        <input
+                            ref={nameInputElement}
+                            onChange={handleNameChange}
+                            value={formData.name}
+                            type="text"
+                            className="form-control" id="name" />
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="url">URL</label>
+                        <input
+                            onChange={handleUrlChange}
+                            value={formData.url}
+                            type="text"
+                            className="form-control" id="url" />
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="interval">Monitoring Interval</label>
                     &nbsp;&nbsp;
                     <select
-                    value={formData.interval}
-                    onChange={handleIntervalChange}
-                >
-                    {monitorIntervalSelectOptions}
-                </select>
-            </div>
-            <button type="button" className="btn btn-secondary" onClick={onCancel}>Cancel</button>
-            <button type="submit" className="btn btn-primary float-right">Save</button>
-        </form >
-    )
+                            value={formData.interval}
+                            onChange={handleIntervalChange}
+                        >
+                            {monitorIntervalSelectOptions}
+                        </select>
+                    </div>
+                    <button type="button" className="btn btn-secondary" onClick={onCancel}>Cancel</button>
+                    <button type="submit" className="btn btn-primary float-right">Save</button>
+                </form >
+            </>
+        }
+    </>
 }
 

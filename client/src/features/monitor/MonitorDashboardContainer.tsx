@@ -6,10 +6,10 @@ import {
 } from '../monitor-details/monitorDetailsSlice';
 import { MonitorDashboard } from './MonitorDashboard';
 
-/**
- * How often the client re-fetches the displayed data from the server
- */
-const DATA_REFRESH_INTERVAL_MS = 60 * 1000;
+// /**
+//  * How often the client re-fetches the displayed data from the server
+//  */
+// const DATA_REFRESH_INTERVAL_MS = 60 * 1000;
 
 export function MonitorDashboardContainer() {
   const dispatch = useDispatch();
@@ -19,10 +19,10 @@ export function MonitorDashboardContainer() {
     dispatch(fetchMonitorsThenShowMonitorDetailsForAnyMonitor());
   }, [dispatch]);
 
-  // Setup an intervale to refresh the data on the screen every so often
-  useInterval(() => {
-    dispatch(fetchMonitorsThenShowMonitorDetailsForAnyMonitor());
-  }, DATA_REFRESH_INTERVAL_MS)
+  // // Setup an intervale to refresh the data on the screen every so often
+  // useInterval(() => {
+  //   dispatch(fetchMonitorsThenShowMonitorDetailsForAnyMonitor());
+  // }, DATA_REFRESH_INTERVAL_MS)
 
   return <MonitorDashboard />
 }

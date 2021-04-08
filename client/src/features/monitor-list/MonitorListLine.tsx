@@ -1,9 +1,8 @@
-import { CheckIcon, FlameIcon, PencilIcon, QuestionIcon, TrashIcon } from '@primer/octicons-react';
 import React, { useCallback } from 'react';
 import { Monitor } from '../../types';
 import { MonitorStatus } from '../../types/MonitorStatus';
 import { getMonitorStatusLabel } from '../monitor/monitorStatusDescriptions';
-
+import { FaCheck, FaExclamation, FaPen, FaQuestion, FaTrash } from "react-icons/fa";
 interface Props {
   monitor: Monitor;
   onDeleteMonitor: (monitorId: string) => void;
@@ -37,29 +36,33 @@ export function MonitorListLine({
     <tr
       role="button"
       onClick={handleSelectMonitorClick}
-      className={monitor.id === selectedMonitorId ? 'table-active' : ''}
+      className={monitor.id === selectedMonitorId ? 'MonitorListLine table-active' : 'MonitorListLine'}
     >
       <td>
-        {monitor.status === MonitorStatus.Up &&
-          <span title={statusTooltipText} ><CheckIcon className="text-success" /></span>
-        }
-        {monitor.status === MonitorStatus.Down &&
-          <span title={statusTooltipText} ><FlameIcon className="text-danger" /></span>
-        }
-        {monitor.status === MonitorStatus.Starting &&
-          <span title={statusTooltipText} ><QuestionIcon className="text-info" /></span>
-        }
+        <div className="MonitorListLine-label">
+          {monitor.status === MonitorStatus.Up &&
+            <FaCheck title={statusTooltipText} className="text-success" />
+          }
+          {monitor.status === MonitorStatus.Down &&
+            <FaExclamation title={statusTooltipText} className="text-danger" />
+          }
+          {monitor.status === MonitorStatus.Starting &&
+            <FaQuestion title={statusTooltipText} className="text-info" />
+          }
         &nbsp;&nbsp;
         <span>{monitor.name}</span>
-        <button onClick={handleDeleteMonitorClick} title="Delete Monitor"
-          className="btn btn-secondary btn-xs float-right">
-          <TrashIcon />
-        </button>
-        <span className="float-right">&nbsp;</span>
-        <button onClick={handleEditMonitorClick} title="Edit Monitor"
-          className="btn btn-secondary btn-xs float-right">
-          <PencilIcon />
-        </button>
+        </div>
+        <div className="MonitorListLine-buttons">
+          <button onClick={handleDeleteMonitorClick} title="Delete Monitor"
+            className="btn btn-secondary btn-xs float-right">
+            <FaTrash />
+          </button>
+          <span className="float-right">&nbsp;</span>
+          <button onClick={handleEditMonitorClick} title="Edit Monitor"
+            className="btn btn-secondary btn-xs float-right">
+            <FaPen />
+          </button>
+        </div>
       </td>
     </tr>
   );
