@@ -20,7 +20,7 @@ export function MonitorLatestEvents({ monitorEvents, maxEventCount }: Props) {
         <tr>
           <th>Status</th>
           <th>Date</th>
-          <th>Reason</th>
+          <th className="d-none d-md-table-cell">Reason</th>
         </tr>
         {statusChangedEvents.map((event) =>
           <tr key={event.id}>
@@ -28,7 +28,7 @@ export function MonitorLatestEvents({ monitorEvents, maxEventCount }: Props) {
               {monitorStatusDescriptions[event.status]}
             </td>
             <td>{event.date}</td>
-            <td>{event.reason}</td>
+            <td className="d-none d-md-table-cell">{event.reason}</td>
           </tr>
         )}
       </tbody>

@@ -4,7 +4,7 @@ export function AppHeader() {
     return (
         <header>
             <a className="logoText" href="/">Solo Web Monitor</a>
-            <span className="float-right">
+            <span className="float-md-right">
                 <ResetDemoDataLink />
                 &nbsp;|&nbsp;
                 <a title="View the docs on Github."
