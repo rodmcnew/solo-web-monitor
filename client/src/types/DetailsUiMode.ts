@@ -1,6 +1,6 @@
 export enum DetailsUiMode {
-  View = 'view',
-  Edit = 'edit',
-  Create = 'create',
-  Delete = 'delete'
+  View = 'VIEW',
+  Edit = 'EDIT',
+  Create = 'CREATE',
+  Delete = 'DELETE'
 }

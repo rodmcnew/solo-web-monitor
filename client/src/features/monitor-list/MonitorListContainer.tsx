@@ -4,8 +4,13 @@ import {
   getAllMonitors, getMonitorListLoadingStatus,
 } from '../monitor/monitorsSlice';
 import { MonitorList } from './MonitorList';
-import { getSelectedMonitorId, showMonitorDeleteForm, showMonitorDetails } from '../monitor-details/monitorDetailsSlice'
-import { showCreateMonitorForm, showMonitorEditForm } from '../monitor-details/monitorDetailsSlice';
+import {
+  getSelectedMonitorId,
+  showMonitorDeleteForm,
+  showMonitorDetails,
+  showCreateMonitorForm,
+  showMonitorEditForm
+} from '../monitor/monitorsSlice'
 
 export function MonitorListContainer() {
 

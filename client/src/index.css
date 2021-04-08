@@ -1,10 +1,5 @@
 @import "bootstrap";
 
-body {
-  max-width: 1000px;
-  margin: 0 auto;
-}
-
 header {
   margin: 15px 0;
 }
@@ -50,4 +45,8 @@ h2 a:focus {
 .MonitorListLine-buttons {
   margin-left: auto;
   order: 2;
+}
+
+.card {
+  margin-bottom: 15px;
 }

@@ -1,10 +1,8 @@
 import { Action, configureStore, ThunkAction } from '@reduxjs/toolkit';
-import { monitorDetailsReducer } from '../features/monitor-details/monitorDetailsSlice';
 import { monitorsReducer } from '../features/monitor/monitorsSlice';
 export const store = configureStore({
   reducer: {
     monitors: monitorsReducer,
-    monitorDetails: monitorDetailsReducer,
   },
 });
 

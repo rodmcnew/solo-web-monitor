@@ -3,6 +3,7 @@ import { Monitor } from '../../types';
 import { MonitorStatus } from '../../types/MonitorStatus';
 import { getMonitorStatusLabel } from '../monitor/monitorStatusDescriptions';
 import { FaCheck, FaExclamation, FaPen, FaQuestion, FaTrash } from "react-icons/fa";
+import './MonitorListLine.css';
 interface Props {
   monitor: Monitor;
   onDeleteMonitor: (monitorId: string) => void;

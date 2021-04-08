@@ -2,18 +2,16 @@ import React, { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { DetailsUiMode, Monitor, NewMonitor } from '../../types';
 import {
-  createMonitorThenShowItsDetails,
-  deleteMonitorThenShowDetailsForAnyMonitor,
   getMutatingMonitorStatus,
-  patchMonitorThenShowItsDetails,
-} from '../monitor/monitorsSlice';
-import {
   getAllMonitorEvents,
   getDetailsUiMode,
   showMonitorDetailsForAnyMonitor,
   getSelectedMonitor,
-  getMonitorDetailsOperationStatus
-} from './monitorDetailsSlice';
+  getMonitorDetailsLoadingStatus,
+  createMonitorThenShowItsDetails,
+  deleteMonitorThenShowDetailsForAnyMonitor,
+  patchMonitorThenShowItsDetails
+} from '../monitor/monitorsSlice';
 import { MonitorDeleteForm } from './MonitorDeleteForm';
 import { MonitorDetailsDisplay } from './MonitorDetailsDisplay';
 import { MonitorDetailsForm } from './MonitorDetailsForm';
@@ -24,7 +22,7 @@ export function MonitorDetailsContainer() {
   const selectedMonitor = useSelector(getSelectedMonitor);
   const newMonitorTemplate = { name: '', url: '', interval: 1, status: 's' };
   const selectedMonitorEvents = useSelector(getAllMonitorEvents);
-  const monitorDetailsLoadingStatus = useSelector(getMonitorDetailsOperationStatus);
+  const monitorDetailsLoadingStatus = useSelector(getMonitorDetailsLoadingStatus);
   const mutatingMonitorStatus = useSelector(getMutatingMonitorStatus);
 
   const handleNewMonitorSubmit = useCallback((monitor: NewMonitor) => {
