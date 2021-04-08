@@ -1,4 +1,4 @@
-import { injectable, /* inject, */ BindingScope } from '@loopback/core';
+import { injectable, BindingScope } from '@loopback/core';
 
 import { repository } from '@loopback/repository';
 import axios from 'axios';

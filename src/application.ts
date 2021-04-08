@@ -9,9 +9,9 @@ import {
 } from '@loopback/rest-explorer';
 import { ServiceMixin } from '@loopback/service-proxy';
 import path from 'path';
+import { DatabaseCleanerCronJob } from './cron/DatabaseCleanerCronJob';
+import { MonitorCheckerCronJob } from './cron/MonitorCheckerCronJob';
 import { MySequence } from './sequence';
-import { MonitorCheckerCronJob } from './cron/MonitorCheckerCron';
-import { DemoDataServiceService } from './services';
 export { ApplicationConfig };
 
 export class SoloWebMonitorApplication extends BootMixin(
@@ -34,6 +34,7 @@ export class SoloWebMonitorApplication extends BootMixin(
 
     this.component(CronComponent);
     this.add(createBindingFromClass(MonitorCheckerCronJob));
+    this.add(createBindingFromClass(DatabaseCleanerCronJob));
 
     this.projectRoot = __dirname;
     // Customize @loopback/boot Booter Conventions here
