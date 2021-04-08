@@ -3,6 +3,7 @@
 #### SHOULD:
 - add some automated tests on client and server
 - add server side validation of monitor props such as interval, url, name, (and give the client a way to understand this?, or validate on client too?)
+
 #### COULD:
 - imports should be all " or all '
 - consider that single slice file is huge (it was combined from two files because of circular dependency issues)
