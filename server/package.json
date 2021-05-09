@@ -12,14 +12,30 @@
     "node": ">=10.16"
   },
   "scripts": {
-    "start": "cd server && node .",
-    "start:dev:server": "cd server && node_modules/.bin/nodemon",
-    "start:dev:client": "cd client && PORT=3001 npm start",
-    "postinstall": "(cd client && npm i --production) && (cd server && npm i)",
-    "build": "(cd client && npm run build) && (cd server && npm run build)",
-    "delete-node-modules": "rm -Rf client/node_modules && rm -Rf server/node_modules"
+    "build": "lb-tsc",
+    "build:watch": "lb-tsc --watch",
+    "lint": "npm run eslint && npm run prettier:check",
+    "lint:fix": "npm run eslint:fix && npm run prettier:fix",
+    "prettier:cli": "lb-prettier \"**/*.ts\" \"**/*.js\"",
+    "prettier:check": "npm run prettier:cli -- -l",
+    "prettier:fix": "npm run prettier:cli -- --write",
+    "eslint": "lb-eslint --report-unused-disable-directives .",
+    "eslint:fix": "npm run eslint -- --fix",
+    "pretest": "npm run rebuild",
+    "test": "lb-mocha --allow-console-logs \"dist/__tests__\"",
+    "posttest": "npm run lint",
+    "test:dev": "lb-mocha --allow-console-logs dist/__tests__/**/*.js && npm run posttest",
+    "docker:build": "docker build -t SoloWebMonitor .",
+    "docker:run": "docker run -p 3000:3000 -d SoloWebMonitor",
+    "premigrate": "npm run build",
+    "migrate": "node ./dist/migrate",
+    "preopenapi-spec": "npm run build",
+    "openapi-spec": "node ./dist/openapi-spec",
+    "rebuild": "npm run clean && npm run build",
+    "clean": "lb-clean dist *.tsbuildinfo .eslintcache",
+    "start": "node ."
   },
-  "scripts-TEMP-DISABLED": {
+  "scripts-TEMP-DISABLED-BECAUSE-OF-HEROKU?": {
     "start": "node -r source-map-support/register .",
     "prestart": "npm run rebuild"
   },

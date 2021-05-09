@@ -17,11 +17,11 @@ This app was built to explore and demonstrate optimal user experience and code p
 # Clone the source code
 git clone git@github.com:rodmcnew/solo-web-monitor.git
 
-# Cd into the project
+# Change directory into the project
 cd solo-web-monitor
 
-# Run the build
-npm run build:standalone
+# Install dependencies and run the build
+npm i && npm run build
 ```
 
 # Run

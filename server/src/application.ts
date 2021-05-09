@@ -24,7 +24,7 @@ export class SoloWebMonitorApplication extends BootMixin(
     this.sequence(MySequence);
 
     // Set up home page
-    this.static('/', path.join(__dirname, '../client/build'));
+    this.static('/', path.join(__dirname, '../../client/build'));
 
     // Customize @loopback/rest-explorer configuration here
     this.configure(RestExplorerBindings.COMPONENT).to({
