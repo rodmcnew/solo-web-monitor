@@ -1,11 +1,12 @@
-import {inject, lifeCycleObserver, LifeCycleObserver} from '@loopback/core';
-import {juggler} from '@loopback/repository';
+import { inject, lifeCycleObserver, LifeCycleObserver } from '@loopback/core';
+import { juggler } from '@loopback/repository';
+import path from 'path';
 
 const config = {
   name: 'database',
   connector: 'memory',
   localStorage: '',
-  file: 'data/database.json'
+  file: path.join(__dirname, '../../data/database.json')
 };
 
 // Observe application's life cycle to disconnect the datasource when
@@ -19,7 +20,7 @@ export class DatabaseDataSource extends juggler.DataSource
   static readonly defaultConfig = config;
 
   constructor(
-    @inject('datasources.config.database', {optional: true})
+    @inject('datasources.config.database', { optional: true })
     dsConfig: object = config,
   ) {
     super(dsConfig);
