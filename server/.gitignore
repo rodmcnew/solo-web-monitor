@@ -69,3 +69,5 @@ typings/
 
 #IDE
 .vscode
+
+!.gitkeep
