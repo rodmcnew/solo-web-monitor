@@ -1,7 +1,7 @@
 import { inject, lifeCycleObserver, LifeCycleObserver } from '@loopback/core';
 import { juggler } from '@loopback/repository';
 import path from 'path';
-console.log('rodpath', path.join(__dirname, '../../data/database.json'));
+
 const config = {
   name: 'database',
   connector: 'memory',
