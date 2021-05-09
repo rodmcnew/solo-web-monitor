@@ -9,7 +9,8 @@
     "dev:server": "cd server && npm run start:dev",
     "dev:client": "cd client && PORT=3001 npm start",
     "postinstall": "(cd client && npm i --production) && (cd server && npm i)",
-    "build": "(cd client && npm run build) && (cd server && npm run rebuild)",
+    "build": "(cd client && npm run build) && (cd server && npm run build)",
+    "rebuild": "(cd client && npm run build) && (cd server && npm run rebuild)",
     "clean:full": "rm -Rf client/node_modules && rm -Rf server/node_modules && rm -Rf client/build && rm -Rf server/dist",
     "push": "git add . && git commit -m 'auto push' && git push origin main"
   },
