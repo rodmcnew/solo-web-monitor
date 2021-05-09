@@ -33,11 +33,8 @@
     "openapi-spec": "node ./dist/openapi-spec",
     "rebuild": "npm run clean && npm run build",
     "clean": "lb-clean dist *.tsbuildinfo .eslintcache",
-    "start": "node .",
-    "start:dev": "node_modules/.bin/nodemon"
-  },
-  "scripts-TEMP-DISABLED-BECAUSE-OF-HEROKU?": {
     "start": "node -r source-map-support/register .",
+    "start:dev": "node_modules/.bin/nodemon",
     "prestart": "npm run rebuild"
   },
   "repository": {
