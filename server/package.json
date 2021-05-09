@@ -1,5 +1,5 @@
 {
-  "name": "solo-web-monitor",
+  "name": "solo-web-monitor-server",
   "version": "0.0.1",
   "description": "open source web monitor",
   "keywords": [
@@ -33,7 +33,8 @@
     "openapi-spec": "node ./dist/openapi-spec",
     "rebuild": "npm run clean && npm run build",
     "clean": "lb-clean dist *.tsbuildinfo .eslintcache",
-    "start": "node ."
+    "start": "node .",
+    "start:dev": "node_modules/.bin/nodemon"
   },
   "scripts-TEMP-DISABLED-BECAUSE-OF-HEROKU?": {
     "start": "node -r source-map-support/register .",
