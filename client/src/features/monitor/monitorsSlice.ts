@@ -1,16 +1,12 @@
 import { createAsyncThunk, createEntityAdapter, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../../app/store';
-import { DetailsUiMode, Monitor, MonitorEvent, NewMonitor } from '../../types';
+import { DetailsUiMode, Monitor, NewMonitor } from '../../types';
 import { OperationStatus } from '../../types/OperationStatus';
 import { monitorApi } from './monitorApi';
-import { monitorEventsApi } from '../monitor-events/monitorEventsApi';
+import { fetchSelectedMonitorEventsIfNeeded } from '../monitor-events/selectedMonitorEventsSlice';
 
 export const monitorsAdapter = createEntityAdapter<Monitor>({
   sortComparer: (a, b) => a.name.localeCompare(b.name),
-})
-
-export const monitorEventsAdapter = createEntityAdapter<MonitorEvent>({
-  sortComparer: (a, b) => +new Date(b.date) - +new Date(a.date),
 })
 
 export const fetchAllMonitors = createAsyncThunk(
@@ -45,12 +41,11 @@ export const showMonitorDetailsForAnyMonitor = createAsyncThunk(
 );
 
 export const showMonitorDetails = createAsyncThunk(
-  'monitors/fetchSelectedMonitorEventsStatus',
-  async (monitorId: string) => {
-    const monitorEvents = await monitorEventsApi.findByMonitorId(monitorId);
+  'monitors/showMonitorDetailsStatus',
+  async (monitorId: string, thunkApi) => {
+    thunkApi.dispatch(fetchSelectedMonitorEventsIfNeeded(monitorId));
     return {
-      monitorId,
-      monitorEvents: monitorEvents
+      monitorId
     }
   }
 );
@@ -93,7 +88,6 @@ export const monitorsSlice = createSlice({
     mutatingMonitorStatus: OperationStatus.Done,
     mutatingMonitorId: null as string | null,
     selectedMonitorId: null as string | null,
-    selectedMonitorEvents: monitorEventsAdapter.getInitialState(),
     detailsUiMode: DetailsUiMode.View,
     detailsLoadStatus: OperationStatus.Loading,
   },
@@ -101,17 +95,14 @@ export const monitorsSlice = createSlice({
     showCreateMonitorForm: (state) => {
       state.detailsUiMode = DetailsUiMode.Create;
       state.selectedMonitorId = null;
-      state.selectedMonitorEvents = monitorEventsAdapter.removeAll(state.selectedMonitorEvents);
     },
     showMonitorEditForm: (state, action: PayloadAction<string>) => {
       state.detailsUiMode = DetailsUiMode.Edit;
       state.selectedMonitorId = action.payload;
-      state.selectedMonitorEvents = monitorEventsAdapter.removeAll(state.selectedMonitorEvents);
     },
     showMonitorDeleteForm: (state, action: PayloadAction<string>) => {
       state.detailsUiMode = DetailsUiMode.Delete;
       state.selectedMonitorId = action.payload;
-      state.selectedMonitorEvents = monitorEventsAdapter.removeAll(state.selectedMonitorEvents);
     },
     createMonitorFulfilled: (state, action: PayloadAction<Monitor>) => {
       monitorsAdapter.addOne(state.monitors, action.payload);
@@ -203,10 +194,9 @@ export const monitorsSlice = createSlice({
       })
     .addCase(
       showMonitorDetails.fulfilled,
-      (state, action: PayloadAction<{ monitorId: string, monitorEvents: MonitorEvent[] }>) => {
+      (state, action: PayloadAction<{ monitorId: string }>) => {
         if (state.selectedMonitorId === action.payload.monitorId) {
           state.detailsUiMode = DetailsUiMode.View;
-          monitorEventsAdapter.setAll(state.selectedMonitorEvents, action.payload.monitorEvents);
           state.detailsLoadStatus = OperationStatus.Done
         }
       })
@@ -243,10 +233,6 @@ export const getSelectedMonitorId = (state: RootState): string | null => state.m
 
 export const getSelectedMonitor = (state: RootState): Monitor | null =>
   monitorSelectors.selectAll(state).find(monitor => monitor.id === state.monitors.selectedMonitorId) || null;
-
-const monitorEventSelectors = monitorEventsAdapter.getSelectors<RootState>((state) => state.monitors.selectedMonitorEvents);
-
-export const getAllMonitorEvents = (state: RootState) => monitorEventSelectors.selectAll(state);
 
 export const getMonitorDetailsLoadingStatus = (state: RootState) => state.monitors.detailsLoadStatus;
 

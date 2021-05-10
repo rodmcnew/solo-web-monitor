@@ -1,10 +1,11 @@
 #### MUST:
-
 #### SHOULD:
 - add some automated tests on client and server
 - add server side validation of monitor props such as interval, url, name, (and give the client a way to understand this?, or validate on client too?)
+- Consider refreshing a monitor's core data when it is clicked if it has not be refreshed in a while
 
 #### COULD:
+- Consider if circular slice file dependencies is really a problem. It doesn't seem like it is. It also may be a circle with the store.
 - imports should be all " or all '
 - consider that single slice file is huge (it was combined from two files because of circular dependency issues)
 - clean old data such as old events where statusChanged===false

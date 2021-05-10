@@ -1,5 +1,5 @@
 import React from 'react';
-import { Monitor, MonitorEvent } from '../../types';
+import { Monitor, MonitorEventsData } from '../../types';
 import { OperationStatus } from '../../types/OperationStatus';
 import { PanelBodyNetworkError } from '../loading-and-errors/PanelBodyNetworkError';
 import { PanelBodySpinner } from '../loading-and-errors/PanelBodySpinner';
@@ -9,10 +9,10 @@ import { MonitorBasicDetails } from './MonitorBasicDetails';
 
 interface Props {
     monitor: Monitor | null;
-    monitorEvents: MonitorEvent[];
+    monitorEventsData: MonitorEventsData;
     loadingStatus: OperationStatus;
 }
-export function MonitorDetailsDisplay({ monitor, monitorEvents, loadingStatus }: Props) {
+export function MonitorDetailsDisplay({ monitor, monitorEventsData, loadingStatus }: Props) {
     return (
         <div>
             {loadingStatus === OperationStatus.Loading && <PanelBodySpinner />}
@@ -20,12 +20,22 @@ export function MonitorDetailsDisplay({ monitor, monitorEvents, loadingStatus }:
             {loadingStatus === OperationStatus.Done && monitor &&
                 <>
                     <MonitorBasicDetails monitor={monitor} />
-                    <div className="mt-3">
-                        <h4 className="d-inline">Response Time</h4> (ms)
-                    </div>
-                    <MonitorPingChart monitorEvents={monitorEvents} />
-                    <h4 className="mt-3">Latest Events</h4>
-                    <MonitorLatestEvents monitorEvents={monitorEvents} maxEventCount={10} />
+                    <>
+                        <div className="mt-3">
+                            <h4 className="d-inline">Response Time</h4> (ms)
+                        </div>
+                        {monitorEventsData.loadingStatus === OperationStatus.Loading && <PanelBodySpinner />}
+                        {monitorEventsData.loadingStatus === OperationStatus.Error && <PanelBodyNetworkError />}
+                        {monitorEventsData.loadingStatus === OperationStatus.Done && monitor &&
+                            <MonitorPingChart monitorEvents={monitorEventsData.events} />
+                        }
+                        <h4 className="mt-3">Latest Events</h4>
+                        {monitorEventsData.loadingStatus === OperationStatus.Loading && <PanelBodySpinner />}
+                        {monitorEventsData.loadingStatus === OperationStatus.Error && <PanelBodyNetworkError />}
+                        {monitorEventsData.loadingStatus === OperationStatus.Done && monitor &&
+                            <MonitorLatestEvents monitorEvents={monitorEventsData.events} maxEventCount={10} />
+                        }
+                    </>
                 </>
             }
         </div>
