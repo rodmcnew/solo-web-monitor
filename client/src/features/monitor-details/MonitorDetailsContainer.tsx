@@ -1,7 +1,6 @@
 import React, { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { DetailsUiMode, Monitor, NewMonitor } from '../../types';
-import { getSelectedMonitorEventsData } from '../monitor-events/selectedMonitorEventsSlice';
 import {
   getMutatingMonitorStatus,
   getDetailsUiMode,
@@ -21,8 +20,6 @@ export function MonitorDetailsContainer() {
   const detailsUiMode = useSelector(getDetailsUiMode);
   const selectedMonitor = useSelector(getSelectedMonitor);
   const newMonitorTemplate = { name: '', url: '', interval: 1, status: 's' };
-  const selectedMonitorEventsData = useSelector(getSelectedMonitorEventsData);
-  const monitorDetailsLoadingStatus = useSelector(getMonitorDetailsLoadingStatus);
   const mutatingMonitorStatus = useSelector(getMutatingMonitorStatus);
 
   const handleNewMonitorSubmit = useCallback((monitor: NewMonitor) => {
@@ -48,10 +45,7 @@ export function MonitorDetailsContainer() {
           <h3 className="card-title">Selected Monitor</h3>
         </div>
         <div className="card-body">
-          <MonitorDetailsDisplay
-            monitor={selectedMonitor}
-            monitorEventsData={selectedMonitorEventsData}
-            loadingStatus={monitorDetailsLoadingStatus} />
+          <MonitorDetailsDisplay />
         </div>
       </div>
     }

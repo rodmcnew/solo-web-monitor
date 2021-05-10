@@ -3,7 +3,7 @@ import { RootState } from '../../app/store';
 import { DetailsUiMode, Monitor, NewMonitor } from '../../types';
 import { OperationStatus } from '../../types/OperationStatus';
 import { monitorApi } from './monitorApi';
-import { fetchSelectedMonitorEventsIfNeeded } from '../monitor-events/selectedMonitorEventsSlice';
+import { fetchMonitorEvents, fetchMonitorEventsIfNeeded } from '../monitor-events/monitorEventsSlice';
 
 export const monitorsAdapter = createEntityAdapter<Monitor>({
   sortComparer: (a, b) => a.name.localeCompare(b.name),
@@ -43,7 +43,7 @@ export const showMonitorDetailsForAnyMonitor = createAsyncThunk(
 export const showMonitorDetails = createAsyncThunk(
   'monitors/showMonitorDetailsStatus',
   async (monitorId: string, thunkApi) => {
-    thunkApi.dispatch(fetchSelectedMonitorEventsIfNeeded(monitorId));
+    thunkApi.dispatch(fetchMonitorEventsIfNeeded(monitorId));
     return {
       monitorId
     }
@@ -76,6 +76,7 @@ export const patchMonitorThenShowItsDetails = createAsyncThunk(
     const patchedMonitor = await monitorApi.updateById(monitor.id, monitor);
     thunkApi.dispatch(patchMonitorFulfilled(patchedMonitor));
     await thunkApi.dispatch(showMonitorDetails(monitor.id));
+    thunkApi.dispatch(fetchMonitorEvents(monitor.id)); // Fetch fresh uncached events
     return patchedMonitor;
   }
 );

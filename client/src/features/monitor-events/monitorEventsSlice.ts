@@ -13,8 +13,8 @@ const monitorEventsSortComparer = (a: MonitorEvent, b: MonitorEvent) => +new Dat
  */
 const MONITOR_EVENTS_CACHE_TIME = 10 * 1000;
 
-export const fetchSelectedMonitorEventsIfNeeded = createAsyncThunk(
-  'monitors/fetchSelectedMonitorEventsIfNeededStatus',
+export const fetchMonitorEventsIfNeeded = createAsyncThunk(
+  'monitors/fetchMonitorEventsIfNeededStatus',
   async (monitorId: string, thunkApi) => {
     const selectedMonitorEventsData = getSelectedMonitorEventsData(thunkApi.getState() as RootState);
     if (
@@ -24,13 +24,13 @@ export const fetchSelectedMonitorEventsIfNeeded = createAsyncThunk(
         && +new Date - +selectedMonitorEventsData.lastFetchedDate > MONITOR_EVENTS_CACHE_TIME
       )
     ) {
-      await thunkApi.dispatch(fetchSelectedMonitorEvents(monitorId));
+      await thunkApi.dispatch(fetchMonitorEvents(monitorId));
     }
   }
 );
 
-export const fetchSelectedMonitorEvents = createAsyncThunk(
-  'monitors/fetchSelectedMonitorEventsStatus',
+export const fetchMonitorEvents = createAsyncThunk(
+  'monitors/fetchMonitorEventsStatus',
   async (monitorId: string, thunkApi) => {
     const monitorEvents = await monitorEventsApi.findByMonitorId(monitorId);
     return {
@@ -41,13 +41,13 @@ export const fetchSelectedMonitorEvents = createAsyncThunk(
   }
 );
 
-export const selectedMonitorEventsSlice = createSlice({
-  name: 'monitorEvents',
+export const monitorEventsSlice = createSlice({
+  name: 'monitorEventsSlice',
   initialState: {} as Record<string, MonitorEventsData>,
   reducers: {},
   extraReducers: builder => builder
     .addCase(
-      fetchSelectedMonitorEvents.pending,
+      fetchMonitorEvents.pending,
       (state, action) => {
         const monitorId = action.meta.arg;
         state[monitorId] = {
@@ -57,7 +57,7 @@ export const selectedMonitorEventsSlice = createSlice({
         };
       })
     .addCase(
-      fetchSelectedMonitorEvents.fulfilled,
+      fetchMonitorEvents.fulfilled,
       (state, action: PayloadAction<{ monitorId: string, monitorEvents: MonitorEvent[], fetchedDate: Date }>) => {
         state[action.payload.monitorId] = {
           events: action.payload.monitorEvents.sort(monitorEventsSortComparer),
@@ -66,7 +66,7 @@ export const selectedMonitorEventsSlice = createSlice({
         };
       })
     .addCase(
-      fetchSelectedMonitorEvents.rejected,
+      fetchMonitorEvents.rejected,
       (state, action) => {
         const monitorId = action.meta.arg;
         state[monitorId] = {
@@ -88,7 +88,7 @@ export const getSelectedMonitorEventsData = (state: RootState): MonitorEventsDat
   if (selectedMonitorId === null) {
     return defaultReturnData;
   }
-  const selectedMonitorEventsData = state[selectedMonitorEventsSlice.name][selectedMonitorId];
+  const selectedMonitorEventsData = state[monitorEventsSlice.name][selectedMonitorId];
   if (selectedMonitorEventsData === undefined) {
     return defaultReturnData;
   }

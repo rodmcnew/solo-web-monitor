@@ -1,44 +1,26 @@
 import React from 'react';
-import { Monitor, MonitorEventsData } from '../../types';
+import { useSelector } from 'react-redux';
 import { OperationStatus } from '../../types/OperationStatus';
 import { PanelBodyNetworkError } from '../loading-and-errors/PanelBodyNetworkError';
 import { PanelBodySpinner } from '../loading-and-errors/PanelBodySpinner';
-import { MonitorLatestEvents } from '../monitor-events/MonitorLatestEvents';
-import { MonitorPingChart } from '../monitor-events/MonitorPingChart';
+import { SelectedMonitorEventsDisplay } from '../monitor-events/SelectedMonitorEventsDisplay';
+import { getMonitorDetailsLoadingStatus, getSelectedMonitor } from '../monitor/monitorsSlice';
 import { MonitorBasicDetails } from './MonitorBasicDetails';
 
-interface Props {
-    monitor: Monitor | null;
-    monitorEventsData: MonitorEventsData;
-    loadingStatus: OperationStatus;
-}
-export function MonitorDetailsDisplay({ monitor, monitorEventsData, loadingStatus }: Props) {
+export function MonitorDetailsDisplay() {
+    const monitor = useSelector(getSelectedMonitor);
+    const loadingStatus = useSelector(getMonitorDetailsLoadingStatus);
     return (
-        <div>
+        <>
             {loadingStatus === OperationStatus.Loading && <PanelBodySpinner />}
             {loadingStatus === OperationStatus.Error && <PanelBodyNetworkError />}
             {loadingStatus === OperationStatus.Done && monitor &&
                 <>
                     <MonitorBasicDetails monitor={monitor} />
-                    <>
-                        <div className="mt-3">
-                            <h4 className="d-inline">Response Time</h4> (ms)
-                        </div>
-                        {monitorEventsData.loadingStatus === OperationStatus.Loading && <PanelBodySpinner />}
-                        {monitorEventsData.loadingStatus === OperationStatus.Error && <PanelBodyNetworkError />}
-                        {monitorEventsData.loadingStatus === OperationStatus.Done && monitor &&
-                            <MonitorPingChart monitorEvents={monitorEventsData.events} />
-                        }
-                        <h4 className="mt-3">Latest Events</h4>
-                        {monitorEventsData.loadingStatus === OperationStatus.Loading && <PanelBodySpinner />}
-                        {monitorEventsData.loadingStatus === OperationStatus.Error && <PanelBodyNetworkError />}
-                        {monitorEventsData.loadingStatus === OperationStatus.Done && monitor &&
-                            <MonitorLatestEvents monitorEvents={monitorEventsData.events} maxEventCount={10} />
-                        }
-                    </>
+                    <SelectedMonitorEventsDisplay />
                 </>
             }
-        </div>
+        </>
     )
 }
 
