@@ -4,7 +4,7 @@ import { MonitorEvent } from '../../types';
 // import ChartJs from '@reactchartjs/react-chart.js';
 const ChartJs = require('@reactchartjs/react-chart.js');
 
-const pingDisplayCount = 12; //TODO
+const PING_DISPLAY_COUNT = 12;
 interface Props {
   monitorEvents: MonitorEvent[];
 }
@@ -14,7 +14,7 @@ export function MonitorPingChart({ monitorEvents }: Props) {
     data: [] as number[],
     labels: [] as string[]
   };
-  monitorEvents.slice(0, pingDisplayCount).forEach(function (ping) {
+  monitorEvents.slice(0, PING_DISPLAY_COUNT).forEach(function (ping) {
     //Infinity causes it to render no line, this is used for downtime pings
     pingChart.data.unshift(ping.latency === -1 ? Infinity : ping.latency);
     let date = new Date(ping.date);

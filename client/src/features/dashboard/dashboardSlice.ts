@@ -181,8 +181,6 @@ export const {
 
 export const getMutatingMonitorStatus = (state: RootState) => state.dashboard.mutatingMonitorStatus;
 
-export const dashboardReducer = dashboardSlice.reducer;//TODO
-
 export const getDetailsUiMode = (state: RootState) => state.dashboard.detailsUiMode;
 
 export const getSelectedMonitorId = (state: RootState): string | null => state.dashboard.selectedMonitorId;
