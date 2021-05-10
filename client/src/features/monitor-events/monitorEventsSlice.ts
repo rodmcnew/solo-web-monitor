@@ -16,7 +16,7 @@ const MONITOR_EVENTS_CACHE_TIME = 10 * 1000;
 export const fetchMonitorEventsIfNeeded = createAsyncThunk(
   'monitors/fetchMonitorEventsIfNeededStatus',
   async (monitorId: string, thunkApi) => {
-    const selectedMonitorEventsData = getSelectedMonitorEventsData(thunkApi.getState() as RootState);
+    const selectedMonitorEventsData = getMonitorEventsByMonitorId(thunkApi.getState() as RootState, monitorId);
     if (
       selectedMonitorEventsData.loadingStatus === OperationStatus.NotStarted
       || (
@@ -79,18 +79,22 @@ export const monitorEventsSlice = createSlice({
 });
 
 export const getSelectedMonitorEventsData = (state: RootState): MonitorEventsData => {
+  const selectedMonitorId = getSelectedMonitorId(state);
+  return getMonitorEventsByMonitorId(state, selectedMonitorId);
+}
+
+const getMonitorEventsByMonitorId = (state: RootState, monitorId: string | null): MonitorEventsData => {
   const defaultReturnData = {
     events: [],
     lastFetchedDate: null,
     loadingStatus: OperationStatus.NotStarted
   };
-  const selectedMonitorId = getSelectedMonitorId(state);
-  if (selectedMonitorId === null) {
+  if (monitorId === null) {
     return defaultReturnData;
   }
-  const selectedMonitorEventsData = state[monitorEventsSlice.name][selectedMonitorId];
+  const selectedMonitorEventsData = state[monitorEventsSlice.name][monitorId];
   if (selectedMonitorEventsData === undefined) {
     return defaultReturnData;
   }
   return selectedMonitorEventsData;
-};
+}
