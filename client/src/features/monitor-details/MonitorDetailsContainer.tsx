@@ -2,15 +2,14 @@ import React, { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { DetailsUiMode, Monitor, NewMonitor } from '../../types';
 import {
-  getMutatingMonitorStatus,
-  getDetailsUiMode,
-  showMonitorDetailsForAnyMonitor,
   getSelectedMonitor,
-  getMonitorDetailsLoadingStatus,
   createMonitorThenShowItsDetails,
   deleteMonitorThenShowDetailsForAnyMonitor,
-  patchMonitorThenShowItsDetails
-} from '../monitor/monitorsSlice';
+  getDetailsUiMode,
+  patchMonitorThenShowItsDetails,
+  showMonitorDetailsForAnyMonitor,
+  getMutatingMonitorStatus
+} from '../dashboard/dashboardSlice';
 import { MonitorDeleteForm } from './MonitorDeleteForm';
 import { MonitorDetailsDisplay } from './MonitorDetailsDisplay';
 import { MonitorDetailsForm } from './MonitorDetailsForm';

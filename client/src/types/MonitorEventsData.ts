@@ -4,5 +4,5 @@ import { OperationStatus } from "./OperationStatus";
 export interface MonitorEventsData {
     loadingStatus: OperationStatus;
     events: MonitorEvent[];
-    lastFetchedDate: Date | null;
+    lastFetchedTimestamp: number | null;
 }

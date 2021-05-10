@@ -1,12 +1,11 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { OperationStatus } from '../../types/OperationStatus';
+import { getSelectedMonitor, getSelectedMonitorEventsData } from '../dashboard/dashboardSlice';
 import { PanelBodyNetworkError } from '../loading-and-errors/PanelBodyNetworkError';
 import { PanelBodySpinner } from '../loading-and-errors/PanelBodySpinner';
 import { MonitorLatestEvents } from '../monitor-events/MonitorLatestEvents';
 import { MonitorPingChart } from '../monitor-events/MonitorPingChart';
-import { getSelectedMonitor } from '../monitor/monitorsSlice';
-import { getSelectedMonitorEventsData } from './monitorEventsSlice';
 
 export function SelectedMonitorEventsDisplay() {
     const monitor = useSelector(getSelectedMonitor);

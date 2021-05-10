@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
+import { fetchMonitorsThenShowMonitorDetailsForAnyMonitor } from '../dashboard/dashboardSlice';
 import { MonitorDashboard } from './MonitorDashboard';
-import { fetchMonitorsThenShowMonitorDetailsForAnyMonitor } from './monitorsSlice';
 
 export function MonitorDashboardContainer() {
   const dispatch = useDispatch();

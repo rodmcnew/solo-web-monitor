@@ -3,7 +3,6 @@ import { RootState } from '../../app/store';
 import { MonitorEvent, MonitorEventsData } from '../../types';
 import { OperationStatus } from '../../types/OperationStatus';
 import { monitorEventsApi } from '../monitor-events/monitorEventsApi';
-import { getSelectedMonitorId } from '../monitor/monitorsSlice';
 
 const monitorEventsSortComparer = (a: MonitorEvent, b: MonitorEvent) => +new Date(b.date) - +new Date(a.date);
 
@@ -20,8 +19,8 @@ export const fetchMonitorEventsIfNeeded = createAsyncThunk(
     if (
       selectedMonitorEventsData.loadingStatus === OperationStatus.NotStarted
       || (
-        selectedMonitorEventsData.lastFetchedDate !== null
-        && +new Date - +selectedMonitorEventsData.lastFetchedDate > MONITOR_EVENTS_CACHE_TIME
+        selectedMonitorEventsData.lastFetchedTimestamp !== null
+        && +new Date - +selectedMonitorEventsData.lastFetchedTimestamp > MONITOR_EVENTS_CACHE_TIME
       )
     ) {
       await thunkApi.dispatch(fetchMonitorEvents(monitorId));
@@ -36,7 +35,7 @@ export const fetchMonitorEvents = createAsyncThunk(
     return {
       monitorId,
       monitorEvents: monitorEvents,
-      fetchedDate: new Date
+      fetchedTimestamp: (new Date).getTime()
     }
   }
 );
@@ -52,16 +51,16 @@ export const monitorEventsSlice = createSlice({
         const monitorId = action.meta.arg;
         state[monitorId] = {
           events: [],
-          lastFetchedDate: null,
+          lastFetchedTimestamp: null,
           loadingStatus: OperationStatus.Loading
         };
       })
     .addCase(
       fetchMonitorEvents.fulfilled,
-      (state, action: PayloadAction<{ monitorId: string, monitorEvents: MonitorEvent[], fetchedDate: Date }>) => {
+      (state, action: PayloadAction<{ monitorId: string, monitorEvents: MonitorEvent[], fetchedTimestamp: number }>) => {
         state[action.payload.monitorId] = {
           events: action.payload.monitorEvents.sort(monitorEventsSortComparer),
-          lastFetchedDate: action.payload.fetchedDate,
+          lastFetchedTimestamp: action.payload.fetchedTimestamp,
           loadingStatus: OperationStatus.Done
         };
       })
@@ -71,22 +70,17 @@ export const monitorEventsSlice = createSlice({
         const monitorId = action.meta.arg;
         state[monitorId] = {
           events: [],
-          lastFetchedDate: null,
+          lastFetchedTimestamp: null,
           loadingStatus: OperationStatus.Error
         };
       }
     )
 });
 
-export const getSelectedMonitorEventsData = (state: RootState): MonitorEventsData => {
-  const selectedMonitorId = getSelectedMonitorId(state);
-  return getMonitorEventsByMonitorId(state, selectedMonitorId);
-}
-
-const getMonitorEventsByMonitorId = (state: RootState, monitorId: string | null): MonitorEventsData => {
+export const getMonitorEventsByMonitorId = (state: RootState, monitorId: string | null): MonitorEventsData => {
   const defaultReturnData = {
     events: [],
-    lastFetchedDate: null,
+    lastFetchedTimestamp: null,
     loadingStatus: OperationStatus.NotStarted
   };
   if (monitorId === null) {

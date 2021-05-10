@@ -3,7 +3,6 @@ import { RootState } from '../../app/store';
 import { DetailsUiMode, Monitor, NewMonitor } from '../../types';
 import { OperationStatus } from '../../types/OperationStatus';
 import { monitorApi } from './monitorApi';
-import { fetchMonitorEvents, fetchMonitorEventsIfNeeded } from '../monitor-events/monitorEventsSlice';
 
 export const monitorsAdapter = createEntityAdapter<Monitor>({
   sortComparer: (a, b) => a.name.localeCompare(b.name),
@@ -16,67 +15,26 @@ export const fetchAllMonitors = createAsyncThunk(
   }
 );
 
-export const fetchMonitorsThenShowMonitorDetailsForAnyMonitor = createAsyncThunk(
-  'monitors/showMonitorDetailsForAnyMonitorStatus',
-  async (returned: undefined, thunkApi) => {
-    await thunkApi.dispatch(fetchAllMonitors());
-    await thunkApi.dispatch(showMonitorDetailsForAnyMonitor());
-  }
-);
-
-export const showMonitorDetailsForAnyMonitor = createAsyncThunk(
-  'monitors/showMonitorDetailsForAnyMonitorStatus',
-  async (returned: undefined, thunkApi) => {
-    const allMonitors = getAllMonitors(thunkApi.getState() as RootState);
-    const selectedMonitorId = getSelectedMonitorId(thunkApi.getState() as RootState);
-    const selectedMonitor = allMonitors.find(monitor => monitor.id === selectedMonitorId)
-      || allMonitors.find(() => true)
-      || null;
-    if (selectedMonitor !== null) {
-      await thunkApi.dispatch(showMonitorDetails(selectedMonitor.id));
-    } else {
-      await thunkApi.dispatch(showCreateMonitorForm());
-    }
-  }
-);
-
-export const showMonitorDetails = createAsyncThunk(
-  'monitors/showMonitorDetailsStatus',
-  async (monitorId: string, thunkApi) => {
-    thunkApi.dispatch(fetchMonitorEventsIfNeeded(monitorId));
-    return {
-      monitorId
-    }
-  }
-);
-
-export const deleteMonitorThenShowDetailsForAnyMonitor = createAsyncThunk(
-  'monitors/deleteMonitorThenShowDetailsForAnyMonitorStatus',
-  async (id: string, thunkApi) => {
+export const deleteMonitor = createAsyncThunk(
+  'monitors/deleteMonitorStatus',
+  async (id: string) => {
     await monitorApi.delete(id);
-    thunkApi.dispatch(deleteMonitorFulfilled(id));
-    await thunkApi.dispatch(showMonitorDetailsForAnyMonitor());
     return id;
   }
 );
 
-export const createMonitorThenShowItsDetails = createAsyncThunk(
-  'monitors/createMonitorThenShowItsDetailsStatus',
-  async (monitor: NewMonitor, thunkApi) => {
+export const createMonitor = createAsyncThunk(
+  'monitors/createMonitorStatus',
+  async (monitor: NewMonitor) => {
     const newMonitor = await monitorApi.create(monitor);
-    thunkApi.dispatch(createMonitorFulfilled(newMonitor));
-    await thunkApi.dispatch(showMonitorDetails(newMonitor.id));
     return newMonitor;
   }
 );
 
-export const patchMonitorThenShowItsDetails = createAsyncThunk(
-  'monitors/patchMonitorThenShowItsDetailsStatus',
+export const patchMonitor = createAsyncThunk(
+  'monitors/patchMonitorStatus',
   async (monitor: Monitor, thunkApi) => {
     const patchedMonitor = await monitorApi.updateById(monitor.id, monitor);
-    thunkApi.dispatch(patchMonitorFulfilled(patchedMonitor));
-    await thunkApi.dispatch(showMonitorDetails(monitor.id));
-    thunkApi.dispatch(fetchMonitorEvents(monitor.id)); // Fetch fresh uncached events
     return patchedMonitor;
   }
 );
@@ -92,50 +50,8 @@ export const monitorsSlice = createSlice({
     detailsUiMode: DetailsUiMode.View,
     detailsLoadStatus: OperationStatus.Loading,
   },
-  reducers: {
-    showCreateMonitorForm: (state) => {
-      state.detailsUiMode = DetailsUiMode.Create;
-      state.selectedMonitorId = null;
-    },
-    showMonitorEditForm: (state, action: PayloadAction<string>) => {
-      state.detailsUiMode = DetailsUiMode.Edit;
-      state.selectedMonitorId = action.payload;
-    },
-    showMonitorDeleteForm: (state, action: PayloadAction<string>) => {
-      state.detailsUiMode = DetailsUiMode.Delete;
-      state.selectedMonitorId = action.payload;
-    },
-    createMonitorFulfilled: (state, action: PayloadAction<Monitor>) => {
-      monitorsAdapter.addOne(state.monitors, action.payload);
-    },
-    patchMonitorFulfilled: (state, action: PayloadAction<Monitor>) => {
-      monitorsAdapter.updateOne(state.monitors, { id: action.payload.id, changes: action.payload });
-    },
-    deleteMonitorFulfilled: (state, action: PayloadAction<string>) => {
-      monitorsAdapter.removeOne(state.monitors, action);
-    }
-  },
+  reducers: {},
   extraReducers: builder => builder
-    .addCase(
-      createMonitorThenShowItsDetails.pending,
-      (state) => {
-        state.mutatingMonitorId = null; //null means "creating monitor"
-        state.mutatingMonitorStatus = OperationStatus.Loading;
-      })
-    .addCase(
-      createMonitorThenShowItsDetails.fulfilled,
-      (state) => {
-        if (state.mutatingMonitorId === null) {
-          state.mutatingMonitorStatus = OperationStatus.Done;
-        }
-      })
-    .addCase(
-      createMonitorThenShowItsDetails.rejected,
-      (state) => {
-        if (state.mutatingMonitorId === null) {
-          state.mutatingMonitorStatus = OperationStatus.Error;
-        }
-      })
     .addCase(
       fetchAllMonitors.fulfilled,
       (state, action: PayloadAction<Monitor[]>) => {
@@ -148,75 +64,21 @@ export const monitorsSlice = createSlice({
         state.monitorListLoadingStatus = OperationStatus.Error;
       })
     .addCase(
-      patchMonitorThenShowItsDetails.pending,
-      (state, action) => {
-        state.mutatingMonitorId = action.meta.arg.id;
-        state.mutatingMonitorStatus = OperationStatus.Loading;
-      })
-    .addCase(
-      patchMonitorThenShowItsDetails.fulfilled,
+      createMonitor.fulfilled,
       (state, action: PayloadAction<Monitor>) => {
-        if (state.mutatingMonitorId === action.payload.id) {
-          state.mutatingMonitorStatus = OperationStatus.Done;
-        }
+        monitorsAdapter.addOne(state.monitors, action.payload);
       })
     .addCase(
-      patchMonitorThenShowItsDetails.rejected,
-      (state, action) => {
-        if (state.mutatingMonitorId === action.meta.arg.id) {
-          state.mutatingMonitorStatus = OperationStatus.Error;
-        }
+      patchMonitor.fulfilled,
+      (state, action: PayloadAction<Monitor>) => {
+        monitorsAdapter.updateOne(state.monitors, { id: action.payload.id, changes: action.payload });
       })
     .addCase(
-      deleteMonitorThenShowDetailsForAnyMonitor.pending,
-      (state, action) => {
-        state.mutatingMonitorId = action.meta.arg;
-        state.mutatingMonitorStatus = OperationStatus.Loading;
-      })
-    .addCase(
-      deleteMonitorThenShowDetailsForAnyMonitor.fulfilled,
+      deleteMonitor.fulfilled,
       (state, action: PayloadAction<string>) => {
-        if (state.mutatingMonitorId === action.payload) {
-          state.mutatingMonitorStatus = OperationStatus.Done;
-        }
+        monitorsAdapter.removeOne(state.monitors, action.payload);
       })
-    .addCase(
-      deleteMonitorThenShowDetailsForAnyMonitor.rejected,
-      (state, action) => {
-        if (state.mutatingMonitorId === action.meta.arg) {
-          state.mutatingMonitorStatus = OperationStatus.Error;
-        }
-      })
-    .addCase(
-      showMonitorDetails.pending,
-      (state, action) => {
-        state.selectedMonitorId = action.meta.arg;
-        state.detailsLoadStatus = OperationStatus.Loading
-      })
-    .addCase(
-      showMonitorDetails.fulfilled,
-      (state, action: PayloadAction<{ monitorId: string }>) => {
-        if (state.selectedMonitorId === action.payload.monitorId) {
-          state.detailsUiMode = DetailsUiMode.View;
-          state.detailsLoadStatus = OperationStatus.Done
-        }
-      })
-    .addCase(
-      showMonitorDetails.rejected,
-      (state) => {
-        state.detailsLoadStatus = OperationStatus.Error
-      }
-    )
 });
-
-export const {
-  createMonitorFulfilled,
-  patchMonitorFulfilled,
-  deleteMonitorFulfilled,
-  showMonitorDeleteForm,
-  showMonitorEditForm,
-  showCreateMonitorForm
-} = monitorsSlice.actions;
 
 export const monitorSelectors = monitorsAdapter.getSelectors<RootState>((state) => state.monitors.monitors);
 
@@ -224,16 +86,4 @@ export const getAllMonitors = (state: RootState): Monitor[] => monitorSelectors.
 
 export const getMonitorListLoadingStatus = (state: RootState) => state.monitors.monitorListLoadingStatus;
 
-export const getMutatingMonitorStatus = (state: RootState) => state.monitors.mutatingMonitorStatus;
-
 export const monitorsReducer = monitorsSlice.reducer;
-
-export const getDetailsUiMode = (state: RootState) => state.monitors.detailsUiMode;
-
-export const getSelectedMonitorId = (state: RootState): string | null => state.monitors.selectedMonitorId;
-
-export const getSelectedMonitor = (state: RootState): Monitor | null =>
-  monitorSelectors.selectAll(state).find(monitor => monitor.id === state.monitors.selectedMonitorId) || null;
-
-export const getMonitorDetailsLoadingStatus = (state: RootState) => state.monitors.detailsLoadStatus;
-
