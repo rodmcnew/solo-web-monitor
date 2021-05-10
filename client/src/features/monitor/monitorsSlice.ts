@@ -80,6 +80,8 @@ export const monitorsSlice = createSlice({
       })
 });
 
+export default monitorsSlice.reducer;
+
 export const monitorSelectors = monitorsAdapter.getSelectors<RootState>((state) => state.monitors.monitors);
 
 export const getAllMonitors = (state: RootState): Monitor[] => monitorSelectors.selectAll(state);

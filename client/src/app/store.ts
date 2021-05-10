@@ -1,13 +1,13 @@
 import { Action, configureStore, ThunkAction } from '@reduxjs/toolkit';
-import { monitorEventsSlice } from '../features/monitor-events/monitorEventsSlice';
-import { monitorsSlice } from '../features/monitor/monitorsSlice';
-import { dashboardSlice } from '../features/dashboard/dashboardSlice';
+import monitorEventsReducer from '../features/monitor-events/monitorEventsSlice';
+import monitorsReducer from '../features/monitor/monitorsSlice';
+import dashboardReducer from '../features/dashboard/dashboardSlice';
 
 export const store = configureStore({
   reducer: {
-    [monitorsSlice.name]: monitorsSlice.reducer,
-    [monitorEventsSlice.name]: monitorEventsSlice.reducer,
-    [dashboardSlice.name]: dashboardSlice.reducer
+    monitors: monitorsReducer,
+    monitorEvents: monitorEventsReducer,
+    dashboard: dashboardReducer
   },
 });
 

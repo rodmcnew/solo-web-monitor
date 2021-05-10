@@ -41,7 +41,7 @@ export const fetchMonitorEvents = createAsyncThunk(
 );
 
 export const monitorEventsSlice = createSlice({
-  name: 'monitorEventsSlice',
+  name: 'monitorEvents',
   initialState: {} as Record<string, MonitorEventsData>,
   reducers: {},
   extraReducers: builder => builder
@@ -77,6 +77,8 @@ export const monitorEventsSlice = createSlice({
     )
 });
 
+export default monitorEventsSlice.reducer;
+
 export const getMonitorEventsByMonitorId = (state: RootState, monitorId: string | null): MonitorEventsData => {
   const defaultReturnData = {
     events: [],
@@ -86,7 +88,7 @@ export const getMonitorEventsByMonitorId = (state: RootState, monitorId: string 
   if (monitorId === null) {
     return defaultReturnData;
   }
-  const selectedMonitorEventsData = state[monitorEventsSlice.name][monitorId];
+  const selectedMonitorEventsData = state.monitorEvents[monitorId];
   if (selectedMonitorEventsData === undefined) {
     return defaultReturnData;
   }
