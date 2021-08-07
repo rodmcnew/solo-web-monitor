@@ -20,7 +20,7 @@ export const fetchMonitorEventsIfNeeded = createAsyncThunk(
       selectedMonitorEventsData.loadingStatus === OperationStatus.NotStarted
       || (
         selectedMonitorEventsData.lastFetchedTimestamp !== null
-        && +new Date - +selectedMonitorEventsData.lastFetchedTimestamp > MONITOR_EVENTS_CACHE_TIME
+        && +new Date() - +selectedMonitorEventsData.lastFetchedTimestamp > MONITOR_EVENTS_CACHE_TIME
       )
     ) {
       await thunkApi.dispatch(fetchMonitorEvents(monitorId));
@@ -35,7 +35,7 @@ export const fetchMonitorEvents = createAsyncThunk(
     return {
       monitorId,
       monitorEvents: monitorEvents,
-      fetchedTimestamp: (new Date).getTime()
+      fetchedTimestamp: (new Date()).getTime()
     }
   }
 );
