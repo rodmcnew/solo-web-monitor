@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { api } from '../../api';
 import { RootState } from '../../app/store';
 import { DetailsUiMode, Monitor, MonitorEventsData, NewMonitor } from '../../types';
 import { OperationStatus } from '../../types/OperationStatus';
@@ -16,16 +17,16 @@ export const fetchMonitorsThenShowMonitorDetailsForAnyMonitor = createAsyncThunk
 export const showMonitorDetailsForAnyMonitor = createAsyncThunk(
   'monitors/showMonitorDetailsForAnyMonitorStatus',
   async (returned: undefined, thunkApi) => {
-    const allMonitors = getAllMonitors(thunkApi.getState() as RootState);
-    const selectedMonitorId = getSelectedMonitorId(thunkApi.getState() as RootState);
-    const selectedMonitor = allMonitors.find(monitor => monitor.id === selectedMonitorId)
-      || allMonitors.find(() => true)
-      || null;
-    if (selectedMonitor !== null) {
-      await thunkApi.dispatch(showMonitorDetails(selectedMonitor.id));
-    } else {
-      await thunkApi.dispatch(showCreateMonitorForm());
-    }
+    // const allMonitors = getAllMonitors(thunkApi.getState() as RootState);
+    // const selectedMonitorId = getSelectedMonitorId(thunkApi.getState() as RootState);
+    // const selectedMonitor = allMonitors.find(monitor => monitor.id === selectedMonitorId)
+    //   || allMonitors.find(() => true)
+    //   || null;
+    // if (selectedMonitor !== null) {
+    //   await thunkApi.dispatch(showMonitorDetails(selectedMonitor.id));
+    // } else {
+    //   await thunkApi.dispatch(showCreateMonitorForm());
+    // }
   }
 );
 
@@ -171,6 +172,28 @@ export const dashboardSlice = createSlice({
         state.detailsLoadStatus = OperationStatus.Error
       }
     )
+    .addMatcher(
+      api.endpoints.getMonitors.matchFulfilled,
+      (state, action: PayloadAction<Monitor[]>) => {
+        // If there is no selected monitor, select the first one and show it's details view
+        if (state.selectedMonitorId === null && action.payload.length > 0) {
+          state.selectedMonitorId = action.payload[0].id;
+          state.detailsUiMode = DetailsUiMode.View;
+          console.log('api.endpoints.getMonitors.matchFulfilled updated state.selectedMonitorId ', state.selectedMonitorId);
+        }
+      })
+    .addMatcher(
+      api.endpoints.deleteMonitor.matchFulfilled,
+      (state, action: PayloadAction<string>) => {//@TODO not string? why?
+        //@ts-ignore //@TODO
+        const deletedMonitorId = action.meta.arg.originalArgs;
+        console.log('deleted monitor', deletedMonitorId);
+        // If we deleted the selected monitor, un-select it.
+        if (state.selectedMonitorId === deletedMonitorId) {
+          state.selectedMonitorId = null;
+          console.log('api.endpoints.deleteMonitor.matchFulfilled updated state.selectedMonitorId ', state.selectedMonitorId);
+        }
+      })
 });
 
 export default dashboardSlice.reducer;

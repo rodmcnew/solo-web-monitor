@@ -5,13 +5,19 @@ import {
 } from '../monitor/monitorsSlice';
 import { MonitorList } from './MonitorList';
 import { getSelectedMonitorId, showCreateMonitorForm, showMonitorDeleteForm, showMonitorDetails, showMonitorEditForm } from '../dashboard/dashboardSlice';
+import { useDeleteMonitorMutation, useGetMonitorsQuery } from '../../api';
+import { OperationStatus } from '../../types/OperationStatus';
 
+//@TODO remove any old unused code, re-org anything weird
+//@TODO ensure loading spinner is connected to new rtk-query stuff
 export function MonitorListContainer() {
+  //@TODO error handling
+  const { data: monitorsData, isLoading: monitorsIsLoading } = useGetMonitorsQuery();
+  const monitors = monitorsData || [];
 
-  const monitors = useSelector(getAllMonitors);
   const dispatch = useDispatch();
   const selectedMonitorId = useSelector(getSelectedMonitorId);
-  const monitorListLoadingStatus = useSelector(getMonitorListLoadingStatus)
+  const monitorListLoadingStatus = monitorsIsLoading ? OperationStatus.Loading : OperationStatus.Done; //TODO improve?
 
   const handleDeleteMonitor = useCallback((monitorId: string) => {
     dispatch(showMonitorDeleteForm(monitorId));

@@ -1,6 +1,8 @@
 import React, { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useDeleteMonitorMutation } from '../../api';
 import { DetailsUiMode, Monitor, NewMonitor } from '../../types';
+import { OperationStatus } from '../../types/OperationStatus';
 import {
   getSelectedMonitor,
   createMonitorThenShowItsDetails,
@@ -29,8 +31,23 @@ export function MonitorDetailsContainer() {
     dispatch(patchMonitorThenShowItsDetails(monitor));
   }, [dispatch])
 
+  //@TODO loading spinner
+  //@TODO error handling
+  const [
+    deleteMonitor,
+    { status: deleteMonitorMutationStatus }, // @TODO naming?
+  ] = useDeleteMonitorMutation()
+
+  //@TODO clean
   const handleMonitorDeleteSubmit = useCallback((monitorId: string) => {
-    dispatch(deleteMonitorThenShowDetailsForAnyMonitor(monitorId));
+    (async () => {
+      //@TODO handle errors and loading spinner
+      const result = await deleteMonitor(monitorId);
+      //@ts-ignore //@TODO
+      if (!result.error) {
+        dispatch(showMonitorDetailsForAnyMonitor()); //@TODO find better way?
+      }
+    })();
   }, [dispatch])
 
   const handleFormCancel = useCallback(() => {
@@ -86,7 +103,7 @@ export function MonitorDetailsContainer() {
             monitor={selectedMonitor}
             onDelete={handleMonitorDeleteSubmit}
             onCancel={handleFormCancel}
-            operationStatus={mutatingMonitorStatus} />
+            mutationStatus={deleteMonitorMutationStatus} />
         </div>
       </div>
     }

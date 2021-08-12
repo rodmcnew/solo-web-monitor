@@ -10,11 +10,13 @@ import { MonitorBasicDetails } from './MonitorBasicDetails';
 export function MonitorDetailsDisplay() {
     const monitor = useSelector(getSelectedMonitor);
     const loadingStatus = useSelector(getMonitorDetailsLoadingStatus);
+    // @TODO deal with commented out
     return (
         <>
-            {loadingStatus === OperationStatus.Loading && <PanelBodySpinner />}
+            {/* {loadingStatus === OperationStatus.Loading && <PanelBodySpinner />}
             {loadingStatus === OperationStatus.Error && <PanelBodyNetworkError />}
-            {loadingStatus === OperationStatus.Done && monitor &&
+            {loadingStatus === OperationStatus.Done &&  */}
+            {monitor &&
                 <>
                     <MonitorBasicDetails monitor={monitor} />
                     <SelectedMonitorEventsDisplay />

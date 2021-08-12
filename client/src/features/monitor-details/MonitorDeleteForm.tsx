@@ -1,6 +1,6 @@
+import { QueryStatus } from '@reduxjs/toolkit/dist/query';
 import React, { useCallback, useEffect } from 'react';
 import { Monitor } from '../../types';
-import { OperationStatus } from '../../types/OperationStatus';
 import { PanelBodyNetworkError } from '../loading-and-errors/PanelBodyNetworkError';
 import { PanelBodySpinner } from '../loading-and-errors/PanelBodySpinner';
 import { MonitorBasicDetails } from './MonitorBasicDetails';
@@ -9,10 +9,10 @@ interface Props {
     monitor: Monitor;
     onCancel: () => void;
     onDelete: (monitorId: string) => void;
-    operationStatus: OperationStatus;
+    mutationStatus: QueryStatus;
 }
 
-export function MonitorDeleteForm({ monitor, onCancel, onDelete, operationStatus }: Props) {
+export function MonitorDeleteForm({ monitor, onCancel, onDelete, mutationStatus }: Props) {
     const handleDelete = useCallback(() => {
         onDelete(monitor.id);
     }, [monitor.id, onDelete])
@@ -24,10 +24,11 @@ export function MonitorDeleteForm({ monitor, onCancel, onDelete, operationStatus
         }
     }, [deleteSubmitButton, monitor.id])
 
+    //@TODO error message has too much side margin compared to the form when both show
     return <div>
-        {operationStatus === OperationStatus.Loading && <PanelBodySpinner />}
-        {operationStatus === OperationStatus.Error && <PanelBodyNetworkError />}
-        {operationStatus === OperationStatus.Done &&
+        {mutationStatus === QueryStatus.pending && <PanelBodySpinner />}
+        {mutationStatus === QueryStatus.rejected && <PanelBodyNetworkError />}
+        {mutationStatus !== QueryStatus.pending &&
             <>
                 <MonitorBasicDetails monitor={monitor} />
                 <div className="mt-3">

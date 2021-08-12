@@ -1,4 +1,5 @@
 import { createAsyncThunk, createEntityAdapter, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { api } from '../../api';
 import { RootState } from '../../app/store';
 import { DetailsUiMode, Monitor, NewMonitor } from '../../types';
 import { OperationStatus } from '../../types/OperationStatus';
@@ -44,11 +45,11 @@ export const monitorsSlice = createSlice({
   initialState: {
     monitors: monitorsAdapter.getInitialState(),
     monitorListLoadingStatus: OperationStatus.Loading,
-    mutatingMonitorStatus: OperationStatus.Done,
-    mutatingMonitorId: null as string | null,
-    selectedMonitorId: null as string | null,
-    detailsUiMode: DetailsUiMode.View,
-    detailsLoadStatus: OperationStatus.Loading,
+    // mutatingMonitorStatus: OperationStatus.Done,
+    // mutatingMonitorId: null as string | null,
+    // selectedMonitorId: null as string | null,
+    // detailsUiMode: DetailsUiMode.View,
+    // detailsLoadStatus: OperationStatus.Loading,
   },
   reducers: {},
   extraReducers: builder => builder
@@ -78,6 +79,26 @@ export const monitorsSlice = createSlice({
       (state, action: PayloadAction<string>) => {
         monitorsAdapter.removeOne(state.monitors, action.payload);
       })
+    // .addMatcher(
+    //   api.endpoints.getMonitors.matchFulfilled,
+    //   (state, action: PayloadAction<Monitor[]>) => {
+    //     if (state.selectedMonitorId === null && action.payload.length > 0) {
+    //       state.selectedMonitorId = action.payload[0].id;
+    //       state.detailsUiMode = DetailsUiMode.View;
+    //       console.log('api.endpoints.getMonitors.matchFulfilled updated state.selectedMonitorId ', state.selectedMonitorId);
+    //     }
+    //   })
+    // .addMatcher(
+    //   api.endpoints.deleteMonitor.matchFulfilled,
+    //   (state, action: PayloadAction<string>) => {//@TODO not string? why?
+    //     //@ts-ignore //@TODO
+    //     const deletedMonitorId = action.meta.arg.originalArgs;
+    //     console.log('deleted monitor', deletedMonitorId);
+    //     if (state.selectedMonitorId === deletedMonitorId) {
+    //       state.selectedMonitorId = null;
+    //       console.log('api.endpoints.deleteMonitor.matchFulfilled updated state.selectedMonitorId ', state.selectedMonitorId);
+    //     }
+    //   })
 });
 
 export default monitorsSlice.reducer;

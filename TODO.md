@@ -1,5 +1,7 @@
 #### MUST:
 #### SHOULD:
+- https://redux.js.org/faq/reducers#how-do-i-share-state-between-two-reducers-do-i-have-to-use-combinereducers
+- selectors should be named like selectBlah apparently
 - add some automated tests on client and server
 - add server side validation of monitor props such as interval, url, name, (and give the client a way to understand this?, or validate on client too?)
 - Consider refreshing a monitor's core data when it is clicked if it has not be refreshed in a while
