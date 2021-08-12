@@ -1,4 +1,5 @@
 #### MUST:
+- Convert the rest to rtkq and go through every file looking for things to delete
 #### SHOULD:
 - https://redux.js.org/faq/reducers#how-do-i-share-state-between-two-reducers-do-i-have-to-use-combinereducers
 - selectors should be named like selectBlah apparently
