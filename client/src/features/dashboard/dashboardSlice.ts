@@ -67,7 +67,7 @@ export default dashboardSlice.reducer;
 
 export const {
   showMonitorDetails,
-  showMonitorDeleteForm,
+  showMonitorDeleteForm, //@TODO rename these "forms" to "page" or "panel"?
   showMonitorEditForm,
   showCreateMonitorForm
 } = dashboardSlice.actions;

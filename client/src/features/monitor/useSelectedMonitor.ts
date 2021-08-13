@@ -8,8 +8,10 @@ import { getSelectedMonitorId } from "../dashboard/dashboardSlice";
 export const useSelectedMonitor = () => {
     const selectedMonitorId = useSelector(getSelectedMonitorId);
     return useGetMonitorsQuery(undefined, {
-        selectFromResult: ({ data }) => ({
+        selectFromResult: ({ data, isLoading, isError }) => ({
             monitor: data?.find((monitor) => monitor.id === selectedMonitorId),
+            isLoading,
+            isError
         }),
     });
 }

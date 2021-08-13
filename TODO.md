@@ -1,8 +1,8 @@
 #### MUST:
-- ensure all cancel buttons work
 - ensure loading spinners and error handling works for everything
 - Convert the rest to rtkq and go through every file looking for things to delete
 - rtkq status prop is deprecated?
+- Consider all of folder/file organization
 #### SHOULD:
 - https://redux.js.org/faq/reducers#how-do-i-share-state-between-two-reducers-do-i-have-to-use-combinereducers
 - selectors should be named like selectBlah apparently
@@ -24,6 +24,7 @@
 - Consider sharing type MonitorStatus with the server somehow?
 - consider changing export const APPLICATION_NAME = 'SoloWebMonitor' to the app configuring the user agent on a service instead
 - consider dealing with times when the only ping events are very old, like in the demo, should chart be blank?
+- consider using react router for details pages
 
 #### WONT (to keep this project easier to maintain into the future):
 - allow external double checker server before saying its down
