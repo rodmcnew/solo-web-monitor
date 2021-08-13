@@ -32,6 +32,7 @@ export function MonitorListContainer() {
     dispatch(showCreateMonitorForm());
   }, [dispatch]);
 
+  //@TODO consider combining this MonitorListContainer with MonitorList
   return <MonitorList
     monitors={monitors}
     onDeleteMonitor={handleDeleteMonitor}
