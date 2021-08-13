@@ -3,7 +3,6 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { HTTP_API_BASE_URL } from './config';
 import { Monitor, MonitorEvent } from './types';
 
-// Define a service using a base URL and expected endpoints
 export const api = createApi({
     reducerPath: 'api', //@TODO is this right?
     baseQuery: fetchBaseQuery({ baseUrl: HTTP_API_BASE_URL }),
