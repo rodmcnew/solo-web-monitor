@@ -1,17 +1,10 @@
 import React, { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useDeleteMonitorMutation } from '../../api';
+import { useCreateMonitorMutation, useUpdateMonitorMutation } from '../../api';
 import { DetailsUiMode, Monitor, NewMonitor } from '../../types';
 import { OperationStatus } from '../../types/OperationStatus';
-import {
-  getSelectedMonitor,
-  createMonitorThenShowItsDetails,
-  deleteMonitorThenShowDetailsForAnyMonitor,
-  getDetailsUiMode,
-  patchMonitorThenShowItsDetails,
-  showMonitorDetailsForAnyMonitor,
-  getMutatingMonitorStatus
-} from '../dashboard/dashboardSlice';
+import { getDetailsUiMode } from '../dashboard/dashboardSlice';
+import { useSelectedMonitor } from '../monitor/useSelectedMonitor';
 import { MonitorDeleteForm } from './MonitorDeleteForm';
 import { MonitorDetailsDisplay } from './MonitorDetailsDisplay';
 import { MonitorDetailsForm } from './MonitorDetailsForm';
@@ -19,40 +12,28 @@ import { MonitorDetailsForm } from './MonitorDetailsForm';
 export function MonitorDetailsContainer() {
   const dispatch = useDispatch();
   const detailsUiMode = useSelector(getDetailsUiMode);
-  const selectedMonitor = useSelector(getSelectedMonitor);
+  const { monitor } = useSelectedMonitor();
   const newMonitorTemplate = { name: '', url: '', interval: 1, status: 's' };
-  const mutatingMonitorStatus = useSelector(getMutatingMonitorStatus);
+
+  const [updateMonitor] = useUpdateMonitorMutation(); //@TODO loading and error handling
+  const [createMonitor] = useCreateMonitorMutation(); //@TODO loading and error handling
 
   const handleNewMonitorSubmit = useCallback((monitor: NewMonitor) => {
-    dispatch(createMonitorThenShowItsDetails(monitor))
-  }, [dispatch])
+    // dispatch(createMonitorThenShowItsDetails(monitor))
+    createMonitor(monitor);
+  }, [dispatch, createMonitor])
 
   const handleMonitorEditSubmit = useCallback((monitor: Monitor) => {
-    dispatch(patchMonitorThenShowItsDetails(monitor));
-  }, [dispatch])
-
-  //@TODO loading spinner
-  //@TODO error handling
-  const [
-    deleteMonitor,
-    { status: deleteMonitorMutationStatus }, // @TODO naming?
-  ] = useDeleteMonitorMutation()
-
-  //@TODO clean
-  const handleMonitorDeleteSubmit = useCallback((monitorId: string) => {
-    (async () => {
-      //@TODO handle errors and loading spinner
-      const result = await deleteMonitor(monitorId);
-      //@ts-ignore //@TODO
-      if (!result.error) {
-        dispatch(showMonitorDetailsForAnyMonitor()); //@TODO find better way?
-      }
-    })();
-  }, [dispatch])
+    // dispatch(patchMonitorThenShowItsDetails(monitor));
+    updateMonitor(monitor);
+  }, [dispatch, updateMonitor])
 
   const handleFormCancel = useCallback(() => {
-    dispatch(showMonitorDetailsForAnyMonitor())
+    //@TODO
+    // dispatch(showMonitorDetailsForAnyMonitor())
   }, [dispatch])
+
+  const mutatingMonitorStatus = OperationStatus.Done; //@TODO remove this hack and deal with the problem
 
   return <div>
     {detailsUiMode === DetailsUiMode.View &&
@@ -79,31 +60,27 @@ export function MonitorDetailsContainer() {
         </div>
       </div>
     }
-    {detailsUiMode === DetailsUiMode.Edit && selectedMonitor !== null &&
+    {detailsUiMode === DetailsUiMode.Edit && monitor &&
       <div className="card card-primary">
         <div className="card-header">
           <h3 className="card-title">Edit Monitor</h3>
         </div>
         <div className="card-body">
           <MonitorDetailsForm<Monitor>
-            monitor={selectedMonitor}
+            monitor={monitor}
             onSubmit={handleMonitorEditSubmit}
             onCancel={handleFormCancel}
             operationStatus={mutatingMonitorStatus} />
         </div>
       </div>
     }
-    {detailsUiMode === DetailsUiMode.Delete && selectedMonitor !== null &&
+    {detailsUiMode === DetailsUiMode.Delete && monitor !== null &&
       <div className="card card-danger">
         <div className="card-header">
           <h3 className="card-title">Delete Monitor?</h3>
         </div>
         <div className="card-body">
-          <MonitorDeleteForm
-            monitor={selectedMonitor}
-            onDelete={handleMonitorDeleteSubmit}
-            onCancel={handleFormCancel}
-            mutationStatus={deleteMonitorMutationStatus} />
+          <MonitorDeleteForm />
         </div>
       </div>
     }

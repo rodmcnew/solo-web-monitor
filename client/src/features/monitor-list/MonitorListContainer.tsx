@@ -1,12 +1,9 @@
 import React, { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  getAllMonitors, getMonitorListLoadingStatus,
-} from '../monitor/monitorsSlice';
-import { MonitorList } from './MonitorList';
-import { getSelectedMonitorId, showCreateMonitorForm, showMonitorDeleteForm, showMonitorDetails, showMonitorEditForm } from '../dashboard/dashboardSlice';
-import { useDeleteMonitorMutation, useGetMonitorsQuery } from '../../api';
+import { useGetMonitorsQuery } from '../../api';
 import { OperationStatus } from '../../types/OperationStatus';
+import { getSelectedMonitorId, showCreateMonitorForm, showMonitorDeleteForm, showMonitorDetails, showMonitorEditForm } from '../dashboard/dashboardSlice';
+import { MonitorList } from './MonitorList';
 
 //@TODO remove any old unused code, re-org anything weird
 //@TODO ensure loading spinner is connected to new rtk-query stuff
