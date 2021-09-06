@@ -1,6 +1,5 @@
 
 import React from 'react';
-import './PanelBodyNetworkError.css';
 
 export function PanelBodyNetworkError() {
     return <div className="PanelBodyNetworkError alert alert-warning" role="alert">

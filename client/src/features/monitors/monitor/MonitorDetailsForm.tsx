@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { NewMonitor } from '../../types';
-import { PanelBodyNetworkError } from '../loading-and-errors/PanelBodyNetworkError';
-import { PanelBodySpinner } from '../loading-and-errors/PanelBodySpinner';
+import { NewMonitor } from '../../../types';
+import { PanelBodyNetworkError } from '../../loading-and-errors/PanelBodyNetworkError';
+import { PanelBodySpinner } from '../../loading-and-errors/PanelBodySpinner';
 import { monitorIntervals } from '../monitor/monitorIntervals';
 interface Props<MonitorType extends NewMonitor> {
     headerText: string;

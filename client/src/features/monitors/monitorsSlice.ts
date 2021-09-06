@@ -1,11 +1,11 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { AnyAction, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { api } from '../../api';
 import { RootState } from '../../app/store';
 import { DetailsUiMode, Monitor } from '../../types';
 
-export const dashboardSlice = createSlice({
-  name: 'dashboard',
-  initialState: { //@TODO remove/deal with some of these such as mutatingMonitor stuff
+export const monitorsSlice = createSlice({
+  name: 'monitors',
+  initialState: {
     selectedMonitorId: null as string | null,
     detailsUiMode: DetailsUiMode.View,
   },
@@ -39,8 +39,7 @@ export const dashboardSlice = createSlice({
       })
     .addMatcher(
       api.endpoints.deleteMonitor.matchFulfilled,
-      (state, action: PayloadAction<string>) => {//@TODO not string? why?
-        //@ts-ignore //@TODO
+      (state, action: PayloadAction<undefined> & { meta: { arg: { originalArgs: string } } }) => {
         const deletedMonitorId = action.meta.arg.originalArgs;
         // If we deleted the selected monitor, un-select it.
         if (state.selectedMonitorId === deletedMonitorId) {
@@ -63,16 +62,15 @@ export const dashboardSlice = createSlice({
       })
 });
 
-export default dashboardSlice.reducer;
+export default monitorsSlice.reducer;
 
 export const {
   showMonitorDetails,
-  showMonitorDeleteForm, //@TODO rename these "forms" to "page" or "panel"?
+  showMonitorDeleteForm,
   showMonitorEditForm,
   showCreateMonitorForm
-} = dashboardSlice.actions;
+} = monitorsSlice.actions;
 
+export const getDetailsUiMode = (state: RootState) => state.monitors.detailsUiMode;
 
-export const getDetailsUiMode = (state: RootState) => state.dashboard.detailsUiMode;
-
-export const getSelectedMonitorId = (state: RootState): string | null => state.dashboard.selectedMonitorId;
+export const getSelectedMonitorId = (state: RootState): string | null => state.monitors.selectedMonitorId;

@@ -1,4 +1,4 @@
-import { MonitorStatus } from "../../types/MonitorStatus";
+import { MonitorStatus } from "../../../types/MonitorStatus";
 
 export const monitorStatusDescriptions = {
   u: 'Up',

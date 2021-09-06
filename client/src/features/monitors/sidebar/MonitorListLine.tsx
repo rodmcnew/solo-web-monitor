@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
-import { Monitor } from '../../types';
-import { MonitorStatus } from '../../types/MonitorStatus';
+import { Monitor } from '../../../types';
+import { MonitorStatus } from '../../../types/MonitorStatus';
 import { getMonitorStatusLabel } from '../monitor/monitorStatusDescriptions';
 import { FaCheck, FaExclamation, FaPen, FaQuestion, FaTrash } from "react-icons/fa";
 import './MonitorListLine.css';
@@ -50,8 +50,8 @@ export function MonitorListLine({
           {monitor.status === MonitorStatus.Starting &&
             <FaQuestion title={statusTooltipText} className="text-info" />
           }
-        &nbsp;&nbsp;
-        <span>{monitor.name}</span>
+          &nbsp;&nbsp;
+          <span>{monitor.name}</span>
         </div>
         <div className="MonitorListLine-buttons">
           <button onClick={handleDeleteMonitorClick} title="Delete Monitor"

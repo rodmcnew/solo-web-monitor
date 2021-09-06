@@ -1,8 +1,7 @@
 import { useDispatch } from "react-redux";
-import { showCreateMonitorForm, showMonitorDetails } from "../dashboard/dashboardSlice";
+import { showCreateMonitorForm, showMonitorDetails } from "../monitorsSlice";
 import { useFirstMonitor } from "./useFirstMonitor";
 
-//@TODO memoize?
 export const useShowMonitorDetailsForAnyMonitor = () => {
     const dispatch = useDispatch();
     const { firstMonitor } = useFirstMonitor();

@@ -1,5 +1,5 @@
 import React from 'react';
-import { MonitorEvent } from '../../types';
+import { MonitorEvent } from '../../../types';
 
 // import ChartJs from '@reactchartjs/react-chart.js';
 const ChartJs = require('@reactchartjs/react-chart.js');

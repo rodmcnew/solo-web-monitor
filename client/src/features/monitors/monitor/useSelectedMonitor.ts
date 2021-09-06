@@ -1,10 +1,7 @@
 import { useSelector } from "react-redux";
-import { useGetMonitorsQuery } from "../../api";
-import { getSelectedMonitorId } from "../dashboard/dashboardSlice";
+import { useGetMonitorsQuery } from "../../../api";
+import { getSelectedMonitorId } from "../monitorsSlice";
 
-//@TODO memoize?
-//@TODO what about loading spinners and error handling?
-//@TODO does this make sense?
 export const useSelectedMonitor = () => {
     const selectedMonitorId = useSelector(getSelectedMonitorId);
     return useGetMonitorsQuery(undefined, {

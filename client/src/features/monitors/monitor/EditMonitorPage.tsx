@@ -1,9 +1,9 @@
 import React, { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
-import { useUpdateMonitorMutation } from '../../api';
-import { Monitor } from '../../types';
-import { showMonitorDetails } from '../dashboard/dashboardSlice';
-import { MonitorDetailsForm } from '../monitor-details/MonitorDetailsForm';
+import { useUpdateMonitorMutation } from '../../../api';
+import { Monitor } from '../../../types';
+import { showMonitorDetails } from "../monitorsSlice";
+import { MonitorDetailsForm } from './MonitorDetailsForm';
 
 interface Props {
     monitor: Monitor

@@ -1,4 +1,4 @@
-import { Monitor } from "../../types";
+import { Monitor } from "../../../types";
 import { getMonitorIntervalLabel } from "../monitor/monitorIntervals";
 import { getMonitorStatusLabel } from "../monitor/monitorStatusDescriptions";
 import React from 'react';

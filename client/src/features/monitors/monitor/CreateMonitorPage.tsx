@@ -1,8 +1,8 @@
 import React, { useCallback } from 'react';
-import { useCreateMonitorMutation } from '../../api';
-import { NewMonitor } from '../../types';
-import { useShowMonitorDetailsForAnyMonitor } from '../monitor/useShowMonitorDetailsForAnyMonitor';
-import { MonitorDetailsForm } from '../monitor-details/MonitorDetailsForm';
+import { useCreateMonitorMutation } from '../../../api';
+import { NewMonitor } from '../../../types';
+import { useShowMonitorDetailsForAnyMonitor } from './useShowMonitorDetailsForAnyMonitor';
+import { MonitorDetailsForm } from './MonitorDetailsForm';
 export const CreateMonitorPage = () => {
     const newMonitorTemplate = { name: '', url: '', interval: 1, status: 's' };
     const [createMonitor, { isLoading, isError }] = useCreateMonitorMutation();

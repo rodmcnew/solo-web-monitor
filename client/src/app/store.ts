@@ -1,10 +1,10 @@
 import { Action, configureStore, ThunkAction } from '@reduxjs/toolkit';
 import { api } from '../api';
-import dashboardReducer from '../features/dashboard/dashboardSlice';
+import monitorsSlice from '../features/monitors/monitorsSlice';
 
 export const store = configureStore({
   reducer: {
-    dashboard: dashboardReducer,
+    monitors: monitorsSlice,
     [api.reducerPath]: api.reducer,
   },
   middleware: (getDefaultMiddleware) =>

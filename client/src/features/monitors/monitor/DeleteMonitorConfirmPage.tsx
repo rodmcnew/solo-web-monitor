@@ -1,12 +1,11 @@
-import { QueryStatus } from '@reduxjs/toolkit/dist/query';
 import React, { useCallback, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { useDeleteMonitorMutation } from '../../api';
-import { Monitor } from '../../types';
-import { showMonitorDetails } from '../dashboard/dashboardSlice';
-import { PanelBodyNetworkError } from '../loading-and-errors/PanelBodyNetworkError';
-import { PanelBodySpinner } from '../loading-and-errors/PanelBodySpinner';
-import { MonitorBasicDetails } from '../monitor-details/MonitorBasicDetails';
+import { useDeleteMonitorMutation } from '../../../api';
+import { Monitor } from '../../../types';
+import { showMonitorDetails } from "../monitorsSlice";
+import { PanelBodyNetworkError } from '../../loading-and-errors/PanelBodyNetworkError';
+import { PanelBodySpinner } from '../../loading-and-errors/PanelBodySpinner';
+import { MonitorBasicDetails } from './MonitorBasicDetails';
 
 interface Props {
     monitor: Monitor
@@ -14,7 +13,7 @@ interface Props {
 
 export function DeleteMonitorConfirmPage({ monitor }: Props) {
     const dispatch = useDispatch();
-    const [deleteMonitor, { status: mutationStatus }] = useDeleteMonitorMutation();
+    const [deleteMonitor, { isError, isLoading }] = useDeleteMonitorMutation();
 
     const handleDelete = useCallback(() => {
         deleteMonitor(monitor.id)
@@ -34,16 +33,15 @@ export function DeleteMonitorConfirmPage({ monitor }: Props) {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [monitor])
 
-    //@TODO error message has too much side margin compared to the form when both show
     return <div className="card card-danger">
         <div className="card-header">
             <h3 className="card-title">Delete Monitor?</h3>
         </div>
         <div className="card-body">
             <div>
-                {mutationStatus === QueryStatus.pending && <PanelBodySpinner />}
-                {mutationStatus === QueryStatus.rejected && <PanelBodyNetworkError />}
-                {mutationStatus !== QueryStatus.pending && monitor && <MonitorBasicDetails monitor={monitor} />}
+                {isError && <PanelBodyNetworkError />}
+                {isLoading && <PanelBodySpinner />}
+                {!isLoading && <MonitorBasicDetails monitor={monitor} />}
             </div>
         </div>
         <div className="card-footer">

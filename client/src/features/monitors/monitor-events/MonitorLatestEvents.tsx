@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { MonitorEvent } from '../../types';
+import { MonitorEvent } from '../../../types';
 import { monitorStatusDescriptions } from '../monitor/monitorStatusDescriptions';
 
 interface Props {

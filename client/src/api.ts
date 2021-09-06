@@ -1,10 +1,8 @@
-//@TODO check if this should be a single file or more and figure out what file path, file name, and main export name it should have
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { HTTP_API_BASE_URL } from './config';
 import { Monitor, MonitorEvent } from './types';
 
 export const api = createApi({
-    reducerPath: 'api', //@TODO is this right?
     baseQuery: fetchBaseQuery({ baseUrl: HTTP_API_BASE_URL }),
     tagTypes: ['Monitor', 'MonitorEvents'],
     endpoints: (build) => ({
@@ -16,7 +14,7 @@ export const api = createApi({
             }),
             invalidatesTags: (result, error, arg) => [{ type: 'Monitor', id: 'LIST' }]
         }),
-        getMonitor: build.query<Monitor, string>({ //@TODO consider deleting this
+        getMonitor: build.query<Monitor, string>({
             query: (id) => `/api/monitors/${id}`,
             providesTags: (result, error, arg) => [{ type: 'Monitor', id: arg }]
         }),
@@ -39,9 +37,9 @@ export const api = createApi({
             }),
             invalidatesTags: (result, error, arg) => [{ type: 'Monitor', id: arg.id }, { type: 'Monitor', id: 'LIST' }]
         }),
-        deleteMonitor: build.mutation<Monitor[], string>({
+        deleteMonitor: build.mutation<undefined, string>({
             query: (id: string) => ({ url: `/api/monitors/${id}`, method: 'DELETE' }),
-            invalidatesTags: (result, error, arg) => [{ type: 'Monitor', id: arg }, { type: 'Monitor', id: 'LIST' }]
+            invalidatesTags: (result, error, arg) => [{ type: 'Monitor', id: arg }, { type: 'Monitor', id: 'LIST' }],
         }),
         getMonitorEventsByMonitorId: build.query<MonitorEvent[], string>({
             query: (monitorId) => `/api/monitor-events?filter[where][monitorId]=${monitorId}`,

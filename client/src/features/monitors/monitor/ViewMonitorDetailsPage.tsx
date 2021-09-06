@@ -1,6 +1,6 @@
 import React from 'react';
-import { Monitor } from '../../types';
-import { MonitorBasicDetails } from '../monitor-details/MonitorBasicDetails';
+import { Monitor } from '../../../types';
+import { MonitorBasicDetails } from './MonitorBasicDetails';
 import { SelectedMonitorEventsDisplay } from '../monitor-events/SelectedMonitorEventsDisplay';
 
 interface Props {
