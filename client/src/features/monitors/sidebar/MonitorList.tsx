@@ -9,7 +9,7 @@ import { MonitorListLine } from './MonitorListLine';
 
 export function MonitorList() {
 
-  const { data, isError, isFetching, isSuccess } = useGetMonitorsQuery();
+  const { data, isError, isLoading, isSuccess } = useGetMonitorsQuery();
   const monitors = data || [];
 
   const dispatch = useDispatch();
@@ -38,7 +38,7 @@ export function MonitorList() {
       </div>
       <div className="card-body">
         {isError && <PanelBodyNetworkError />}
-        {isFetching && <PanelBodySpinner />}
+        {isLoading && <PanelBodySpinner />}
         {isSuccess &&
           <>
             <button
