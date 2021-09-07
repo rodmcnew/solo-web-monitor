@@ -9,7 +9,7 @@ Solo Web Monitor is a simple standalone web uptime monitor. It will watch any UR
 This app was built to explore and demonstrate optimal user experience and code practicies with Redux Toolkit and Loopback 4. This app is built with:
 - TypeScript for client and server
 - React functional components
-- RTK Query
+- Redux Toolkit Query
 - Loopback 4 Node.js server framework
 
 # Install
