@@ -14,13 +14,13 @@ export function SelectedMonitorEventsDisplay() {
             <div className="mt-3"><h4 className="d-inline">Response Time</h4> (ms)</div>
             {isError && <PanelBodyNetworkError />}
             {isFetching && <PanelBodySpinner />}
-            {isSuccess && data &&
+            {isSuccess && !isFetching && data &&
                 <MonitorPingChart monitorEvents={data} />
             }
             <h4 className="mt-3">Latest Events</h4>
             {isError && <PanelBodyNetworkError />}
             {isFetching && <PanelBodySpinner />}
-            {isSuccess && data &&
+            {isSuccess && !isFetching && data &&
                 <MonitorLatestEvents monitorEvents={data} maxEventCount={10} />
             }
         </>

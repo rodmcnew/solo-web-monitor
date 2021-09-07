@@ -1,5 +1,6 @@
 #### MUST:
-
+- Consider adding more doc blocks
+- Consider adding units tests (client and server?)
 #### SHOULD:
 - Folder organization: does api.ts make sense where it is or should it be moved into monitors?
 - show-x actions name things "forms" but the components are named "page"
