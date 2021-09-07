@@ -12,6 +12,7 @@
 - consider memoizing inside useSelectedMonitor and useFirstMonitor and useShowMonitorDetailsForAnyMonitor
 
 #### COULD:
+- Consider a "welcome to the demo" popup that tells the user to feel free to play around
 - Consider "could const { monitor } = useSelectedMonitor();" have issues if its loading or the selected ID isn't in the list?
 - Consider if circular slice file dependencies is really a problem. It doesn't seem like it is. It also may be a circle with the store.
 - Consider that "useGetMonitorEventsByMonitorIdQuery(monitor?.id || '');" would cause an extra network call for no reason if no monitors is selected
