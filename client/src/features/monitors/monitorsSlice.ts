@@ -1,4 +1,4 @@
-import { AnyAction, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { api } from '../../api';
 import { RootState } from '../../app/store';
 import { DetailsUiMode, Monitor } from '../../types';
@@ -29,7 +29,7 @@ export const monitorsSlice = createSlice({
   },
   extraReducers: builder => builder
     .addMatcher(
-      api.endpoints.getMonitors.matchFulfilled,
+      (api.endpoints.getMonitors.matchFulfilled),
       (state, action: PayloadAction<Monitor[]>) => {
         // If there is no selected monitor, select the first one and show it's details view
         if (state.selectedMonitorId === null && action.payload.length > 0) {

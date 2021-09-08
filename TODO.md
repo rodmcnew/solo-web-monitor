@@ -10,8 +10,9 @@
 - add server side validation of monitor props such as interval, url, name, (and give the client a way to understand this?, or validate on client too?)
 - Consider refreshing a monitor's core data when it is clicked if it has not be refreshed in a while
 - consider memoizing inside useSelectedMonitor and useFirstMonitor and useShowMonitorDetailsForAnyMonitor
-
+- consider https://github.com/reduxjs/redux-toolkit/discussions/1262
 #### COULD:
+- Remove //@ts-ignore's from monitorsSlice.test.ts
 - Consider "could const { monitor } = useSelectedMonitor();" have issues if its loading or the selected ID isn't in the list?
 - Consider if circular slice file dependencies is really a problem. It doesn't seem like it is. It also may be a circle with the store.
 - Consider that "useGetMonitorEventsByMonitorIdQuery(monitor?.id || '');" would cause an extra network call for no reason if no monitors is selected
