@@ -1,5 +1,5 @@
 # Demo
-**[Click here to try the online demo](https://solo-web-monitor.herokuapp.com/demo/reset-database-and-redirect-home)**. Give the demo 60 seconds to first load. It is hosted on a free instance that wakes up slowly.
+**[Click here to try the online demo](https://solo-web-monitor.herokuapp.com/demo/reset-database-and-redirect-home)**. Give the demo 60 seconds to first load. It is on a free Heroku intance that takes time to wake up.
 
 # What
 
